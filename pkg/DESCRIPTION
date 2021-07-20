@@ -1,0 +1,19 @@
+Package: f2g
+Title: FinBIF to GBIF
+Version: 0.1.0.9000
+Authors@R: c(
+    person(given = "Finnish Museum of Natural History - Luomus",
+           role = "cph"),
+    person(given = "William K.",
+           family = "Morris",
+           role = c("aut", "cre"),
+           email = "willi@mmorris.email",
+           comment = c(ORCID = "0000-0002-8686-4154"))
+    )
+Description: Tools for publishing FinBIF data to GBIF.
+License: MIT + file LICENSE
+    license
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
