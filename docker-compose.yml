@@ -1,0 +1,26 @@
+version: "3.7"
+
+services:
+  f2g:
+    image: luomus/finbif2gbif
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - logs:/home/user/logs
+      - archives:/home/user/archives
+  monitor:
+    image: luomus/log-monitor
+    restart: unless-stopped
+    environment:
+      - "PAGE_TITLE='FinBIF to GBIF'"
+    ports:
+      - "3838:3838"
+    volumes:
+      - logs:/home/user/logs
+    depends_on:
+      - f2g
+
+volumes:
+  logs:
+  archives:
