@@ -7,6 +7,9 @@ parameters:
   - name: APP_PORT
     required: true
     value: "8000"
+  - name: STATUS
+    required: true
+    value: /status
   - name: LOG
     required: true
     value: log-monitor
