@@ -4,6 +4,7 @@ RUN  apk add --no-cache --update-cache \
        --repository http://nl.alpinelinux.org/alpine/v3.11/main \
        autoconf=2.69-r2 \
        automake=1.16.1-r0 \
+       curl \
   && installr -d \
       -t "autoconf automake bash libsodium-dev curl-dev linux-headers libxml2-dev" \
       -a "libsodium libxml2" \
@@ -17,6 +18,9 @@ RUN  apk add --no-cache --update-cache \
       tictoc \
       xml2 \
       zip
+
+HEALTHCHECK --interval=1m --timeout=10s \
+  CMD curl -sf -o /dev/null -r 0-0 0.0.0.0:8000/status || exit 1
 
 RUN sed -i 's/RapiDoc/FinBIF to GBIF/g' \
       /usr/local/lib/R/library/rapidoc/dist/index.html

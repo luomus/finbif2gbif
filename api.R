@@ -3,6 +3,7 @@
 #* @apiContact list(name = "laji.fi support", email = "helpdesk@laji.fi")
 #* @apiLicense list(name = "GPL-2.0", url = "https://opensource.org/licenses/GPL-2.0")
 #* @apiTag list List archives
+#* @apiTag status Check status of API
 
 #* @filter cors
 cors <- function(req, res) {
@@ -27,6 +28,15 @@ cors <- function(req, res) {
 
   }
 
+}
+
+#* Check the liveness of the API
+#* @get /status
+#* @tag status
+#* @response 200 A json object
+#* @serializer unboxedJSON
+function() {
+ ""
 }
 
 #* Get a list of Darwin Core archives
