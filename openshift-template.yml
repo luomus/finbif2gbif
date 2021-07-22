@@ -1,0 +1,272 @@
+kind: Template
+apiVersion: v1
+parameters:
+  - name: APP
+    required: true
+    value: finbif2gbif
+  - name: APP_PORT
+    required: true
+    value: "8000"
+  - name: LOG
+    required: true
+    value: log-monitor
+  - name: LOG_PORT
+    required: true
+    value: "3838"
+  - name: LOG_DIR
+    required: true
+    value: /home/user/logs
+  - name: ORG
+    required: true
+    value: luomus
+  - name: BRANCH
+    required: true
+    value: main
+  - name: STORAGE
+    required: true
+    value: "5Gi"
+  - name: REPS
+    required: true
+    value: "1"
+  - name: APP_HOST
+    required: true
+  - name: LOG_HOST
+    required: true
+  - name: GITHUB_SECRET
+    required: true
+    generate: expression
+    from: "[a-zA-Z0-9]{40}"
+metadata:
+  name: ${APP}
+objects:
+- kind: BuildConfig
+  apiVersion: v1
+  metadata:
+    name: ${APP}
+    labels:
+      app: ${APP}
+  spec:
+    output:
+      to:
+        kind: ImageStreamTag
+        name: ${APP}:latest
+    source:
+      type: Git
+      git:
+        uri: https://github.com/${ORG}/${APP}.git
+        ref: main
+    strategy:
+      type: Docker
+    triggers:
+    - type: ConfigChange
+    - type: GitHub
+      github:
+        secretReference:
+          name: ${APP}-github-secret
+- kind: ImageStream
+  apiVersion: v1
+  metadata:
+    name: ${APP}
+    labels:
+      app: ${APP}
+  spec:
+    lookupPolicy:
+      local: true
+- kind: ImageStream
+  apiVersion: v1
+  metadata:
+    name: ${LOG}
+    labels:
+      app: ${APP}
+  spec:
+    dockerImageRepository: ghcr.io/${ORG}/${LOG}
+    lookupPolicy:
+      local: true
+- kind: DeploymentConfig
+  apiVersion: v1
+  metadata:
+    name: ${APP}
+    labels:
+      app: ${APP}
+  spec:
+    replicas: ${REPS}
+    selector:
+      app: ${APP}
+      deploymentconfig: ${APP}
+    template:
+      metadata:
+        labels:
+          app: ${APP}
+          deploymentconfig: ${APP}
+      spec:
+        containers:
+        - image: ${APP}:latest
+          name: ${APP}
+          ports:
+          - containerPort: ${APP_PORT}
+          volumeMounts:
+          - mountPath: ${LOG_DIR}
+            name: ${LOG}
+          startupProbe:
+            httpGet:
+              path: ${STATUS}
+              port: ${{APP_PORT}}
+            failureThreshold: 30
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: ${STATUS}
+              port: ${{APP_PORT}}
+            failureThreshold: 5
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: ${STATUS}
+              port: ${{APP_PORT}}
+            initialDelaySeconds: 5
+            periodSeconds: 5
+        volumes:
+        - name: ${LOG}
+          persistentVolumeClaim:
+            claimName: ${LOG}
+    triggers:
+    - type: ConfigChange
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+        - ${APP}
+        from:
+          kind: ImageStreamTag
+          name: ${APP}:latest
+- kind: DeploymentConfig
+  apiVersion: v1
+  metadata:
+    name: ${LOG}
+    labels:
+      app: ${APP}
+  spec:
+    replicas: 1
+    selector:
+      app: ${APP}
+      deploymentconfig: ${LOG}
+    template:
+      metadata:
+        labels:
+          app: ${APP}
+          deploymentconfig: ${LOG}
+      spec:
+        containers:
+        - image: ${LOG}:${BRANCH}
+          name: ${LOG}
+          ports:
+          - containerPort: ${LOG_PORT}
+          volumeMounts:
+          - mountPath: ${LOG_DIR}
+            name: ${LOG}
+          startupProbe:
+            httpGet:
+              port: ${{LOG_PORT}}
+            failureThreshold: 30
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              port: ${{LOG_PORT}}
+            failureThreshold: 5
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              port: ${{LOG_PORT}}
+            initialDelaySeconds: 5
+            periodSeconds: 5
+        volumes:
+        - name: ${LOG}
+          persistentVolumeClaim:
+            claimName: ${LOG}
+    triggers:
+    - type: ConfigChange
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+        - ${LOG}
+        from:
+          kind: ImageStreamTag
+          name: ${LOG}:${BRANCH}
+- kind: PersistentVolumeClaim
+  apiVersion: v1
+  metadata:
+    name: ${LOG}
+  spec:
+    accessModes:
+    - ReadWriteMany
+    persistentVolumeReclaimPolicy: Retain
+    resources:
+      requests:
+        storage: ${STORAGE}
+- kind: Service
+  apiVersion: v1
+  metadata:
+    name: ${APP}
+    labels:
+      app: ${APP}
+  spec:
+    ports:
+    - name: ${APP_PORT}-tcp
+      port: ${APP_PORT}
+      protocol: TCP
+      targetPort: ${{APP_PORT}}
+    selector:
+      app: ${APP}
+      deploymentconfig: ${APP}
+- kind: Service
+  apiVersion: v1
+  metadata:
+    name: ${LOG}
+    labels:
+      app: ${APP}
+  spec:
+    ports:
+    - name: ${LOG_PORT}-tcp
+      port: ${LOG_PORT}
+      protocol: TCP
+      targetPort: ${{LOG_PORT}}
+    selector:
+      app: ${APP}
+      deploymentconfig: ${LOG}
+- kind: Route
+  apiVersion: v1
+  metadata:
+    name: ${APP}
+    labels:
+      app: ${APP}
+  spec:
+    host: ${APP_HOST}
+    port:
+      targetPort: ${APP_PORT}-tcp
+    to:
+      kind: Service
+      name: ${APP}
+      weight: 100
+    wildcardPolicy: None
+- kind: Route
+  apiVersion: v1
+  metadata:
+    name: ${LOG}
+    labels:
+      app: ${APP}
+  spec:
+    host: ${LOG_HOST}
+    port:
+      targetPort: ${LOG_PORT}-tcp
+    to:
+      kind: Service
+      name: ${LOG}
+      weight: 100
+    wildcardPolicy: None
+- kind: Secret
+  apiVersion: v1
+  metadata:
+    name: ${APP}-github-secret
+  data:
+    WebHookSecretKey: ${GITHUB_SECRET}
