@@ -31,7 +31,8 @@ cors <- function(req, res) {
 }
 
 #* Check the liveness of the API
-#* @head /status
+#* @head /healthz
+#* @get /healthz
 #* @tag status
 #* @response 200 A json object
 #* @serializer unboxedJSON

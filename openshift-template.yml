@@ -9,7 +9,7 @@ parameters:
     value: "8000"
   - name: STATUS
     required: true
-    value: /status
+    value: /healthz
   - name: LOG
     required: true
     value: log-monitor
@@ -168,19 +168,19 @@ objects:
             name: ${LOG}
           startupProbe:
             httpGet:
-              path: /status
+              path: ${STATUS}
               port: ${{LOG_PORT}}
             failureThreshold: 30
             periodSeconds: 10
           livenessProbe:
             httpGet:
-              path: /status
+              path: ${STATUS}
               port: ${{LOG_PORT}}
             failureThreshold: 5
             periodSeconds: 30
           readinessProbe:
             httpGet:
-              path: /status
+              path: ${STATUS}
               port: ${{LOG_PORT}}
             initialDelaySeconds: 5
             periodSeconds: 5
