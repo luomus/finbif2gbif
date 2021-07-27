@@ -38,7 +38,7 @@ parameters:
   - name: GITHUB_SECRET
     required: true
     generate: expression
-    from: "[a-zA-Z0-9]{40}"
+    from: "[a-zA-Z0-9]{20}"
 metadata:
   name: ${APP}
 objects:
@@ -64,8 +64,7 @@ objects:
     - type: ConfigChange
     - type: GitHub
       github:
-        secretReference:
-          name: ${APP}-github-secret
+        secret: ${GITHUB_SECRET}
 - kind: ImageStream
   apiVersion: v1
   metadata:
@@ -247,6 +246,8 @@ objects:
     host: ${APP_HOST}
     port:
       targetPort: ${APP_PORT}-tcp
+    tls:
+      termination: edge
     to:
       kind: Service
       name: ${APP}
@@ -262,14 +263,10 @@ objects:
     host: ${LOG_HOST}
     port:
       targetPort: ${LOG_PORT}-tcp
+    tls:
+      termination: edge
     to:
       kind: Service
       name: ${LOG}
       weight: 100
     wildcardPolicy: None
-- kind: Secret
-  apiVersion: v1
-  metadata:
-    name: ${APP}-github-secret
-  data:
-    WebHookSecretKey: ${GITHUB_SECRET}
