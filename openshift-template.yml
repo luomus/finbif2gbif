@@ -168,16 +168,19 @@ objects:
             name: ${LOG}
           startupProbe:
             httpGet:
+              path: /status
               port: ${{LOG_PORT}}
             failureThreshold: 30
             periodSeconds: 10
           livenessProbe:
             httpGet:
+              path: /status
               port: ${{LOG_PORT}}
             failureThreshold: 5
             periodSeconds: 30
           readinessProbe:
             httpGet:
+              path: /status
               port: ${{LOG_PORT}}
             initialDelaySeconds: 5
             periodSeconds: 5
