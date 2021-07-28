@@ -57,6 +57,9 @@ list()
 #* @assets /usr/local/lib/R/library/finbif/help/figures
 list()
 
+#* @assets ./favicon.ico /favicon.ico
+list()
+
 #* @plumber
 function(pr) {
 
