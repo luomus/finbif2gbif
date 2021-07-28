@@ -29,9 +29,9 @@ p$registerHooks(
 
       log_fn <- logger::log_info
 
-      if (identical(req$PATH_INFO, "/status")) log_fn <- function(.) {}
-
       if (res$status >= 400L) log_fn <- logger::log_error
+
+      if (identical(req$PATH_INFO, "/healthz")) log_fn <- function(.) {}
 
       log_fn(
         paste0(
