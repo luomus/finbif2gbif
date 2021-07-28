@@ -131,12 +131,6 @@ objects:
           volumeMounts:
           - mountPath: ${LOG_DIR}
             name: ${LOG}
-          startupProbe:
-            httpGet:
-              path: ${STATUS}
-              port: ${{APP_PORT}}
-            failureThreshold: 30
-            periodSeconds: 10
           livenessProbe:
             httpGet:
               path: ${STATUS}
@@ -188,21 +182,13 @@ objects:
           volumeMounts:
           - mountPath: ${LOG_DIR}
             name: ${LOG}
-          startupProbe:
-            httpGet:
-              path: ${STATUS}
-              port: ${{LOG_PORT}}
-            failureThreshold: 30
-            periodSeconds: 10
           livenessProbe:
             httpGet:
-              path: ${STATUS}
               port: ${{LOG_PORT}}
             failureThreshold: 5
             periodSeconds: 30
           readinessProbe:
             httpGet:
-              path: ${STATUS}
               port: ${{LOG_PORT}}
             initialDelaySeconds: 5
             periodSeconds: 5
