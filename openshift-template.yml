@@ -57,7 +57,30 @@ objects:
       type: Git
       git:
         uri: https://github.com/${ORG}/${APP}.git
-        ref: main
+        ref: ${BRANCH}
+    strategy:
+      type: Docker
+    triggers:
+    - type: ConfigChange
+    - type: GitHub
+      github:
+        secret: ${GITHUB_SECRET}
+- kind: BuildConfig
+  apiVersion: v1
+  metadata:
+    name: ${LOG}
+    labels:
+      app: ${APP}
+  spec:
+    output:
+      to:
+        kind: ImageStreamTag
+        name: ${LOG}:latest
+    source:
+      type: Git
+      git:
+        uri: https://github.com/${ORG}/${LOG}.git
+        ref: ${BRANCH}
     strategy:
       type: Docker
     triggers:
@@ -81,7 +104,6 @@ objects:
     labels:
       app: ${APP}
   spec:
-    dockerImageRepository: ghcr.io/${ORG}/${LOG}
     lookupPolicy:
       local: true
 - kind: DeploymentConfig
@@ -159,7 +181,7 @@ objects:
           deploymentconfig: ${LOG}
       spec:
         containers:
-        - image: ${LOG}:${BRANCH}
+        - image: ${LOG}:latest
           name: ${LOG}
           ports:
           - containerPort: ${LOG_PORT}
@@ -200,7 +222,7 @@ objects:
         - ${LOG}
         from:
           kind: ImageStreamTag
-          name: ${LOG}:${BRANCH}
+          name: ${LOG}:latest
 - kind: PersistentVolumeClaim
   apiVersion: v1
   metadata:
