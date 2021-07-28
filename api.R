@@ -57,6 +57,14 @@ list()
 #* @assets /usr/local/lib/R/library/finbif/help/figures
 list()
 
+#* @get /favicon.ico
+#* @serializer contentType list(type="image/x-icon")
+function() {
+
+  readBin("favicon.ico", "raw", n = file.info("favicon.ico")$size)
+
+}
+
 #* @plumber
 function(pr) {
 
@@ -67,6 +75,9 @@ function(pr) {
     function(spec) {
 
       spec$info$version <- version
+
+      spec$paths$`/healthz` <- NULL
+      spec$paths$`/favicon.ico` <- NULL
 
       spec
 

@@ -37,7 +37,7 @@ ENV HOME /home/user
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY init.R /home/user/init.R
 COPY api.R /home/user/api.R
-COPY favicon.ico /usr/local/lib/R/site-library/rapidoc/dist/favicon.ico
+COPY favicon.ico /home/user/favicon.ico
 
 RUN  mkdir -p /home/user/logs \
   && mkdir -p /home/user/archives \
