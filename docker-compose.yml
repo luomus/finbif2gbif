@@ -13,7 +13,7 @@ services:
     image: luomus/log-monitor
     restart: unless-stopped
     environment:
-      - "PAGE_TITLE='FinBIF to GBIF'"
+      - "PAGE_TITLE='finbif2gbif'"
     ports:
       - "3838:3838"
     volumes:
