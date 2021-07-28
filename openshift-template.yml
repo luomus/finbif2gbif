@@ -184,6 +184,9 @@ objects:
               port: ${{LOG_PORT}}
             initialDelaySeconds: 5
             periodSeconds: 5
+          env:
+          - name: PAGE_TITLE
+            value: ${APP}
         volumes:
         - name: ${LOG}
           persistentVolumeClaim:
