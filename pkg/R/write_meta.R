@@ -13,7 +13,7 @@
 #'   identifier. No ID field will be specified if \code{id} is not an integer
 #'   between 1 and the number of fields specified.
 #'
-#' @return A finbif_occ object.
+#' @return The status value returned by the zip command, invisibly.
 #' @examples
 #' write_meta("dwca.zip", c("occurrenceID", "basisOfRecord"))
 #' @importFrom utils zip

@@ -14,7 +14,7 @@ write_occurrences(data, archive, file_name = "occurrence.txt")
 \item{file_name}{Character. The name of the file to write to the archive.}
 }
 \value{
-A finbif_occ object.
+The status value returned by the zip command, invisibly.
 }
 \description{
 Write occurrence records to a Darwin Core archive.

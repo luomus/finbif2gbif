@@ -22,7 +22,7 @@ identifier. No ID field will be specified if \code{id} is not an integer
 between 1 and the number of fields specified.}
 }
 \value{
-A finbif_occ object.
+The status value returned by the zip command, invisibly.
 }
 \description{
 Write a Darwin Core archive meta data file.

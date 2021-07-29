@@ -6,7 +6,7 @@
 #' @param archive Character. Path to the archive.
 #' @param file_name Character. The name of the file to write to the archive.
 #'
-#' @return A finbif_occ object.
+#' @return The status value returned by the zip command, invisibly.
 #' @examples
 #' data <- get_occurrences(
 #'   c(collection = "HR.3991"), c("occurrenceID", "basisOfRecord"), 100
