@@ -3,6 +3,7 @@
 export(gbif_datasets)
 export(get_collection_ids)
 export(get_occurrences)
+export(is_registered)
 export(write_meta)
 export(write_occurrences)
 importFrom(finbif,finbif_collections)
