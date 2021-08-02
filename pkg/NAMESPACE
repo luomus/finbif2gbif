@@ -2,6 +2,7 @@
 
 export(gbif_datasets)
 export(get_collection_ids)
+export(get_endpoint)
 export(get_metadata)
 export(get_occurrences)
 export(is_registered)
