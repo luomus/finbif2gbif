@@ -26,7 +26,15 @@ get_occurrences <- function(filter, select, n, quiet = TRUE) {
     filter = filter, select = select, n = n, dwc = TRUE, quiet = quiet
   )
 
-  data[["basisOfRecord"]] <- record_bases[data[["basisOfRecord"]]]
+  bor <- "basisOfRecord"
+
+  has_bor <- bor %in% names(data)
+
+  if (has_bor) {
+
+    data[[bor]] <- record_bases[data[[bor]]]
+
+  }
 
   data
 
