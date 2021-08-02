@@ -14,10 +14,11 @@ get_collection_ids <- function() {
     select = TRUE, supercollections = TRUE, nmin = NA
   )
 
-  cols[cols[["share_to_gbif"]], "id"]
+  # Share to gbif column can contain missing data
+  cols[which(cols[["share_to_gbif"]]), "id"]
 
   # TODO
   # For use when backend changes are implemented
-  # cols[cols[["share_to_gbif"]] == cols[["id"]], "id"]
+  # cols[which(cols[["share_to_gbif"]] == cols[["id"]]), "id"]
 
 }
