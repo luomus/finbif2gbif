@@ -12,7 +12,6 @@ Authors@R: c(
     )
 Description: Tools for publishing FinBIF data to GBIF.
 License: MIT + file LICENSE
-    license
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
