@@ -17,7 +17,10 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Imports:
-  finbif,
-  utils,
-  xml2
+    finbif,
+    httr,
+    jsonlite,
+    utils,
+    webfakes,
+    xml2
 Suggests: tinytest
