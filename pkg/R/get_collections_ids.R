@@ -10,7 +10,7 @@
 
 get_collection_ids <- function() {
 
-  cols <- finbif::finbif_collection(
+  cols <- finbif::finbif_collections(
     select = TRUE, supercollections = TRUE, nmin = NA
   )
 
