@@ -21,6 +21,7 @@ Imports:
     httr,
     jsonlite,
     utils,
-    webfakes,
     xml2
-Suggests: tinytest
+Suggests: 
+    tinytest,
+    webfakes
