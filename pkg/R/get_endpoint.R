@@ -8,7 +8,7 @@
 #'
 #' @return A list.
 #' @examples
-#' get_metadata("HR.3991")
+#' get_endpoint("HR.3991")
 #'
 #' @export
 

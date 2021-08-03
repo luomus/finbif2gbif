@@ -8,9 +8,11 @@
 #'   system environment variable, "GBIF_INSTALLATION".
 #'
 #' @return A list.
-#' @examples
+#' @examples \dontrun{
+#'
 #' gbif_datasets()
 #'
+#' }
 #' @importFrom httr content RETRY status_code
 #' @importFrom jsonlite fromJSON
 #' @export

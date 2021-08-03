@@ -1,4 +1,5 @@
 #' @noRd
+
 record_bases <- c(
   "HUMAN_OBSERVATION_UNSPECIFIED" = "HumanObservation",
   "HUMAN_OBSERVATION_HANDLED" = "HumanObservation",

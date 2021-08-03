@@ -23,6 +23,9 @@ A list.
 Get metadata for GBIF registered datasets of a given installation.
 }
 \examples{
+\dontrun{
+
 gbif_datasets()
 
+}
 }

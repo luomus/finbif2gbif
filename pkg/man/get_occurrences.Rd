@@ -27,7 +27,11 @@ A finbif_occ object.
 Get occurrence records from FinBIF.
 }
 \examples{
+\dontrun{
+
 get_occurrences(
   c(collection = "HR.3991"), c("occurrenceID", "basisOfRecord"), 100
 )
+
+}
 }

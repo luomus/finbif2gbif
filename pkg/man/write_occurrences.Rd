@@ -20,8 +20,12 @@ The status value returned by the zip command, invisibly.
 Write occurrence records to a Darwin Core archive.
 }
 \examples{
+\dontrun{
+
 data <- get_occurrences(
   c(collection = "HR.3991"), c("occurrenceID", "basisOfRecord"), 100
 )
 write_occurrences(data, "dwca.zip")
+
+}
 }

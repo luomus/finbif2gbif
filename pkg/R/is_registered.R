@@ -6,8 +6,11 @@
 #' @param collection_id Character. ID string of FinBIF collection.
 #'
 #' @return A character vector.
-#' @examples
+#' @examples \dontrun{
+#'
 #' is_registered(gbif_datasets(), "HR.3991")
+#'
+#' }
 #' @export
 
 is_registered <- function(datasets, collection_id) {

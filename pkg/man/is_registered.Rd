@@ -18,5 +18,9 @@ A character vector.
 Check if a FinBIF collection is registered with GBIF.
 }
 \examples{
+\dontrun{
+
 is_registered(gbif_datasets(), "HR.3991")
+
+}
 }

@@ -13,10 +13,13 @@
 #'   downloads.
 #'
 #' @return A finbif_occ object.
-#' @examples
+#' @examples \dontrun{
+#'
 #' get_occurrences(
 #'   c(collection = "HR.3991"), c("occurrenceID", "basisOfRecord"), 100
 #' )
+#'
+#' }
 #' @importFrom finbif finbif_occurrence
 #' @export
 

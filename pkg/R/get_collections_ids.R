@@ -3,8 +3,11 @@
 #' Get collection IDs of FinBIF collections that are published to GBIF.
 #'
 #' @return A character vector.
-#' @examples
+#' @examples \dontrun{
+#'
 #' get_collection_ids()
+#'
+#' }
 #' @importFrom finbif finbif_collections
 #' @export
 

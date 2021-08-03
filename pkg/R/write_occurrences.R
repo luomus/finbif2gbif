@@ -7,11 +7,14 @@
 #' @param file_name Character. The name of the file to write to the archive.
 #'
 #' @return The status value returned by the zip command, invisibly.
-#' @examples
+#' @examples \dontrun{
+#'
 #' data <- get_occurrences(
 #'   c(collection = "HR.3991"), c("occurrenceID", "basisOfRecord"), 100
 #' )
 #' write_occurrences(data, "dwca.zip")
+#'
+#' }
 #' @importFrom finbif finbif_occurrence
 #' @export
 

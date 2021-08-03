@@ -14,8 +14,11 @@
 #'   between 1 and the number of fields specified.
 #'
 #' @return The status value returned by the zip command, invisibly.
-#' @examples
+#' @examples \dontrun{
+#'
 #' write_meta("dwca.zip", c("occurrenceID", "basisOfRecord"))
+#'
+#' }
 #' @importFrom utils zip
 #' @importFrom xml2 as_xml_document write_xml
 #' @export

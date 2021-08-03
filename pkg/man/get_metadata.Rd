@@ -26,6 +26,9 @@ A list.
 Get FinBIF collection metadata needed for GBIF registration.
 }
 \examples{
+\dontrun{
+
 get_metadata("HR.3991")
 
+}
 }

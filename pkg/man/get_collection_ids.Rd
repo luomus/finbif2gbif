@@ -13,5 +13,9 @@ A character vector.
 Get collection IDs of FinBIF collections that are published to GBIF.
 }
 \examples{
+\dontrun{
+
 get_collection_ids()
+
+}
 }

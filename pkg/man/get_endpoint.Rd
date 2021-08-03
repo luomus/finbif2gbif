@@ -19,6 +19,6 @@ A list.
 Get FinBIF collection data endpoint needed for GBIF registration.
 }
 \examples{
-get_metadata("HR.3991")
+get_endpoint("HR.3991")
 
 }

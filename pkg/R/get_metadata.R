@@ -9,9 +9,11 @@
 #'   system environment variable, "GBIF_INSTALLATION".
 #'
 #' @return A list.
-#' @examples
+#' @examples \dontrun{
+#'
 #' get_metadata("HR.3991")
 #'
+#' }
 #' @importFrom finbif finbif_collections
 #' @export
 
