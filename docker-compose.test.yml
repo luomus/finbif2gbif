@@ -1,0 +1,7 @@
+version: "3.7"
+
+services:
+  sut:
+    build:
+      context: .
+    command: R -e 'tinytest::test_package("f2g")'

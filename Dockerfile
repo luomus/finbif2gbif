@@ -5,9 +5,11 @@ RUN  apk add --no-cache --update-cache \
        autoconf=2.69-r2 \
        automake=1.16.1-r0 \
        curl \
+       zip \
   && installr -d \
       -t "autoconf automake bash libsodium-dev curl-dev linux-headers libxml2-dev" \
       -a "libsodium libxml2" \
+      callr \
       digest \
       httr \
       logger \
@@ -16,11 +18,15 @@ RUN  apk add --no-cache --update-cache \
       rapidoc \
       remotes \
       tictoc \
-      xml2 \
-      zip
+      tinytest \
+      webfakes \
+      withr \
+      xml2
 
 HEALTHCHECK --interval=1m --timeout=10s \
   CMD curl -sfI -o /dev/null 0.0.0.0:8000/healthz || exit 1
+
+RUN echo "R_ZIPCMD=${R_ZIPCMD-'/usr/bin/zip'}" >> /usr/local/lib/R/etc/Renviron
 
 RUN sed -i 's/RapiDoc/FinBIF to GBIF/g' \
       /usr/local/lib/R/library/rapidoc/dist/index.html
