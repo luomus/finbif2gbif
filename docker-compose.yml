@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   f2g:
-    image: luomus/finbif2gbif
+    image: ghcr.io/luomus/finbif2gbif
     restart: unless-stopped
     ports:
       - "8000:8000"
@@ -10,7 +10,7 @@ services:
       - logs:/home/user/logs
       - archives:/home/user/archives
   monitor:
-    image: luomus/log-monitor
+    image: ghcr.io/luomus/log-monitor
     restart: unless-stopped
     environment:
       - "PAGE_TITLE='finbif2gbif'"
