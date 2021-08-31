@@ -40,7 +40,7 @@ send_gbif_dataset_metadata <- function(
 
   status <- httr::status_code(res)
 
-  ok <- identical(status, 200L)
+  ok <- identical(status, 201L)
 
   stopifnot("Post failed. Could not send metadata to GBIF" = ok)
 

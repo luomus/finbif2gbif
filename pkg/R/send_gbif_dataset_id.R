@@ -44,9 +44,9 @@ send_gbif_dataset_id <- function(
 
   status <- httr::status_code(res)
 
-  ok <- identical(status, 200L)
+  ok <- identical(status, 201L)
 
-  stopifnot("Post failed. Could not send endpoint to GBIF" = ok)
+  stopifnot("Post failed. Could not send identifier to GBIF" = ok)
 
   invisible(NULL)
 
