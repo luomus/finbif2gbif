@@ -5,7 +5,7 @@
 #' @param datasets List. GBIF dataset metadata retrieved using `gbif_datasets`.
 #' @param collection_id Character. ID string of FinBIF collection.
 #'
-#' @return A character vector.
+#' @return Integer.
 #' @examples \dontrun{
 #'
 #' is_registered(gbif_datasets(), "HR.3991")
@@ -17,15 +17,15 @@ is_registered <- function(datasets, collection_id) {
 
   ans <- vapply(datasets, has_identifier, logical(1L), collection_id)
 
-  any(ans)
+  which(ans)
 
 }
 
-has_identifier <- function(x, collection_ids) {
+has_identifier <- function(x, collection_id) {
 
   x <- vapply(x[["identifiers"]], getElement, character(1L), "identifier")
 
-  x <- vapply(x, identical, logical(1L), id)
+  x <- vapply(x, identical, logical(1L), collection_id)
 
   any(x)
 

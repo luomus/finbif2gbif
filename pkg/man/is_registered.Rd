@@ -12,7 +12,7 @@ is_registered(datasets, collection_id)
 \item{collection_id}{Character. ID string of FinBIF collection.}
 }
 \value{
-A character vector.
+Integer.
 }
 \description{
 Check if a FinBIF collection is registered with GBIF.
