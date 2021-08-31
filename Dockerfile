@@ -53,8 +53,6 @@ RUN R -e "remotes::install_local('f2g', NULL, FALSE, 'never')" \
   && chgrp -R 0 /home/user \
   && chmod -R g=u /home/user /etc/passwd
 
-
-
 USER 1000
 
 EXPOSE 8000
