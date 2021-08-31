@@ -10,7 +10,10 @@ RUN  apk add --no-cache --update-cache \
       -t "autoconf automake bash libsodium-dev curl-dev linux-headers libxml2-dev" \
       -a "libsodium libxml2" \
       callr \
+      covr \
       digest \
+      DT \
+      htmltools \
       httr \
       logger \
       lutz \
@@ -33,24 +36,24 @@ RUN sed -i 's/RapiDoc/FinBIF to GBIF/g' \
 
 RUN  R -e "remotes::install_github('luomus/finbif@dev')"
 
-COPY pkg f2g
-
-RUN  R -e "remotes::install_local('f2g', NULL, FALSE, 'never')" \
-  && rm -rf f2g
-
 ENV HOME /home/user
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY init.R /home/user/init.R
 COPY api.R /home/user/api.R
 COPY favicon.ico /home/user/favicon.ico
+COPY pkg /home/user/f2g
 
-RUN  mkdir -p /home/user/logs \
+WORKDIR /home/user
+
+RUN R -e "remotes::install_local('f2g', NULL, FALSE, 'never')" \
+  && mkdir -p /home/user/logs \
   && mkdir -p /home/user/archives \
+  && mkdir -p /home/user/coverage \
   && chgrp -R 0 /home/user \
   && chmod -R g=u /home/user /etc/passwd
 
-WORKDIR /home/user
+
 
 USER 1000
 

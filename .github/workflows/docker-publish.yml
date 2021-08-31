@@ -30,10 +30,19 @@ jobs:
         run: |
           if [ -f docker-compose.test.yml ]; then
             docker-compose --file docker-compose.test.yml build
+            mkdir -p cov
             docker-compose --file docker-compose.test.yml run sut
           else
             docker build . --file Dockerfile
           fi
+
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v2
+        with:
+          name: code-coverage-report
+          path: |
+            cov/code-coverage.html
+            cov/lib
 
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/
