@@ -35,7 +35,7 @@ RUN  R -e "remotes::install_github('luomus/finbif@dev')"
 
 COPY pkg f2g
 
-RUN  R -e "remotes::install_local('f2g')" \
+RUN  R -e "remotes::install_local('f2g', NULL, FALSE, 'never')" \
   && rm -rf f2g
 
 ENV HOME /home/user
