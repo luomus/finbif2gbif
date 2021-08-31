@@ -3,6 +3,7 @@
 #* @apiContact list(name = "laji.fi support", email = "helpdesk@laji.fi")
 #* @apiLicense list(name = "GPL-2.0", url = "https://opensource.org/licenses/GPL-2.0")
 #* @apiTag list List archives
+#* @apiTag info Get info for an archive
 #* @apiTag status Check status of API
 
 #* @filter cors
@@ -48,6 +49,29 @@ function() {
 function() {
 
  list.files("archives", pattern = "\\.zip$")
+
+}
+
+#* Get the last modified time for a Darwin Core archive
+#* @get /lastmod
+#* @param archive:str Collection ID of archive to check the last modified time for.
+#* @tag info
+#* @response 200 A json object
+#* @serializer unboxedJSON
+function(archive, res) {
+
+  path <- sprintf("archives/%s.zip", archive)
+
+  if (!file.exists(path)) {
+
+    res$status <- 404L
+    return("File not found")
+
+  }
+
+  ans <- file.mtime(path)
+
+  format(ans)
 
 }
 
