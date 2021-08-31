@@ -3,7 +3,7 @@ gbif <- webfakes::new_app()
 gbif$post(
   "/v1/dataset",
   function(req, res) {
-    res$send_json("uuid")
+    res$set_status(201L)$send_json("uuid")
   }
 )
 

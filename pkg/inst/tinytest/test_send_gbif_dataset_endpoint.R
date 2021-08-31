@@ -3,7 +3,7 @@ gbif <- webfakes::new_app()
 gbif$post(
   "/v1/dataset/1234/endpoint",
   function(req, res) {
-    res$send("")
+    res$set_status(201L)$send("")
   }
 )
 
