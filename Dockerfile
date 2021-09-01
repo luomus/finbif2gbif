@@ -1,14 +1,12 @@
-FROM rhub/r-minimal:4.0.5-patched
+FROM ghcr.io/r-hub/r-minimal/r-minimal:4.1.0
 
 RUN  apk add --no-cache --update-cache \
-       --repository http://nl.alpinelinux.org/alpine/v3.11/main \
-       autoconf=2.69-r2 \
-       automake=1.16.1-r0 \
+       --repository http://nl.alpinelinux.org/alpine/v3.12/main \
        curl \
        zip \
   && installr -d \
-      -t "autoconf automake bash libsodium-dev curl-dev linux-headers libxml2-dev" \
-      -a "libsodium libxml2" \
+      -t "curl-dev libxml2-dev linux-headers" \
+      -a "libxml2" \
       callr \
       covr \
       digest \
@@ -17,7 +15,6 @@ RUN  apk add --no-cache --update-cache \
       httr \
       logger \
       lutz \
-      plumber \
       rapidoc \
       remotes \
       tictoc \
@@ -26,17 +23,34 @@ RUN  apk add --no-cache --update-cache \
       withr \
       xml2
 
+RUN  apk add --no-cache --update-cache \
+       --repository http://nl.alpinelinux.org/alpine/v3.12/main \
+       autoconf=2.69-r2 \
+       automake=1.16.2-r0 \
+       curl-dev \
+       g++ \
+  && curl -o httpuv_1.6.2.tar.gz \
+          -L https://api.github.com/repos/rstudio/httpuv/tarball/v1.6.2 \
+  && mkdir -p httpuv \
+  && tar xf httpuv_1.6.2.tar.gz -C httpuv --strip-components 1 \
+  && rm -rf httpuv_1.6.2.tar.gz \
+  && sed -i '67,68d' httpuv/src/Makevars \
+  && R -e "remotes::install_local('httpuv', NULL, FALSE, 'never')" \
+  && rm -rf httpuv \
+  && installr -d \
+      -t "autoconf automake bash curl-dev g++ libsodium-dev linux-headers" \
+      -a "libsodium" \
+      plumber
+
 HEALTHCHECK --interval=1m --timeout=10s \
   CMD curl -sfI -o /dev/null 0.0.0.0:8000/healthz || exit 1
 
-RUN echo "R_ZIPCMD=${R_ZIPCMD-'/usr/bin/zip'}" >> /usr/local/lib/R/etc/Renviron
+RUN  echo "R_ZIPCMD=${R_ZIPCMD-'/usr/bin/zip'}" >> /usr/local/lib/R/etc/Renviron
 
-RUN sed -i 's/RapiDoc/FinBIF to GBIF/g' \
+RUN  sed -i 's/RapiDoc/FinBIF to GBIF/g' \
       /usr/local/lib/R/library/rapidoc/dist/index.html
 
 RUN  R -e "remotes::install_github('luomus/finbif@dev')"
-
-ENV HOME /home/user
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY init.R /home/user/init.R
@@ -44,12 +58,14 @@ COPY api.R /home/user/api.R
 COPY favicon.ico /home/user/favicon.ico
 COPY pkg /home/user/f2g
 
+ENV  HOME /home/user
+
 WORKDIR /home/user
 
-RUN R -e "remotes::install_local('f2g', NULL, FALSE, 'never')" \
+RUN  R -e "remotes::install_local('f2g', NULL, FALSE, 'never')" \
   && mkdir -p /home/user/logs \
-  && mkdir -p /home/user/archives \
-  && mkdir -p /home/user/coverage \
+       /home/user/archives \
+       /home/user/coverage \
   && chgrp -R 0 /home/user \
   && chmod -R g=u /home/user /etc/passwd
 
