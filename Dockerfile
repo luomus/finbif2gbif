@@ -21,7 +21,8 @@ RUN  apk add --no-cache --update-cache \
       tinytest \
       webfakes \
       withr \
-      xml2
+      xml2 \
+      yaml
 
 RUN  apk add --no-cache --update-cache \
        --repository http://nl.alpinelinux.org/alpine/v3.12/main \
