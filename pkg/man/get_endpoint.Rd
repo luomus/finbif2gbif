@@ -4,7 +4,7 @@
 \alias{get_endpoint}
 \title{Get endpoint}
 \usage{
-get_endpoint(collection_id, url_base = Sys.getenv("ENDPOINTS_URL_BASE"))
+get_endpoint(collection_id, url_base = Sys.getenv("ENDPOINTS"))
 }
 \arguments{
 \item{collection_id}{Character. ID string of FinBIF collection.}

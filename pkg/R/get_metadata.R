@@ -3,6 +3,7 @@
 #' Get FinBIF collection metadata needed for GBIF registration.
 #'
 #' @param collection_id Character. ID string of FinBIF collection.
+#' @param metadata_fields List. Map of GBIF to FinBIF metadata fields to use.
 #' @param org Character. GBIF organization key. Defaults to system environment
 #'   variable, "GBIF_ORG".
 #' @param installation Character. ID key of GBIF installation. Defaults to
@@ -19,9 +20,14 @@
 
 get_metadata <- function(
   collection_id,
+  metadata_fields,
   org = Sys.getenv("GBIF_ORG"),
   installation = Sys.getenv("GBIF_INSTALLATION")
 ) {
+
+  m <- finbif::finbif_collections(
+    supercollections = TRUE, select = TRUE, filter = id == collection_id
+  )
 
   licenses <- c(
     "MY.intellectualRightsCC-BY" =
@@ -34,28 +40,17 @@ get_metadata <- function(
       "All Rights Reserved"
   )
 
-  m <- finbif::finbif_collections(
-    supercollections = TRUE, select = TRUE, filter = id == collection_id
-  )
+  m[["intellectual_rights"]] <- licenses[[m[["intellectual_rights"]]]]
 
-  lang <- m[["language"]]
+  m[["language"]] <- ifelse(is.na(m[["language"]]), "eng", m[["language"]])
 
-  lang_na <- is.na(lang)
-
-  if (lang_na) {
-
-    lang <- "eng"
-
-  }
-
-  list(
-    publishingOrganizationKey = org,
-    installationKey = installation,
-    type = "OCCURRENCE",
-    title = m[["long_name"]],
-    description = m[["description"]],
-    language = lang,
-    license = licenses[[m[["intellectual_rights"]]]]
+  c(
+    list(
+      publishingOrganizationKey = org,
+      installationKey = installation,
+      type = "OCCURRENCE"
+    ),
+    lapply(metadata_fields, function(x) m[[x]])
   )
 
 }

@@ -14,7 +14,7 @@
 
 get_endpoint <- function(
   collection_id,
-  url_base = Sys.getenv("ENDPOINTS_URL_BASE")
+  url_base = Sys.getenv("ENDPOINTS")
 ) {
 
   list(

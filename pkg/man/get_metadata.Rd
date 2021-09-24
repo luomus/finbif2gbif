@@ -6,12 +6,15 @@
 \usage{
 get_metadata(
   collection_id,
+  metadata_fields,
   org = Sys.getenv("GBIF_ORG"),
   installation = Sys.getenv("GBIF_INSTALLATION")
 )
 }
 \arguments{
 \item{collection_id}{Character. ID string of FinBIF collection.}
+
+\item{metadata_fields}{List. Map of GBIF to FinBIF metadata fields to use.}
 
 \item{org}{Character. GBIF organization key. Defaults to system environment
 variable, "GBIF_ORG".}

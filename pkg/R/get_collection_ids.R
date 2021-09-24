@@ -18,10 +18,20 @@ get_collection_ids <- function() {
   )
 
   # Share to gbif column can contain missing data
-  cols[which(cols[["share_to_gbif"]]), "id"]
+  cols <- cols[which(cols[["share_to_gbif"]]), c("id", "date_edited")]
 
   # TODO
   # For use when backend changes are implemented
   # cols[which(cols[["share_to_gbif"]] == cols[["id"]]), "id"]
+
+  ans <- as.list(cols[["id"]])
+
+  for (i in seq_along(ans)) {
+
+    attr(ans[[i]], "last_mod") <- as.Date(cols[i, "date_edited"])
+
+  }
+
+  ans
 
 }

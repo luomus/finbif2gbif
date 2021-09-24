@@ -8,16 +8,31 @@
 #' @return Integer.
 #' @examples \dontrun{
 #'
-#' is_registered(gbif_datasets(), "HR.3991")
+#' get_registration(gbif_datasets(), "HR.3991")
 #'
 #' }
 #' @export
 
-is_registered <- function(datasets, collection_id) {
+get_registration <- function(datasets, collection_id) {
 
   ans <- vapply(datasets, has_identifier, logical(1L), collection_id)
 
-  which(ans)
+  ans <- which(ans)
+
+  if (length(ans) > 0L) {
+
+    attr(ans, "key") <- datasets[[ans]][["key"]]
+    attr(ans, "created") <- datasets[[ans]][["created"]]
+    attr(ans, "last_mod") <- as.Date(datasets[[ans]][["modified"]])
+
+
+  } else {
+
+    ans <- FALSE
+
+  }
+
+  ans
 
 }
 

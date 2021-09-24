@@ -1,4 +1,4 @@
-Sys.setenv(ENDPOINTS_URL_BASE = "https://finbif-archives.fi")
+Sys.setenv(ENDPOINTS = "https://finbif-archives.fi")
 
 expect_identical(
   get_endpoint("HR.3991"),
