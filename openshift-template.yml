@@ -211,7 +211,7 @@ objects:
       metadata:
         labels:
           app: ${APP}
-          deploymentconfig: ${APP}
+          deploymentconfig: dev-${APP}
       spec:
         containers:
         - image: dev-${APP}:latest
@@ -239,7 +239,7 @@ objects:
           - name: BRANCH
             value: ${DEV_BRANCH}
         volumes:
-        - name: ${LOG}
+        - name: dev-${LOG}
           persistentVolumeClaim:
             claimName: dev-${LOG}
     triggers:
