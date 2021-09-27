@@ -1,4 +1,7 @@
+x <- 1L
+attr(x, "last_mod") <- as.Date(integer(0L))
+
 expect_equal(
-  v(list(list(identifiers = list(list(identifier = "x")))), "x"),
+  get_registration(list(list(identifiers = list(list(identifier = "x")))), "x"),
   1L
 )
