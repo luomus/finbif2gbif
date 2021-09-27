@@ -9,13 +9,14 @@ gbif$put(
 
 api <- webfakes::local_app_process(gbif)
 
+reg <- 1
+attr(reg, "key") <- "1234"
+attr(reg, "created") <- format(
+  as.POSIXlt(Sys.time(), "Etc/UTC"), "%FT%R:%OS+00:00"
+)
+
 expect_identical(
-  update_gbif_dataset_metadata(
-    list(),
-    "1234",
-    format(as.POSIXlt(Sys.time(), "Etc/UTC"), "%FT%R:%OS+00:00"),
-    api$url()
-  ),
+  update_gbif_dataset_metadata(list(), reg, api$url()),
   NULL
 )
 
