@@ -1,0 +1,24 @@
+default:
+  enabled: true
+  metadata:
+    title: long_name
+    description: description
+    language: language
+    license: intellectual_rights
+  fields:
+  - occurrenceID
+  - basisOfRecord
+  - eventDate
+  - country
+  - footprintWKT
+  - geodeticDatum
+  - coordinateUncertaintyInMeters
+  - kingdom
+  - scientificName
+  - taxonRank
+  subsets:
+
+HR.447:
+  subsets:
+  - date_range_ymd: ["", "1999-12-31"]
+  - date_range_ymd: ["2000-01-01", ""]
