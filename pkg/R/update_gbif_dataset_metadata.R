@@ -37,7 +37,7 @@ update_gbif_dataset_metadata <- function(
     list(
       key      = uuid,
       created  = attr(registration, "created"),
-      modified = format(as.POSIXlt(Sys.time(), "Etc/UTC"), "%FT%R:%OS+00:00")
+      modified = format(as.POSIXlt(Sys.time(), "UTC"), "%FT%R:%OS+00:00")
     ),
     metadata
   )

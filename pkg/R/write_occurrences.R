@@ -16,9 +16,14 @@
 #'
 #' }
 #' @importFrom finbif finbif_occurrence
+#' @importFrom utils zip
 #' @export
 
-write_occurrences <- function(data, archive, file_name = "occurrence.txt") {
+write_occurrences <- function(
+  data,
+  archive,
+  file_name = "occurrence.txt"
+) {
 
   op <- options()
   on.exit(options(op))

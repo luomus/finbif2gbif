@@ -20,7 +20,7 @@
 
 get_metadata <- function(
   collection_id,
-  metadata_fields,
+  metadata_fields = config::get("metadata"),
   org = Sys.getenv("GBIF_ORG"),
   installation = Sys.getenv("GBIF_INSTALLATION")
 ) {

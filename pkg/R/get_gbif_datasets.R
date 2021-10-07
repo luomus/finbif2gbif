@@ -10,14 +10,14 @@
 #' @return A list.
 #' @examples \dontrun{
 #'
-#' gbif_datasets()
+#' get_gbif_datasets()
 #'
 #' }
 #' @importFrom httr content RETRY status_code
 #' @importFrom jsonlite fromJSON
 #' @export
 
-gbif_datasets <- function(
+get_gbif_datasets <- function(
   url = Sys.getenv("GBIF_API"),
   installation = Sys.getenv("GBIF_INSTALLATION")
 ) {

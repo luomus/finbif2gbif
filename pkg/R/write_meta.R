@@ -3,8 +3,7 @@
 #' Write a Darwin Core archive meta data file.
 #'
 #' @param archive Character. Path to the archive.
-#' @param files Character vector. The filepaths of the data files relative to
-#'   the location of the metafile.
+#' @param filters List.
 #' @param fields Character vector. The field names of the data files. Field
 #'   names can optionally be prepended with a namespace (one of "dwc", "dwciri",
 #'   "dc" or "dcterms") separated from the field by a ":". If no namespace is
@@ -23,7 +22,12 @@
 #' @importFrom xml2 as_xml_document write_xml
 #' @export
 
-write_meta <- function(archive, fields, files = "occurrence.txt", id = 1) {
+write_meta <- function(
+  archive,
+  filters,
+  fields = config::get("fields"),
+  id = 1
+) {
 
   n_fields <- length(fields)
 
@@ -60,6 +64,8 @@ write_meta <- function(archive, fields, files = "occurrence.txt", id = 1) {
   }
 
   iri <- "http://rs.tdwg.org/dwc"
+
+  files <- vapply(filters, get_occurrence_file, character(1L))
 
   header <- list(files = list(location = as.list(files)))
 

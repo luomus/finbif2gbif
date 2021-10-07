@@ -4,18 +4,17 @@
 \alias{write_meta}
 \title{Write metafile}
 \usage{
-write_meta(archive, fields, files = "occurrence.txt", id = 1)
+write_meta(archive, filters, fields = config::get("fields"), id = 1)
 }
 \arguments{
 \item{archive}{Character. Path to the archive.}
+
+\item{filters}{List.}
 
 \item{fields}{Character vector. The field names of the data files. Field
 names can optionally be prepended with a namespace (one of "dwc", "dwciri",
 "dc" or "dcterms") separated from the field by a ":". If no namespace is
 specified, "dwc" will be assumed.}
-
-\item{files}{Character vector. The filepaths of the data files relative to
-the location of the metafile.}
 
 \item{id}{Integer. Indicates which field can be considered the record
 identifier. No ID field will be specified if \code{id} is not an integer

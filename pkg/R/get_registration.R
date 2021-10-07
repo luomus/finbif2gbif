@@ -13,7 +13,10 @@
 #' }
 #' @export
 
-get_registration <- function(datasets, collection_id) {
+get_registration <- function(
+  datasets,
+  collection_id
+) {
 
   ans <- vapply(datasets, has_identifier, logical(1L), collection_id)
 
@@ -21,14 +24,17 @@ get_registration <- function(datasets, collection_id) {
 
   if (length(ans) > 0L) {
 
-    attr(ans, "key") <- datasets[[ans]][["key"]]
-    attr(ans, "created") <- datasets[[ans]][["created"]]
-    attr(ans, "last_mod") <- as.Date(datasets[[ans]][["modified"]])
-
+    ans <- structure(
+      ans,
+      class = "registration",
+      key = datasets[[ans]][["key"]],
+      created = datasets[[ans]][["created"]],
+      last_mod = as.Date(datasets[[ans]][["modified"]])
+    )
 
   } else {
 
-    ans <- FALSE
+    ans <- NULL
 
   }
 

@@ -11,7 +11,8 @@
 #' @importFrom finbif finbif_collections
 #' @export
 
-get_collection_ids <- function() {
+get_collection_ids <- function(
+) {
 
   cols <- finbif::finbif_collections(
     select = TRUE, supercollections = TRUE, nmin = NA
@@ -28,7 +29,9 @@ get_collection_ids <- function() {
 
   for (i in seq_along(ans)) {
 
-    attr(ans[[i]], "last_mod") <- as.Date(cols[i, "date_edited"])
+    ans[[i]] <- structure(
+      ans[[i]], class = "col_id", last_mod = as.Date(cols[i, "date_edited"])
+    )
 
   }
 

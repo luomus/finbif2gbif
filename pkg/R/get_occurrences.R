@@ -23,7 +23,12 @@
 #' @importFrom finbif finbif_occurrence
 #' @export
 
-get_occurrences <- function(filter, select, n, quiet = TRUE) {
+get_occurrences <- function(
+  filter,
+  select,
+  n,
+  quiet = TRUE
+) {
 
   data <- finbif::finbif_occurrence(
     filter = filter, select = select, n = n, dwc = TRUE, quiet = quiet

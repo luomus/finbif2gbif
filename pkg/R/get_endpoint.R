@@ -7,9 +7,11 @@
 #'   Defaults to system environment variable, "ENDPOINTS_URL_BASE".
 #'
 #' @return A list.
-#' @examples
+#' @examples \dontrun{
+#'
 #' get_endpoint("HR.3991")
 #'
+#' }
 #' @export
 
 get_endpoint <- function(

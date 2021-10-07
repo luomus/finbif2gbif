@@ -19,6 +19,9 @@ A list.
 Get FinBIF collection data endpoint needed for GBIF registration.
 }
 \examples{
+\dontrun{
+
 get_endpoint("HR.3991")
 
+}
 }

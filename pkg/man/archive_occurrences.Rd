@@ -5,14 +5,18 @@
 \title{Archive occurrences}
 \usage{
 archive_occurrences(
-  filter,
-  select,
   archive,
-  file_name = "occurrence.txt",
+  file_name,
+  filter,
+  select = config::get("fields"),
   quiet = TRUE
 )
 }
 \arguments{
+\item{archive}{Character. Path to the archive.}
+
+\item{file_name}{Character. The name of the file to write to the archive.}
+
 \item{filter}{List of named character vectors. Filters to apply to records.}
 
 \item{select}{Character vector. Variables to return. If not specified, a
@@ -20,10 +24,6 @@ default set of commonly used variables will be used. Use \code{"default_vars"}
 as a shortcut for this set. Variables can be deselected by prepending a \code{-}
 to the variable name. If only deselects are specified the default set of
 variables without the deselection will be returned.}
-
-\item{archive}{Character. Path to the archive.}
-
-\item{file_name}{Character. The name of the file to write to the archive.}
 
 \item{quiet}{Logical. Suppress the progress indicator for multipage
 downloads.}
@@ -38,7 +38,8 @@ Archive occurrence records in a Darwin Core archive.
 \dontrun{
 
 archive_occurrences(
-  c(collection = "HR.3991"), c("occurrenceID", "basisOfRecord"), "dwca.zip"
+  "dwca.zip", "occurrence.txt", list(collection = "HR.139"),
+   c("occurrenceID", "basisOfRecord")
 )
 
 }
