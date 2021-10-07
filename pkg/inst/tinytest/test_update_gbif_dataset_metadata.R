@@ -12,7 +12,7 @@ api <- webfakes::local_app_process(gbif)
 reg <- 1
 attr(reg, "key") <- "1234"
 attr(reg, "created") <- format(
-  as.POSIXlt(Sys.time(), "Etc/UTC"), "%FT%R:%OS+00:00"
+  as.POSIXlt(Sys.time(), "UTC"), "%FT%R:%OS+00:00"
 )
 
 expect_identical(

@@ -6,13 +6,4 @@ options(
   finbif_cache_path = getwd()
 )
 
-expect_inherits(
-  get_metadata(
-    "HR.139",
-    list(
-      language = "language",
-      license = "intellectual_rights"
-    )
-  ),
-  "list"
-)
+expect_inherits(last_mod(c(collection = "HR.139")), "Date")

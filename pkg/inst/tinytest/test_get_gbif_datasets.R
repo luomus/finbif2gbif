@@ -11,6 +11,6 @@ gbif$get(
 
 api <- webfakes::local_app_process(gbif)
 
-expect_inherits(gbif_datasets(api$url(), "abcd"), "list")
+expect_inherits(get_gbif_datasets(api$url(), "abcd"), "list")
 
 api$stop()
