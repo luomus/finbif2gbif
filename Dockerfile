@@ -8,6 +8,7 @@ RUN  apk add --no-cache --update-cache \
       -t "curl-dev libxml2-dev linux-headers" \
       -a "libxml2" \
       callr \
+      config \
       covr \
       digest \
       DT \
