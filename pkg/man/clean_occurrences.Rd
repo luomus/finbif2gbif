@@ -4,12 +4,12 @@
 \alias{clean_occurrences}
 \title{Clean occurrences}
 \usage{
-clean_occurrences(archive, filter)
+clean_occurrences(archive, filters)
 }
 \arguments{
 \item{archive}{Character. Path to the archive.}
 
-\item{filter}{List.}
+\item{filters}{List.}
 }
 \value{
 The status value returned by the zip command, invisibly.

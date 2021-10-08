@@ -3,7 +3,7 @@
 #' Clean occurrence files in an archive.
 #'
 #' @param archive Character. Path to the archive.
-#' @param filter List.
+#' @param filters List.
 #'
 #' @return The status value returned by the zip command, invisibly.
 #' @examples \dontrun{
@@ -17,10 +17,10 @@
 
 clean_occurrences <- function(
   archive,
-  filter
+  filters
 ) {
 
-  current_files <- vapply(filter, get_occurrence_file, character(1L))
+  current_files <- vapply(filters, get_file_name, character(1L))
 
   old_files <- utils::unzip(archive, list = TRUE)
 

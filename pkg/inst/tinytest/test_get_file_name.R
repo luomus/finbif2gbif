@@ -1,0 +1,1 @@
+expect_equal(get_file_name("x"), "occurrence_39e71f2d.txt")

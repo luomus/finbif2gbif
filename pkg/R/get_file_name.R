@@ -3,31 +3,25 @@
 #' Get the file name of occurrences in an archive
 #'
 #' @param filter List.
+#' @param select Character.
 #' @param prefix Character.
-#' @param subsets List.
 #'
 #' @return Character. The file name holding occurrence records.
 #' @examples \dontrun{
 #'
-#' get_occurrence_file(list())
+#' get_file_name(list())
 #'
 #' }
 #' @importFrom digest digest
 #' @export
 
-get_occurrence_file <- function(
+get_file_name <- function(
   filter,
-  prefix = "occurrence",
-  subsets = config::get("subsets")
+  select = config::get("select"),
+  prefix = "occurrence"
 ) {
 
-  suffix <- ""
-
-  if (length(subsets) > 1L) {
-
-    suffix <- paste0("_", digest::digest(filter, "xxhash32"))
-
-  }
+  suffix <- paste0("_", digest::digest(list(filter, select), "xxhash32"))
 
   paste0(prefix, suffix, ".txt")
 
