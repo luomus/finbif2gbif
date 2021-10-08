@@ -25,7 +25,7 @@ count_occurrences <- function(
 #' @noRd
 #' @export
 
-count_occurrences.character <- function(
+count_occurrences.archive_file <- function(
   x,
   file,
   ...
