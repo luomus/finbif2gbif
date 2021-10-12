@@ -4,6 +4,8 @@ RUN  apk add --no-cache --update-cache \
        --repository http://nl.alpinelinux.org/alpine/v3.12/main \
        curl \
        zip \
+       tzdata \
+  && export TZDIR=/usr/share/zoneinfo \
   && installr -d \
       -t "curl-dev libxml2-dev linux-headers" \
       -a "libxml2" \
