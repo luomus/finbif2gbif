@@ -12,6 +12,7 @@ RUN  apk add --no-cache --update-cache \
       covr \
       digest \
       DT \
+      future \
       htmltools \
       httr \
       logger \
