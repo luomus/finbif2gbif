@@ -60,7 +60,6 @@ COPY init.R /home/user/init.R
 COPY api.R /home/user/api.R
 COPY finbif2gbif.R /home/user/finbif2gbif.R
 COPY config.yml /home/user/config.yml
-COPY .Rprofile /home/user/.Rprofile
 COPY favicon.ico /home/user/favicon.ico
 COPY pkg /home/user/f2g
 
@@ -74,6 +73,8 @@ RUN  R -e "remotes::install_local('f2g', NULL, FALSE, 'never')" \
        /home/user/coverage \
   && chgrp -R 0 /home/user \
   && chmod -R g=u /home/user /etc/passwd
+
+COPY .Rprofile /home/user/.Rprofile
 
 USER 1000
 
