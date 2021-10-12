@@ -6,7 +6,7 @@ for (collection in sample(finbif_collections)) {
 
   Sys.setenv(R_CONFIG_ACTIVE = collection)
 
-  if (skip_collection()) next
+  if (skip_collection(collection)) next
 
   archive <- get_archive_path(collection)
 

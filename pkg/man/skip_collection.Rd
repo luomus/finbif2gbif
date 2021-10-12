@@ -4,9 +4,11 @@
 \alias{skip_collection}
 \title{Skip collection}
 \usage{
-skip_collection(skip = !config::get("enabled"))
+skip_collection(enabled = config::get("enabled"), collection_id)
 }
 \arguments{
+\item{collection_id}{Character. Collection id.}
+
 \item{skip}{Logical.}
 }
 \value{
