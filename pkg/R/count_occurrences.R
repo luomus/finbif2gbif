@@ -23,6 +23,19 @@ count_occurrences <- function(
 }
 
 #' @noRd
+#' @importFrom finbif finbif_occurrence
+#' @export
+
+count_occurrences.default <- function(
+  x,
+  ...
+) {
+
+  finbif::finbif_occurrence(filter = x, count_only = TRUE)
+
+}
+
+#' @noRd
 #' @export
 
 count_occurrences.archive_file <- function(
@@ -55,18 +68,5 @@ count_occurrences.archive_file <- function(
     0L
 
   }
-
-}
-
-#' @noRd
-#' @importFrom finbif finbif_occurrence
-#' @export
-
-count_occurrences.list <- function(
-  x,
-  ...
-) {
-
-  finbif::finbif_occurrence(filter = x, count_only = TRUE)
 
 }
