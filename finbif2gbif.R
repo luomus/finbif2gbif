@@ -1,5 +1,5 @@
 library(future)
-plan(multicore = 2L)
+plan("multicore", workers = 2L)
 
 finbif_collections <- get_collection_ids()
 
