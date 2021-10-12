@@ -58,6 +58,7 @@ RUN  R -e "remotes::install_github('luomus/finbif@dev')"
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY init.R /home/user/init.R
 COPY api.R /home/user/api.R
+COPY finbif2gbif.R /home/user/finbif2gbif.R
 COPY favicon.ico /home/user/favicon.ico
 COPY pkg /home/user/f2g
 
