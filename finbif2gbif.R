@@ -1,6 +1,3 @@
-library(future)
-plan("multicore", workers = 2L)
-
 finbif_collections <- get_collection_ids()
 
 gbif_datasets <- get_gbif_datasets()
