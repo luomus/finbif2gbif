@@ -2,8 +2,8 @@
 #'
 #' Should the collection be skipped?
 #'
-#' @param skip Logical.
 #' @param collection_id Character. Collection id.
+#' @param enabled Logical.
 #'
 #' @return Logical.
 #' @examples \dontrun{
@@ -14,8 +14,8 @@
 #' @export
 
 skip_collection <- function(
-  enabled = config::get("enabled"),
-  collection_id
+  collection_id,
+  enabled = config::get("enabled")
 ) {
 
   zero_records <- count_occurrences(list(collection = collection_id)) < 1L

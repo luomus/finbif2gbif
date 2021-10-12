@@ -6,4 +6,4 @@ options(
   finbif_cache_path = getwd()
 )
 
-expect_true(skip_collection(FALSE, "HR.139"))
+expect_true(skip_collection("HR.139", FALSE))
