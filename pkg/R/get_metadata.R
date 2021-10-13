@@ -46,7 +46,20 @@ get_metadata <- function(
     licenses[[m[["intellectual_rights"]]]]
   )
 
-  m[["language"]] <- ifelse(is.na(m[["language"]]), "eng", m[["language"]])
+  languages <- c(
+    "english" = "eng",
+    "estonian" = "est",
+    "finnish" = "fin",
+    "mixed" = "mul",
+    "russion" = "rus",
+    "swedish" = "swe"
+  )
+
+  m[["language"]] <- ifelse(
+    is.na(m[["language"]]),
+    "eng",
+    languages[[m[["language"]]]]
+  )
 
   c(
     list(
