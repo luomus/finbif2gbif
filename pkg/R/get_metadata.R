@@ -40,7 +40,11 @@ get_metadata <- function(
       "All Rights Reserved"
   )
 
-  m[["intellectual_rights"]] <- licenses[[m[["intellectual_rights"]]]]
+  m[["intellectual_rights"]] <- ifelse(
+    is.na(m[["intellectual_rights"]]),
+    "",
+    licenses[[m[["intellectual_rights"]]]]
+  )
 
   m[["language"]] <- ifelse(is.na(m[["language"]]), "eng", m[["language"]])
 
