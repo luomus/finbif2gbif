@@ -20,7 +20,7 @@ get_registration <- function(
 
   ans <- vapply(datasets, has_identifier, logical(1L), collection_id)
 
-  ans <- which(ans)
+  ans <- which(ans)[[1L]]
 
   if (length(ans) > 0L) {
 
@@ -44,6 +44,10 @@ get_registration <- function(
 
   } else {
 
+    message(
+      sprintf("[INFO] Collection %s has not been registered", collection_id)
+    )
+
     ans <- NULL
 
   }
@@ -56,7 +60,7 @@ has_identifier <- function(x, collection_id) {
 
   x <- vapply(x[["identifiers"]], getElement, character(1L), "identifier")
 
-  x <- vapply(x, identical, logical(1L), collection_id)
+  x <- vapply(x, identical, logical(1L), as.character(collection_id))
 
   any(x)
 
