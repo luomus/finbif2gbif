@@ -18,11 +18,11 @@ publish_archive <- function(
   dir = "archive"
 ) {
 
-  file.copy(
-    staged_archive,
-    file.path(dir, basename(staged_archive)),
-    overwrite = TRUE
-  )
+  archive <- file.path(dir, basename(staged_archive))
+
+  file.copy(staged_archive, archive, overwrite = TRUE)
+
+  message(sprintf("[INFO] %s published to %s", staged_archive, archive))
 
   unlink(staged_archive)
 

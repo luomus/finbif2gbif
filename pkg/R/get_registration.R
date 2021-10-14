@@ -32,6 +32,16 @@ get_registration <- function(
       last_mod = as.Date(datasets[[ans]][["modified"]])
     )
 
+    message(
+      sprintf(
+        "[INFO] Collection %s registered as %s on %s and last modified on %s",
+        collection_id,
+        attr(ans, "key"),
+        attr(ans, "created"),
+        attr(ans, "last_mod")
+      )
+    )
+
   } else {
 
     ans <- NULL

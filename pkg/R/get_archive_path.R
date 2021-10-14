@@ -18,6 +18,16 @@ get_archive_path <- function(
   dir = "archives"
 ) {
 
-  structure(sprintf("%s/%s.zip", dir, collection_id), class = "archive_file")
+  archive_path <- sprintf("%s/%s.zip", dir, collection_id)
+
+  message(
+    sprintf(
+      "[INFO] Collection %s will be published to %s",
+      collection_id,
+      archive_path
+    )
+  )
+
+  structure(archive_path, class = "archive_file")
 
 }

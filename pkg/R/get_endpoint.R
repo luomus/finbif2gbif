@@ -19,9 +19,19 @@ get_endpoint <- function(
   url_base = Sys.getenv("ENDPOINTS")
 ) {
 
-  list(
+  ans <- list(
     type = "DWC_ARCHIVE",
     url = sprintf("%s/%s.zip", url_base, collection_id)
   )
+
+  message(
+    sprintf(
+      "[INFO] Collection %s archive has publication endpoint %s",
+      collection_id,
+      ans$url
+    )
+  )
+
+  ans
 
 }

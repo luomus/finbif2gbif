@@ -35,6 +35,10 @@ get_collection_ids <- function(
 
   }
 
+  message(
+    sprintf("[INFO] %s FinBIF collections set for publication", length(ans))
+  )
+
   ans
 
 }

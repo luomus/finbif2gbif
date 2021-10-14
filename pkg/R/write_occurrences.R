@@ -46,6 +46,14 @@ write_occurrences <- function(
     fileEncoding = "UTF-8"
   )
 
+  message(
+    sprintf(
+      "[INFO] Writing occurrence records to %s in archive %s",
+      file_name,
+      archive
+    )
+  )
+
   utils::zip(archive, file_name, "-jqr9X")
 
 }

@@ -46,6 +46,15 @@ send_gbif_dataset_metadata <- function(
 
   uuid <- httr::content(res, "text", encoding = "UTF-8")
 
-  jsonlite::fromJSON(uuid, simplifyVector = FALSE)
+  uuid <- jsonlite::fromJSON(uuid, simplifyVector = FALSE)
+
+  message(
+    sprintf(
+      "[INFO] Collection metadata pushed to GBIF and assigned uuid: %s",
+      uuid
+    )
+  )
+
+  uuid
 
 }

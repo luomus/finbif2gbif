@@ -20,6 +20,23 @@ skip_collection <- function(
 
   zero_records <- count_occurrences(list(collection = collection_id)) < 1L
 
-  !enabled || zero_records
+  ans <- !enabled || zero_records
+
+  if (ans) {
+
+    message(
+      sprintf("[INFO] FinBIF collection %s ready for archiving", collection_id)
+    )
+
+  } else {
+
+    message(
+      sprintf("[INFO] FinBIF collection %s will be skipped", collection_id)
+    )
+
+
+  }
+
+  ans
 
 }

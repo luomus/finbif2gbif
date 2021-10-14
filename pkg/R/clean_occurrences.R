@@ -30,6 +30,14 @@ clean_occurrences <- function(
 
   if (length(obsolete_files) > 0) {
 
+    message(
+      sprintf(
+        "[INFO] Removing obsolete occurrence files %s from %s",
+        paste(obsolete_files, collapse = " "),
+        archive
+      )
+    )
+
     ans <- utils::zip(archive, obsolete_files, "-djqr9X")
 
   }

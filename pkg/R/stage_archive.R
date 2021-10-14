@@ -26,6 +26,8 @@ stage_archive <- function(
 
   }
 
+  message(sprintf("[INFO] %s will be staged at %s", archive, staged_archive))
+
   structure(staged_archive, class = "archive_file")
 
 }

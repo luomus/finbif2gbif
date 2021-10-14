@@ -56,6 +56,13 @@ get_gbif_datasets <- function(
   datasets <- httr::content(res, "text", encoding = "UTF-8")
   datasets <- jsonlite::fromJSON(datasets, simplifyVector = FALSE)
 
+  message(
+    sprintf(
+      "[INFO] %s FinBIF collections have been already published",
+      length(datasets[["results"]])
+    )
+  )
+
   datasets[["results"]]
 
 }

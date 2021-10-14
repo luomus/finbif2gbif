@@ -50,6 +50,14 @@ send_gbif_dataset_endpoint <- function(
 
   stopifnot("Post failed. Could not send endpoint to GBIF" = ok)
 
+  message(
+    sprintf(
+      "[INFO] GBIF dataset %s assigned endpoint %s",
+      uuid,
+      endpoint
+    )
+  )
+
   invisible(NULL)
 
 }

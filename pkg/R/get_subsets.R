@@ -38,6 +38,14 @@ get_subsets <- function(
 
   }
 
+  message(
+    sprintf(
+      "[INFO] Collection %s to be partitioned into %s subsets",
+      collection_id,
+      n_subsets
+    )
+  )
+
   subsets
 
 }

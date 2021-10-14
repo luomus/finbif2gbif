@@ -61,6 +61,12 @@ get_metadata <- function(
     languages[[m[["language"]]]]
   )
 
+  message(
+    sprintf(
+      "[INFO] Metadata for collection %s retrieved from FinBIF", collection_id
+    )
+  )
+
   c(
     list(
       publishingOrganizationKey = org,

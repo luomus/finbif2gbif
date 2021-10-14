@@ -35,7 +35,7 @@ archive_occurrences <- function(
 
   n <- count_occurrences(filter)
 
-  occ <- get_occurrences(filter, select, n, quiet = TRUE)
+  occ <- get_occurrences(filter, select, n, quiet = quiet)
 
   write_occurrences(occ, archive, file_name)
 

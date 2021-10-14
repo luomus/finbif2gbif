@@ -31,7 +31,11 @@ count_occurrences.default <- function(
   ...
 ) {
 
-  finbif::finbif_occurrence(filter = x, count_only = TRUE)
+  n <- finbif::finbif_occurrence(filter = x, count_only = TRUE)
+
+  message(sprintf("[INFO] Found %s occurrence records in FinBIF", n))
+
+  n
 
 }
 
@@ -61,12 +65,18 @@ count_occurrences.archive_file <- function(
 
     }
 
-    nlines - 1L
+    n <- nlines - 1L
 
   } else {
 
-    0L
+    n <- 0L
 
   }
+
+  message(
+    sprintf("[INFO] Found %s records in archive, %s; file, %s", n, x, file)
+  )
+
+  n
 
 }

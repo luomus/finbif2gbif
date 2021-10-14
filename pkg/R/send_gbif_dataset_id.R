@@ -48,6 +48,14 @@ send_gbif_dataset_id <- function(
 
   stopifnot("Post failed. Could not send identifier to GBIF" = ok)
 
+  message(
+    sprintf(
+      "[INFO] GBIF dataset %s assigned FinBIF identifier %s",
+      uuid,
+      id
+    )
+  )
+
   invisible(NULL)
 
 }
