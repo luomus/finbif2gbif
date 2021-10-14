@@ -20,9 +20,11 @@ get_registration <- function(
 
   ans <- vapply(datasets, has_identifier, logical(1L), collection_id)
 
-  ans <- which(ans)[[1L]]
+  ans <- which(ans)
 
   if (length(ans) > 0L) {
+
+    ans <- ans[[1L]]
 
     ans <- structure(
       ans,
