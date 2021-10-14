@@ -28,11 +28,18 @@ get_subsets <- function(
 
   subsets <- list()
 
+  txt <- "subsets"
+
   for (subset in seq_len(n_subsets)) {
 
     partition <- list(partition = c(subset, n_subsets))
 
-    if (identical(n_subsets, 1L)) partition <- NULL
+    if (identical(n_subsets, 1L)) {
+
+      partition <- NULL
+      txt <- "subset"
+
+    }
 
     subsets[[subset]] <- c(filters, partition)
 
@@ -40,9 +47,10 @@ get_subsets <- function(
 
   message(
     sprintf(
-      "[INFO] Collection %s to be partitioned into %s subsets",
+      "[INFO] Collection %s to be partitioned into %s %s",
       collection_id,
-      n_subsets
+      n_subsets,
+      txt
     )
   )
 
