@@ -4,12 +4,18 @@
 \alias{get_subsets}
 \title{Get subsets}
 \usage{
-get_subsets(collection_id, subsets = config::get("subsets"))
+get_subsets(
+  collection_id,
+  filters = config::get("filters"),
+  nmax = config::get("nmax")
+)
 }
 \arguments{
 \item{collection_id}{Character. ID string of FinBIF collection.}
 
-\item{subsets}{List.}
+\item{nmax}{Integer. Maximum allowed size of subset.}
+
+\item{filter}{List.}
 }
 \value{
 A list.

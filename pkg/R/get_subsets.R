@@ -3,7 +3,8 @@
 #' Get subset filters for a collection.
 #'
 #' @param collection_id Character. ID string of FinBIF collection.
-#' @param subsets List.
+#' @param filter List.
+#' @param nmax Integer. Maximum allowed size of subset.
 #'
 #' @return A list.
 #' @examples \dontrun{
@@ -15,20 +16,26 @@
 
 get_subsets <- function(
   collection_id,
-  subsets = config::get("subsets")
+  filters = config::get("filters"),
+  nmax = config::get("nmax")
 ) {
 
-   if (is.null(subsets)) {
+  filters <- c(collection = collection_id, filters)
 
-     subsets <- list(NULL)
+  n <- count_occurrences(filters)
 
-   }
+  n_subsets <- pmax(n %/% as.integer(nmax), 1L)
 
-  collection <- c(collection = collection_id)
+  subsets <- list()
 
-  for (subset in seq(subsets)) {
+  for (subset in seq_len(n_subsets)) {
 
-    subsets[[subset]] <- c(collection, subsets[[subset]])
+    partition <- list(partition = c(subset, n_subsets))
+
+    if (identical(n_subsets, 1L)) partition <- NULL
+
+    subsets[[subset]] <- c(filters, partition)
+
   }
 
   subsets
