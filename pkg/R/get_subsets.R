@@ -24,7 +24,7 @@ get_subsets <- function(
 
   n <- count_occurrences(filters)
 
-  n_subsets <- pmax(n %/% as.integer(nmax), 1L)
+  n_subsets <- n %/% as.integer(nmax) + 1L
 
   subsets <- list()
 
