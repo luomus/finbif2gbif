@@ -10,6 +10,8 @@ for (collection in sample(finbif_collections)) {
 
   archive <- get_archive_path(collection)
 
+  archive <- stage_archive(archive)
+
   subsets <- get_subsets(collection)
 
   write_meta(archive, subsets)
@@ -31,6 +33,8 @@ for (collection in sample(finbif_collections)) {
     }
 
   }
+
+  publish_archive(archive)
 
   registration <- get_registration(gbif_datasets, collection)
 

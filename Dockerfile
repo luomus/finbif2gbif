@@ -72,6 +72,7 @@ WORKDIR /home/user
 RUN  R -e "remotes::install_local('f2g', NULL, FALSE, 'never')" \
   && mkdir -p /home/user/logs \
        /home/user/archives \
+       /home/user/stage \
        /home/user/coverage \
   && chgrp -R 0 /home/user \
   && chmod -R g=u /home/user /etc/passwd
