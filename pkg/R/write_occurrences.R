@@ -49,7 +49,7 @@ write_occurrences <- function(
   message(
     sprintf(
       "[INFO] Writing occurrence records to %s in archive %s",
-      file_name,
+      basename(file_name),
       archive
     )
   )
