@@ -4,7 +4,7 @@
 \alias{publish_archive}
 \title{Get archive file path}
 \usage{
-publish_archive(staged_archive, dir = "archive")
+publish_archive(staged_archive, dir = "archives")
 }
 \arguments{
 \item{staged_archive}{Character. Path to the staged archive.}
