@@ -23,10 +23,6 @@ get_file_name <- function(
 
   suffix <- paste0("_", digest::digest(list(filter, select), "xxhash32"))
 
-  ans <- paste0(prefix, suffix, ".txt")
-
-  message("[INFO] Processing occurrence records file ", ans)
-
-  ans
+  paste0(prefix, suffix, ".txt")
 
 }
