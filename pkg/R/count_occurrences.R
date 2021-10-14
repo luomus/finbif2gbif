@@ -33,7 +33,13 @@ count_occurrences.default <- function(
 
   n <- finbif::finbif_occurrence(filter = x, count_only = TRUE)
 
-  message(sprintf("[INFO] Found %s occurrence records in FinBIF", n))
+  message(
+    sprintf(
+      "[INFO] Found %s occurrence records in FinBIF for {%s}",
+      n,
+      deparse(dput(x))
+    )
+  )
 
   n
 
