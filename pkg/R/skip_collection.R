@@ -25,15 +25,14 @@ skip_collection <- function(
   if (ans) {
 
     message(
-      sprintf("[INFO] FinBIF collection %s ready for archiving", collection_id)
+      sprintf("[INFO] FinBIF collection %s will be skipped", collection_id)
     )
 
   } else {
 
     message(
-      sprintf("[INFO] FinBIF collection %s will be skipped", collection_id)
+      sprintf("[INFO] FinBIF collection %s ready for archiving", collection_id)
     )
-
 
   }
 
