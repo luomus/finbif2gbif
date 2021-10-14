@@ -15,7 +15,7 @@
 
 publish_archive <- function(
   staged_archive,
-  dir = "archive"
+  dir = "archives"
 ) {
 
   archive <- file.path(dir, basename(staged_archive))
