@@ -32,7 +32,7 @@ get_subsets <- function(
 
   for (subset in seq_len(n_subsets)) {
 
-    partition <- list(partition = c(subset, n_subsets))
+    partition <- list(subset = c(subset, n_subsets))
 
     if (identical(n_subsets, 1L)) {
 
