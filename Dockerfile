@@ -66,6 +66,7 @@ COPY favicon.ico /home/user/favicon.ico
 COPY pkg /home/user/f2g
 
 ENV  HOME /home/user
+ENV  OPENBLAS_NUM_THREADS 1
 
 WORKDIR /home/user
 
