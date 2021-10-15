@@ -49,4 +49,4 @@ p$registerHooks(
   )
 )
 
-p$run(host = "0.0.0.0", port = 8000L, quiet = TRUE)
+p$run(host = "0.0.0.0", port = 8000L)
