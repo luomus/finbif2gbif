@@ -16,7 +16,7 @@ default:
   - kingdom
   - scientificName
   - taxonRank
-  nmax: 1e5
+  nmax: 5e4
   filters:
 
 test:
