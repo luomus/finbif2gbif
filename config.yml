@@ -16,7 +16,7 @@ default:
   - kingdom
   - scientificName
   - taxonRank
-  nmax: 5e4
+  nmax: 2.5e4
   filters:
 
 HR.447:
