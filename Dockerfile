@@ -13,7 +13,8 @@ RUN  install2.r \
        rapidoc \
        tinytest \
        xml2 \
-       webfakes
+       webfakes \
+       logger
 
 RUN  sed -i 's/RapiDoc/FinBIF to GBIF/g' \
       /usr/local/lib/R/site-library/rapidoc/dist/index.html
