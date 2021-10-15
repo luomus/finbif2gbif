@@ -10,11 +10,12 @@ RUN  install2.r \
        DT \
        future \
        htmltools \
+       logger \
        rapidoc \
+       tictoc \
        tinytest \
        xml2 \
-       webfakes \
-       logger
+       webfakes
 
 RUN  sed -i 's/RapiDoc/FinBIF to GBIF/g' \
       /usr/local/lib/R/site-library/rapidoc/dist/index.html
