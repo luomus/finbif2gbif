@@ -18,7 +18,7 @@ skip_collection <- function(
   enabled = config::get("enabled")
 ) {
 
-  id <- as.character(id)
+  id <- as.character(collection_id)
 
   zero_records <- count_occurrences(list(collection = as.character(id))) < 1L
 
