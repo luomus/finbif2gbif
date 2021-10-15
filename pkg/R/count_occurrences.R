@@ -35,9 +35,9 @@ count_occurrences.default <- function(
 
   message(
     sprintf(
-      "[INFO] Found %s occurrence records in FinBIF for {%s}",
+      "[INFO] Found %s occurrence records in FinBIF for filter: %s",
       n,
-      deparse(dput(x))
+      capture.output(dput(x))
     )
   )
 
