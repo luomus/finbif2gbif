@@ -1,4 +1,4 @@
-FROM ghcr.io/r-hub/r-minimal/r-minimal:4.1.0
+FROM ghcr.io/r-hub/r-minimal/r-minimal:4.1.1
 
 RUN  apk add --no-cache --update-cache \
        --repository http://nl.alpinelinux.org/alpine/v3.12/main \
@@ -34,11 +34,11 @@ RUN  apk add --no-cache --update-cache \
        automake=1.16.2-r0 \
        curl-dev \
        g++ \
-  && curl -o httpuv_1.6.2.tar.gz \
-          -L https://api.github.com/repos/rstudio/httpuv/tarball/v1.6.2 \
+  && curl -o httpuv_1.6.3.tar.gz \
+          -L https://api.github.com/repos/rstudio/httpuv/tarball/v1.6.3 \
   && mkdir -p httpuv \
-  && tar xf httpuv_1.6.2.tar.gz -C httpuv --strip-components 1 \
-  && rm -rf httpuv_1.6.2.tar.gz \
+  && tar xf httpuv_1.6.3.tar.gz -C httpuv --strip-components 1 \
+  && rm -rf httpuv_1.6.3.tar.gz \
   && sed -i '67,68d' httpuv/src/Makevars \
   && R -e "remotes::install_local('httpuv', NULL, FALSE, 'never')" \
   && rm -rf httpuv \
