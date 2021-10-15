@@ -22,9 +22,9 @@ get_subsets <- function(
 
   filters <- c(collection = collection_id, filters)
 
-  n <- count_occurrences(filters)
+  n <- finbif::finbif_occurrence(filter = filters, count_only = TRUE)
 
-  n_subsets <- n %/% as.integer(nmax) + 1L
+  n_subsets <- n %/% as.integer(nmax) + 1
 
   subsets <- list()
 
@@ -34,7 +34,7 @@ get_subsets <- function(
 
     partition <- list(subset = c(subset, n_subsets))
 
-    if (identical(n_subsets, 1L)) {
+    if (identical(n_subsets, 1)) {
 
       partition <- NULL
       txt <- "subset"
