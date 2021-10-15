@@ -22,7 +22,7 @@ res <- tryCatch(
 
       clean_occurrences(archive, subsets)
 
-      for (subset in sample(subsets)) {
+      for (subset in subsets) {
 
         file <- get_file_name(subset)
 
