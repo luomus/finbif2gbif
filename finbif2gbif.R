@@ -1,55 +1,68 @@
-finbif_collections <- get_collection_ids()
+res <- tryCatch(
 
-gbif_datasets <- get_gbif_datasets()
+  {
 
-for (collection in sample(finbif_collections)) {
+    finbif_collections <- get_collection_ids()
 
-  Sys.setenv(R_CONFIG_ACTIVE = collection)
+    gbif_datasets <- get_gbif_datasets()
 
-  if (skip_collection(collection)) next
+    for (collection in sample(finbif_collections)) {
 
-  archive <- get_archive_path(collection)
+      Sys.setenv(R_CONFIG_ACTIVE = collection)
 
-  archive <- stage_archive(archive)
+      if (skip_collection(collection)) next
 
-  subsets <- get_subsets(collection)
+      archive <- get_archive_path(collection)
 
-  write_meta(archive, subsets)
+      archive <- stage_archive(archive)
 
-  clean_occurrences(archive, subsets)
+      subsets <- get_subsets(collection)
 
-  for (subset in sample(subsets)) {
+      write_meta(archive, subsets)
 
-    file <- get_file_name(subset)
+      clean_occurrences(archive, subsets)
 
-    unequal <- count_occurrences(archive, file) != count_occurrences(subset)
+      for (subset in sample(subsets)) {
 
-    outdated <- last_mod(archive, file) > last_mod(subset)
+        file <- get_file_name(subset)
 
-    if (unequal || outdated) {
+        unequal <- count_occurrences(archive, file) != count_occurrences(subset)
 
-      archive_occurrences(archive, file, subset)
+        outdated <- last_mod(archive, file) > last_mod(subset)
+
+        if (unequal || outdated) {
+
+          archive_occurrences(archive, file, subset)
+
+        }
+
+      }
+
+      publish_archive(archive)
+
+      registration <- get_registration(gbif_datasets, collection)
+
+      if (is.null(registration)) {
+
+        uuid <- send_gbif_dataset_metadata(get_metadata(collection))
+
+        send_gbif_dataset_endpoint(get_endpoint(collection), uuid)
+
+        send_gbif_dataset_id(collection, uuid)
+
+      } else if (last_mod(collection) > last_mod(registration)) {
+
+        update_gbif_dataset_metadata(get_metadata(collection), registration)
+
+      }
 
     }
 
-  }
+    "true"
 
-  publish_archive(archive)
+  },
+  error = function(e) "false"
+)
 
-  registration <- get_registration(gbif_datasets, collection)
-
-  if (is.null(registration)) {
-
-    uuid <- send_gbif_dataset_metadata(get_metadata(collection))
-
-    send_gbif_dataset_endpoint(get_endpoint(collection), uuid)
-
-    send_gbif_dataset_id(collection, uuid)
-
-  } else if (last_mod(collection) > last_mod(registration)) {
-
-    update_gbif_dataset_metadata(get_metadata(collection), registration)
-
-  }
-
-}
+cat(res, file = "success.txt")
+cat(format(Sys.time(), usetz = TRUE), file = "last-update.txt")
