@@ -10,6 +10,7 @@ expect_equal(
     "occurrence.txt",
     list(collection = "HR.139"),
     c("occurrenceID", "basisOfRecord"),
+    10L,
   ),
   0L
 )

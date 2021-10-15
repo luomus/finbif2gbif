@@ -10,6 +10,7 @@
 #'   as a shortcut for this set. Variables can be deselected by prepending a `-`
 #'   to the variable name. If only deselects are specified the default set of
 #'   variables without the deselection will be returned.
+#' @param n Integer. How many records to download/import.
 #' @param quiet Logical. Suppress the progress indicator for multipage
 #'   downloads.
 #'
@@ -30,12 +31,12 @@ archive_occurrences <- function(
   file_name,
   filter,
   select = config::get("fields"),
+  n = config::get("nmax"),
   quiet = TRUE
 ) {
 
-  n <- count_occurrences(filter)
 
-  occ <- get_occurrences(filter, select, n, quiet = quiet)
+  occ <- get_occurrences(filter, select, as.integer(n), quiet = quiet)
 
   write_occurrences(occ, archive, file_name)
 
