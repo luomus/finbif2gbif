@@ -309,7 +309,7 @@ objects:
           - name: FINBIF_API
             value: ${DEV_FINBIF_API}
           - name: GBIF_USER
-            value: ${DEV_GBIF_USER}
+            value: ${GBIF_USER}
           - name: GBIF_ORG
             value: ${DEV_GBIF_ORG}
           - name: GBIF_INSTALLATION
