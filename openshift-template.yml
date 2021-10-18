@@ -39,7 +39,7 @@ parameters:
     value: dev
   - name: STORAGE
     required: true
-    value: "10Gi"
+    value: "12Gi"
   - name: REPS
     required: true
     value: "1"
@@ -436,7 +436,7 @@ objects:
     persistentVolumeReclaimPolicy: Retain
     resources:
       requests:
-        storage: "10Mi"
+        storage: "1Gi"
 - kind: PersistentVolumeClaim
   apiVersion: v1
   metadata:
@@ -447,7 +447,7 @@ objects:
     persistentVolumeReclaimPolicy: Retain
     resources:
       requests:
-        storage: "10Mi"
+        storage: "1Gi"
 - kind: Service
   apiVersion: v1
   metadata:
