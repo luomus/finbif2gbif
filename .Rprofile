@@ -9,5 +9,9 @@ options(
   finbif_use_cache = FALSE
 )
 
-utils::assignInNamespace("var_names", finbif:::var_names_test, "finbif")
-utils::assignInNamespace("filter_names", finbif:::filter_names_test, "finbif")
+if (identical(Sys.getenv("BRANCH"), "dev")) {
+
+  utils::assignInNamespace("var_names", finbif:::var_names_test, "finbif")
+  utils::assignInNamespace("filter_names", finbif:::filter_names_test, "finbif")
+
+}
