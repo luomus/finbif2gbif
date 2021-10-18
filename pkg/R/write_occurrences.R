@@ -29,8 +29,8 @@ write_occurrences <- function(
   on.exit(options(op))
 
   tmpdir <- tempfile()
-
   dir.create(tmpdir)
+  on.exit(unlink(tmpdir, TRUE), add = TRUE)
 
   file_name <- paste0(tmpdir, "/", file_name)
 
