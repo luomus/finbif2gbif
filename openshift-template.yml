@@ -303,7 +303,7 @@ objects:
           - name: BRANCH
             value: ${DEV_BRANCH}
           - name: ENDPOINTS
-            value: https://${HOST}/${ENDPOINTS}
+            value: https://dev-${HOST}/${ENDPOINTS}
           - name: FINBIF_ACCESS_TOKEN
             value: ${DEV_FINBIF_ACCESS_TOKEN}
           - name: FINBIF_API
