@@ -30,7 +30,7 @@ res <- tryCatch(
 
         unequal <- count_occurrences(archive, file) != count_occurrences(subset)
 
-        outdated <- last_mod(archive, file) > last_mod(subset)
+        outdated <- last_mod(subset) > last_mod(archive, file)
 
         if (unequal || outdated) {
 
