@@ -18,18 +18,10 @@ bug, create an associated issue and illustrate the bug with a minimal
 ### Pull request process
 
 *  We recommend that you create a Git branch for each pull request (PR).
-*  Look at the build status before and after making changes.
-The `README` contains badges for any continuous integration services used
-by the package.
 *  New code should follow the style used in the project.
 *  We use [roxygen2](https://cran.r-project.org/package=roxygen2), with
 [Markdown syntax](https://cran.r-project.org/web/packages/roxygen2/vignettes/markdown.html),
 for documentation.
-*  We use [testthat](https://cran.r-project.org/package=testthat). Contributions
-with test cases included are easier to accept.
-*  For user-facing changes, add a bullet to the top of `NEWS.md` below the
-current development version header describing the changes made followed by your
-username, and links to relevant issue(s)/PR(s).
 
 ### Code of Conduct
 
