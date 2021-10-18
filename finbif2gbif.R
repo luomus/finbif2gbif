@@ -64,5 +64,5 @@ res <- tryCatch(
   error = function(e) "false"
 )
 
-cat(res, file = "success.txt")
-cat(format(Sys.time(), usetz = TRUE), file = "last-update.txt")
+cat(res, file = "status/success.txt")
+cat(format(Sys.time(), usetz = TRUE), file = "status/last-update.txt")

@@ -10,7 +10,13 @@ parameters:
   - name: APP_PORT
     required: true
     value: "8000"
-  - name: STATUS
+  - name: ARCHIVE_DIR
+    required: true
+    value: /home/user/archive
+  - name: STATUS_DIR
+    required: true
+    value: /home/user/status
+  - name: HEALTH
     required: true
     value: /healthz
   - name: LOG
@@ -33,7 +39,7 @@ parameters:
     value: dev
   - name: STORAGE
     required: true
-    value: "5Gi"
+    value: "10Gi"
   - name: REPS
     required: true
     value: "1"
@@ -167,15 +173,19 @@ objects:
           volumeMounts:
           - mountPath: ${LOG_DIR}
             name: ${LOG}
+          - mountPath: ${ARCHIVE_DIR}
+            name: ${APP}-archive
+          - mountPath: ${STATUS_DIR}
+            name: ${APP}-status
           livenessProbe:
             httpGet:
-              path: ${STATUS}
+              path: ${HEALTH}
               port: ${{APP_PORT}}
             failureThreshold: 5
             periodSeconds: 30
           readinessProbe:
             httpGet:
-              path: ${STATUS}
+              path: ${HEALTH}
               port: ${{APP_PORT}}
             initialDelaySeconds: 5
             periodSeconds: 5
@@ -186,6 +196,12 @@ objects:
         - name: ${LOG}
           persistentVolumeClaim:
             claimName: ${LOG}
+        - name: ${APP}-archive
+          persistentVolumeClaim:
+            claimName: ${APP}-archive
+        - name: ${APP}-status
+          persistentVolumeClaim:
+            claimName: ${APP}-status
     triggers:
     - type: ConfigChange
     - type: ImageChange
@@ -221,15 +237,19 @@ objects:
           volumeMounts:
           - mountPath: ${LOG_DIR}
             name: dev-${LOG}
+          - mountPath: ${ARCHIVE_DIR}
+            name: dev-${APP}-archive
+          - mountPath: ${STATUS_DIR}
+            name: dev-${APP}-status
           livenessProbe:
             httpGet:
-              path: ${STATUS}
+              path: ${HEALTH}
               port: ${{APP_PORT}}
             failureThreshold: 5
             periodSeconds: 30
           readinessProbe:
             httpGet:
-              path: ${STATUS}
+              path: ${HEALTH}
               port: ${{APP_PORT}}
             initialDelaySeconds: 5
             periodSeconds: 5
@@ -242,6 +262,12 @@ objects:
         - name: dev-${LOG}
           persistentVolumeClaim:
             claimName: dev-${LOG}
+        - name: dev-${APP}-archive
+          persistentVolumeClaim:
+            claimName: dev-${APP}-archive
+        - name: dev-${APP}-status
+          persistentVolumeClaim:
+            claimName: dev-${APP}-status
     triggers:
     - type: ConfigChange
     - type: ImageChange
@@ -378,6 +404,50 @@ objects:
     resources:
       requests:
         storage: ${STORAGE}
+- kind: PersistentVolumeClaim
+  apiVersion: v1
+  metadata:
+    name: ${APP}-archive
+  spec:
+    accessModes:
+    - ReadWriteMany
+    persistentVolumeReclaimPolicy: Retain
+    resources:
+      requests:
+        storage: ${STORAGE}
+- kind: PersistentVolumeClaim
+  apiVersion: v1
+  metadata:
+    name: dev-${APP}-archive
+  spec:
+    accessModes:
+    - ReadWriteMany
+    persistentVolumeReclaimPolicy: Retain
+    resources:
+      requests:
+        storage: ${STORAGE}
+- kind: PersistentVolumeClaim
+  apiVersion: v1
+  metadata:
+    name: ${APP}-status
+  spec:
+    accessModes:
+    - ReadWriteMany
+    persistentVolumeReclaimPolicy: Retain
+    resources:
+      requests:
+        storage: "10Mi"
+- kind: PersistentVolumeClaim
+  apiVersion: v1
+  metadata:
+    name: dev-${APP}-status
+  spec:
+    accessModes:
+    - ReadWriteMany
+    persistentVolumeReclaimPolicy: Retain
+    resources:
+      requests:
+        storage: "10Mi"
 - kind: Service
   apiVersion: v1
   metadata:
