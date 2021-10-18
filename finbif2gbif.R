@@ -2,7 +2,7 @@ res <- tryCatch(
 
   {
 
-    tic()
+    start_timer <- tic()
 
     finbif_collections <- get_collection_ids()
 
@@ -58,15 +58,17 @@ res <- tryCatch(
 
       }
 
-      clock <- toc()
+      stop_timer <- toc(quiet = TRUE)
 
-      if (clock$toc - clock$tic > 60 * 60 * 5) {
+      if (stop_timer$toc - start_timer > 60 * 60 * 5) {
 
         message("[INFO] Reached time limit. Job exiting")
 
         break
 
       }
+
+      tic()
 
     }
 
