@@ -37,7 +37,7 @@ count_occurrences.default <- function(
     sprintf(
       "[INFO] Found %s occurrence records in FinBIF for filter: %s",
       n,
-      paste(capture.output(dput(x)), collapse = "")
+      paste(capture.output(dput(as.list(x))), collapse = "")
     )
   )
 
