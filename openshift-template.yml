@@ -636,3 +636,57 @@ objects:
       name: dev-${LOG}
       weight: 100
     wildcardPolicy: None
+- kind: CronJob
+  apiVersion: batch/v1beta1
+  metadata:
+    name: dev-${APP}
+  spec:
+    schedule: "0 0 * * *"
+    concurrencyPolicy: "Forbid"
+    successfulJobsHistoryLimit: 3
+    failedJobsHistoryLimit: 3
+    jobTemplate:
+      spec:
+        template:
+          metadata:
+            labels:
+              app: ${APP}
+          spec:
+            containers:
+            - name: dev-${APP}-job
+              image: dev-${APP}:latest
+              command: ["Rscript",  "finbif2gbif.R"]
+              volumeMounts:
+              - mountPath: ${ARCHIVE_DIR}
+                name: dev-${APP}-archive
+              - mountPath: ${STATUS_DIR}
+                name: dev-${APP}-status
+              env:
+              - name: PAGE_TITLE
+                value: ${APP_TITLE}-dev
+              - name: BRANCH
+                value: ${DEV_BRANCH}
+              - name: ENDPOINTS
+                value: https://dev-${HOST}/${ENDPOINTS}
+              - name: FINBIF_ACCESS_TOKEN
+                value: ${DEV_FINBIF_ACCESS_TOKEN}
+              - name: FINBIF_API
+                value: ${DEV_FINBIF_API}
+              - name: GBIF_USER
+                value: ${GBIF_USER}
+              - name: GBIF_ORG
+                value: ${DEV_GBIF_ORG}
+              - name: GBIF_INSTALLATION
+                value: ${DEV_GBIF_INSTALLATION}
+              - name: GBIF_PASS
+                value: ${DEV_GBIF_PASS}
+              - name: GBIF_API
+                value: ${DEV_GBIF_API}
+            volumes:
+            - name: dev-${APP}-archive
+              persistentVolumeClaim:
+                claimName: dev-${APP}-archive
+            - name: dev-${APP}-status
+              persistentVolumeClaim:
+                claimName: dev-${APP}-status
+            restartPolicy: Never

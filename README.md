@@ -3,5 +3,5 @@
 ## Deploy
 
 ```
-oc new-app -f openshift-template.yml --param-file=.env
+oc process -f openshift-template.yml --param-file=.env | oc create -f -
 ```
