@@ -1,6 +1,7 @@
 library(finbif)
 library(f2g)
 library(future)
+library(tictoc)
 
 plan("multicore", workers = 2L)
 

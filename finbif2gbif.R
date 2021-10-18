@@ -2,6 +2,8 @@ res <- tryCatch(
 
   {
 
+    tic()
+
     finbif_collections <- get_collection_ids()
 
     gbif_datasets <- get_gbif_datasets()
@@ -56,7 +58,19 @@ res <- tryCatch(
 
       }
 
+      clock <- toc()
+
+      if (clock$toc - clock$tic > 60 * 60 * 5) {
+
+        message("[INFO] Reached time limit. Job exiting")
+
+        break
+
+      }
+
     }
+
+    message("[INFO] Job complete")
 
     "true"
 
