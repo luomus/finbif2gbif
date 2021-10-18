@@ -1,24 +1,59 @@
-FROM rstudio/plumber:latest
+FROM ghcr.io/r-hub/r-minimal/r-minimal:4.1.1
+
+RUN  apk add --no-cache --update-cache \
+       --repository http://nl.alpinelinux.org/alpine/v3.12/main \
+       curl \
+       zip \
+       tzdata \
+  && export TZDIR=/usr/share/zoneinfo \
+  && installr -d \
+      -t "curl-dev libxml2-dev linux-headers" \
+      -a "libxml2" \
+      callr \
+      config \
+      covr \
+      digest \
+      DT \
+      future \
+      htmltools \
+      httr \
+      logger \
+      lutz \
+      rapidoc \
+      remotes \
+      tictoc \
+      tinytest \
+      webfakes \
+      withr \
+      xml2 \
+      yaml
+
+RUN  apk add --no-cache --update-cache \
+       --repository http://nl.alpinelinux.org/alpine/v3.12/main \
+       autoconf=2.69-r2 \
+       automake=1.16.2-r0 \
+       curl-dev \
+       g++ \
+  && curl -o httpuv_1.6.3.tar.gz \
+          -L https://api.github.com/repos/rstudio/httpuv/tarball/v1.6.3 \
+  && mkdir -p httpuv \
+  && tar xf httpuv_1.6.3.tar.gz -C httpuv --strip-components 1 \
+  && rm -rf httpuv_1.6.3.tar.gz \
+  && sed -i '67,68d' httpuv/src/Makevars \
+  && R -e "remotes::install_local('httpuv', NULL, FALSE, 'never')" \
+  && rm -rf httpuv \
+  && installr -d \
+      -t "autoconf automake bash curl-dev g++ libsodium-dev linux-headers" \
+      -a "libsodium" \
+      plumber
 
 HEALTHCHECK --interval=1m --timeout=10s \
   CMD curl -sfI -o /dev/null 0.0.0.0:8000/healthz || exit 1
 
-RUN  install2.r \
-       callr \
-       config \
-       covr \
-       DT \
-       future \
-       htmltools \
-       logger \
-       rapidoc \
-       tictoc \
-       tinytest \
-       xml2 \
-       webfakes
+RUN  echo "R_ZIPCMD=${R_ZIPCMD-'/usr/bin/zip'}" >> /usr/local/lib/R/etc/Renviron
 
 RUN  sed -i 's/RapiDoc/FinBIF to GBIF/g' \
-      /usr/local/lib/R/site-library/rapidoc/dist/index.html
+      /usr/local/lib/R/library/rapidoc/dist/index.html
 
 RUN  R -e "remotes::install_github('luomus/finbif@dev')"
 
