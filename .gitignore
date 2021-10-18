@@ -3,6 +3,7 @@
 .RData
 .Ruserdata
 .Renviron
+.env
 cov/
 archives/
 stage/

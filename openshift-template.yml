@@ -45,6 +45,34 @@ parameters:
     value: "1"
   - name: HOST
     required: true
+  - name: ENDPOINTS
+    required: true
+  - name: FINBIF_ACCESS_TOKEN
+    required: true
+  - name: FINBIF_API
+    required: true
+  - name: DEV_FINBIF_ACCESS_TOKEN
+    required: true
+  - name: DEV_FINBIF_API
+    required: true
+  - name: GBIF_USER
+    required: true
+  - name: GBIF_ORG
+    required: true
+  - name: GBIF_INSTALLATION
+    required: true
+  - name: GBIF_PASS
+    required: true
+  - name: GBIF_API
+    required: true
+  - name: DEV_GBIF_ORG
+    required: true
+  - name: DEV_GBIF_INSTALLATION
+    required: true
+  - name: DEV_GBIF_PASS
+    required: true
+  - name: DEV_GBIF_API
+    required: true
   - name: GITHUB_SECRET
     required: true
     generate: expression
@@ -192,6 +220,22 @@ objects:
           env:
           - name: PAGE_TITLE
             value: ${APP_TITLE}
+          - name: ENDPOINTS
+            value: https://${HOST}/${ENDPOINTS}
+          - name: FINBIF_ACCESS_TOKEN
+            value: ${FINBIF_ACCESS_TOKEN}
+          - name: FINBIF_API
+            value: ${FINBIF_API}
+          - name: GBIF_USER
+            value: ${GBIF_USER}
+          - name: GBIF_ORG
+            value: ${GBIF_ORG}
+          - name: GBIF_INSTALLATION
+            value: ${GBIF_INSTALLATION}
+          - name: GBIF_PASS
+            value: ${GBIF_PASS}
+          - name: GBIF_API
+            value: ${GBIF_API}
         volumes:
         - name: ${LOG}
           persistentVolumeClaim:
@@ -258,6 +302,22 @@ objects:
             value: ${APP_TITLE}-dev
           - name: BRANCH
             value: ${DEV_BRANCH}
+          - name: ENDPOINTS
+            value: https://${HOST}/${ENDPOINTS}
+          - name: FINBIF_ACCESS_TOKEN
+            value: ${DEV_FINBIF_ACCESS_TOKEN}
+          - name: FINBIF_API
+            value: ${DEV_FINBIF_API}
+          - name: GBIF_USER
+            value: ${DEV_GBIF_USER}
+          - name: GBIF_ORG
+            value: ${DEV_GBIF_ORG}
+          - name: GBIF_INSTALLATION
+            value: ${DEV_GBIF_INSTALLATION}
+          - name: GBIF_PASS
+            value: ${DEV_GBIF_PASS}
+          - name: GBIF_API
+            value: ${DEV_GBIF_API}
         volumes:
         - name: dev-${LOG}
           persistentVolumeClaim:
