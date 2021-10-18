@@ -22,7 +22,9 @@ get_subsets <- function(
 
   filters <- c(collection = collection_id, filters)
 
-  n <- finbif::finbif_occurrence(filter = filters, count_only = TRUE)
+  n <- finbif::finbif_occurrence(filter = filters, select = "record_id", n = 1L)
+
+  n <- attr(n, "nrec_avl")
 
   n_subsets <- n %/% as.integer(nmax) + 1
 

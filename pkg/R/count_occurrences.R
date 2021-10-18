@@ -31,7 +31,9 @@ count_occurrences.default <- function(
   ...
 ) {
 
-  n <- finbif::finbif_occurrence(filter = x, count_only = TRUE)
+  n <- finbif::finbif_occurrence(filter = x, select = "record_id", n = 1L)
+
+  n <- attr(n, "nrec_avl")
 
   message(
     sprintf(
