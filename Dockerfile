@@ -41,8 +41,7 @@ RUN  R -e "remotes::install_local('f2g', NULL, FALSE, 'never')" \
        /home/user/coverage \
        /home/user/logs \
        /home/user/stage \
-       /home/user/status
-
+       /home/user/status \
   && chgrp -R 0 /home/user \
   && chmod -R g=u /home/user /etc/passwd
 
