@@ -12,7 +12,7 @@ parameters:
     value: "8000"
   - name: ARCHIVE_DIR
     required: true
-    value: /home/user/archive
+    value: /home/user/archives
   - name: STATUS_DIR
     required: true
     value: /home/user/status
