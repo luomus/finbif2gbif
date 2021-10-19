@@ -10,15 +10,27 @@ parameters:
   - name: APP_PORT
     required: true
     value: "8000"
-  - name: ARCHIVE_DIR
+  - name: HOME
     required: true
-    value: /home/user/archives
-  - name: STATUS_DIR
+    value: /home/user
+  - name: ARCHIVE
     required: true
-    value: /home/user/status
+    value: archives
+  - name: STATUS
+    required: true
+    value: status
   - name: HEALTH
     required: true
-    value: /healthz
+    value: healthz
+  - name: LIVENESS_PERIOD
+    required: true
+    value: "30"
+  - name: FAILURE_THRESHOLD
+    required: true
+    value: "5"
+  - name: READINESS_PERIOD
+    required: true
+    value: "5"
   - name: LOG
     required: true
     value: log-monitor
@@ -27,31 +39,47 @@ parameters:
     value: "3838"
   - name: LOG_DIR
     required: true
-    value: /home/user/logs
+    value: logs
+  - name: LOG_HOST
+    required: true
+    value: log
+  - name: GIT_HOST
+    required: true
+    value: https://github.com
   - name: ORG
     required: true
     value: luomus
-  - name: BRANCH
+  - name: PROD
     required: true
     value: main
-  - name: DEV_BRANCH
+  - name: DEV
     required: true
     value: dev
+  - name: TAG
+    required: true
+    value: latest
   - name: STORAGE
     required: true
     value: "12Gi"
+  - name: SMALL_STORAGE
+    required: true
+    value: "1Gi"
   - name: REPS
     required: true
     value: "1"
+  - name: CRON
+    required: true
+    value: job
   - name: CRON_SCHEDULE
     required: true
     value: "0 0 * * *"
   - name: CRON_CMD
     required: true
-    value: ["Rscript",  "finbif2gbif.R"]
-  - name: HOST
+    value: '["Rscript", "finbif2gbif.R"]'
+  - name: CRON_LIMIT
     required: true
-  - name: ENDPOINTS
+    value: "3"
+  - name: HOST
     required: true
   - name: FINBIF_ACCESS_TOKEN
     required: true
@@ -96,12 +124,12 @@ objects:
     output:
       to:
         kind: ImageStreamTag
-        name: ${APP}:latest
+        name: ${APP}:${TAG}
     source:
       type: Git
       git:
-        uri: https://github.com/${ORG}/${APP}.git
-        ref: ${BRANCH}
+        uri: ${GIT_HOST}/${ORG}/${APP}.git
+        ref: ${PROD}
     strategy:
       type: Docker
     triggers:
@@ -112,19 +140,19 @@ objects:
 - kind: BuildConfig
   apiVersion: v1
   metadata:
-    name: dev-${APP}
+    name: ${DEV}-${APP}
     labels:
       app: ${APP}
   spec:
     output:
       to:
         kind: ImageStreamTag
-        name: dev-${APP}:latest
+        name: ${DEV}-${APP}:${TAG}
     source:
       type: Git
       git:
-        uri: https://github.com/${ORG}/${APP}.git
-        ref: ${DEV_BRANCH}
+        uri: ${GIT_HOST}/${ORG}/${APP}.git
+        ref: ${DEV}
     strategy:
       type: Docker
     triggers:
@@ -142,12 +170,12 @@ objects:
     output:
       to:
         kind: ImageStreamTag
-        name: ${LOG}:latest
+        name: ${LOG}:${TAG}
     source:
       type: Git
       git:
-        uri: https://github.com/${ORG}/${LOG}.git
-        ref: ${BRANCH}
+        uri: ${GIT_HOST}/${ORG}/${LOG}.git
+        ref: ${PROD}
     strategy:
       type: Docker
     triggers:
@@ -167,7 +195,7 @@ objects:
 - kind: ImageStream
   apiVersion: v1
   metadata:
-    name: dev-${APP}
+    name: ${DEV}-${APP}
     labels:
       app: ${APP}
   spec:
@@ -189,7 +217,7 @@ objects:
     labels:
       app: ${APP}
   spec:
-    replicas: ${REPS}
+    replicas: ${{REPS}}
     selector:
       app: ${APP}
       deploymentconfig: ${APP}
@@ -200,29 +228,29 @@ objects:
           deploymentconfig: ${APP}
       spec:
         containers:
-        - image: ${APP}:latest
+        - image: ${APP}:${TAG}
           name: ${APP}
           ports:
           - containerPort: ${APP_PORT}
           volumeMounts:
-          - mountPath: ${LOG_DIR}
+          - mountPath: ${HOME}/${LOG_DIR}
             name: ${LOG}
-          - mountPath: ${ARCHIVE_DIR}
-            name: ${APP}-archive
-          - mountPath: ${STATUS_DIR}
-            name: ${APP}-status
+          - mountPath: ${HOME}/${ARCHIVE}
+            name: ${APP}-${ARCHIVE}
+          - mountPath: ${HOME}/${STATUS}
+            name: ${APP}-${STATUS}
           livenessProbe:
             httpGet:
-              path: ${HEALTH}
+              path: /${HEALTH}
               port: ${{APP_PORT}}
-            failureThreshold: 5
-            periodSeconds: 30
+            failureThreshold: ${{FAILURE_THRESHOLD}}
+            periodSeconds: ${{LIVENESS_PERIOD}}
           readinessProbe:
             httpGet:
-              path: ${HEALTH}
+              path: /${HEALTH}
               port: ${{APP_PORT}}
-            initialDelaySeconds: 5
-            periodSeconds: 5
+            initialDelaySeconds: ${{READINESS_PERIOD}}
+            periodSeconds: ${{READINESS_PERIOD}}
           env:
           - name: PAGE_TITLE
             value: ${APP_TITLE}
@@ -230,12 +258,12 @@ objects:
         - name: ${LOG}
           persistentVolumeClaim:
             claimName: ${LOG}
-        - name: ${APP}-archive
+        - name: ${APP}-${ARCHIVE
           persistentVolumeClaim:
-            claimName: ${APP}-archive
-        - name: ${APP}-status
+            claimName: ${APP}-${ARCHIVE
+        - name: ${APP}-${STATUS}
           persistentVolumeClaim:
-            claimName: ${APP}-status
+            claimName: ${APP}-${STATUS}
     triggers:
     - type: ConfigChange
     - type: ImageChange
@@ -245,73 +273,73 @@ objects:
         - ${APP}
         from:
           kind: ImageStreamTag
-          name: ${APP}:latest
+          name: ${APP}:${TAG}
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
-    name: dev-${APP}
+    name: ${DEV}-${APP}
     labels:
       app: ${APP}
   spec:
-    replicas: ${REPS}
+    replicas: ${{REPS}}
     selector:
       app: ${APP}
-      deploymentconfig: dev-${APP}
+      deploymentconfig: ${DEV}-${APP}
     template:
       metadata:
         labels:
           app: ${APP}
-          deploymentconfig: dev-${APP}
+          deploymentconfig: ${DEV}-${APP}
       spec:
         containers:
-        - image: dev-${APP}:latest
-          name: dev-${APP}
+        - image: ${DEV}-${APP}:${TAG}
+          name: ${DEV}-${APP}
           ports:
           - containerPort: ${APP_PORT}
           volumeMounts:
-          - mountPath: ${LOG_DIR}
-            name: dev-${LOG}
-          - mountPath: ${ARCHIVE_DIR}
-            name: dev-${APP}-archive
-          - mountPath: ${STATUS_DIR}
-            name: dev-${APP}-status
+          - mountPath: ${HOME}/${LOG_DIR}
+            name: ${DEV}-${LOG}
+          - mountPath: ${HOME}/${ARCHIVE}
+            name: ${DEV}-${APP}-${ARCHIVE}
+          - mountPath: ${HOME}/${STATUS}
+            name: ${DEV}-${APP}-${STATUS}
           livenessProbe:
             httpGet:
-              path: ${HEALTH}
+              path: /${HEALTH}
               port: ${{APP_PORT}}
-            failureThreshold: 5
-            periodSeconds: 30
+            failureThreshold: ${{FAILURE_THRESHOLD}}
+            periodSeconds: ${{LIVENESS_PERIOD}}
           readinessProbe:
             httpGet:
-              path: ${HEALTH}
+              path: /${HEALTH}
               port: ${{APP_PORT}}
-            initialDelaySeconds: 5
-            periodSeconds: 5
+            initialDelaySeconds: ${{READINESS_PERIOD}}
+            periodSeconds: ${{READINESS_PERIOD}}
           env:
           - name: PAGE_TITLE
-            value: ${APP_TITLE}-dev
+            value: ${APP_TITLE}-${DEV}
           - name: BRANCH
-            value: ${DEV_BRANCH}
+            value: ${DEV}
         volumes:
-        - name: dev-${LOG}
+        - name: ${DEV}-${LOG}
           persistentVolumeClaim:
-            claimName: dev-${LOG}
-        - name: dev-${APP}-archive
+            claimName: ${DEV}-${LOG}
+        - name: ${DEV}-${APP}-${ARCHIVE}
           persistentVolumeClaim:
-            claimName: dev-${APP}-archive
-        - name: dev-${APP}-status
+            claimName: ${DEV}-${APP}-${ARCHIVE}
+        - name: ${DEV}-${APP}-${STATUS}
           persistentVolumeClaim:
-            claimName: dev-${APP}-status
+            claimName: ${DEV}-${APP}-${STATUS}
     triggers:
     - type: ConfigChange
     - type: ImageChange
       imageChangeParams:
         automatic: true
         containerNames:
-        - dev-${APP}
+        - ${DEV}-${APP}
         from:
           kind: ImageStreamTag
-          name: dev-${APP}:latest
+          name: ${DEV}-${APP}:${TAG}
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
@@ -319,7 +347,7 @@ objects:
     labels:
       app: ${APP}
   spec:
-    replicas: 1
+    replicas: ${{REPS}}
     selector:
       app: ${APP}
       deploymentconfig: ${LOG}
@@ -330,23 +358,23 @@ objects:
           deploymentconfig: ${LOG}
       spec:
         containers:
-        - image: ${LOG}:latest
+        - image: ${LOG}:${TAG}
           name: ${LOG}
           ports:
           - containerPort: ${LOG_PORT}
           volumeMounts:
-          - mountPath: ${LOG_DIR}
+          - mountPath: ${HOME}/${LOG_DIR}
             name: ${LOG}
           livenessProbe:
             httpGet:
               port: ${{LOG_PORT}}
-            failureThreshold: 5
-            periodSeconds: 30
+            failureThreshold: ${{FAILURE_THRESHOLD}}
+            periodSeconds: ${{LIVENESS_PERIOD}}
           readinessProbe:
             httpGet:
               port: ${{LOG_PORT}}
-            initialDelaySeconds: 5
-            periodSeconds: 5
+            initialDelaySeconds: ${{READINESS_PERIOD}}
+            periodSeconds: ${{READINESS_PERIOD}}
           env:
           - name: PAGE_TITLE
             value: ${APP_TITLE}
@@ -363,59 +391,59 @@ objects:
         - ${LOG}
         from:
           kind: ImageStreamTag
-          name: ${LOG}:latest
+          name: ${LOG}:${TAG}
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
-    name: dev-${LOG}
+    name: ${DEV}-${LOG}
     labels:
       app: ${APP}
   spec:
-    replicas: 1
+    replicas: ${{REPS}}
     selector:
       app: ${APP}
-      deploymentconfig: dev-${LOG}
+      deploymentconfig: ${DEV}-${LOG}
     template:
       metadata:
         labels:
           app: ${APP}
-          deploymentconfig: dev-${LOG}
+          deploymentconfig: ${DEV}-${LOG}
       spec:
         containers:
-        - image: ${LOG}:latest
-          name: dev-${LOG}
+        - image: ${LOG}:${TAG}
+          name: ${DEV}-${LOG}
           ports:
           - containerPort: ${LOG_PORT}
           volumeMounts:
-          - mountPath: ${LOG_DIR}
-            name: dev-${LOG}
+          - mountPath: ${HOME}/${LOG_DIR}
+            name: ${DEV}-${LOG}
           livenessProbe:
             httpGet:
               port: ${{LOG_PORT}}
-            failureThreshold: 5
-            periodSeconds: 30
+            failureThreshold: ${{FAILURE_THRESHOLD}}
+            periodSeconds: ${{LIVENESS_PERIOD}}
           readinessProbe:
             httpGet:
               port: ${{LOG_PORT}}
-            initialDelaySeconds: 5
-            periodSeconds: 5
+            initialDelaySeconds: ${{READINESS_PERIOD}}
+            periodSeconds: ${{READINESS_PERIOD}}
           env:
           - name: PAGE_TITLE
-            value: ${APP_TITLE}-dev
+            value: ${APP_TITLE}-${DEV}
         volumes:
-        - name: dev-${LOG}
+        - name: ${DEV}-${LOG}
           persistentVolumeClaim:
-            claimName: dev-${LOG}
+            claimName: ${DEV}-${LOG}
     triggers:
     - type: ConfigChange
     - type: ImageChange
       imageChangeParams:
         automatic: true
         containerNames:
-        - dev-${LOG}
+        - ${DEV}-${LOG}
         from:
           kind: ImageStreamTag
-          name: ${LOG}:latest
+          name: ${LOG}:${TAG}
 - kind: PersistentVolumeClaim
   apiVersion: v1
   metadata:
@@ -430,7 +458,7 @@ objects:
 - kind: PersistentVolumeClaim
   apiVersion: v1
   metadata:
-    name: dev-${LOG}
+    name: ${DEV}-${LOG}
   spec:
     accessModes:
     - ReadWriteMany
@@ -452,7 +480,7 @@ objects:
 - kind: PersistentVolumeClaim
   apiVersion: v1
   metadata:
-    name: dev-${APP}-archive
+    name: ${DEV}-${APP}-${ARCHIVE}
   spec:
     accessModes:
     - ReadWriteMany
@@ -463,25 +491,25 @@ objects:
 - kind: PersistentVolumeClaim
   apiVersion: v1
   metadata:
-    name: ${APP}-status
+    name: ${APP}-${STATUS}
   spec:
     accessModes:
     - ReadWriteMany
     persistentVolumeReclaimPolicy: Retain
     resources:
       requests:
-        storage: "1Gi"
+        storage: ${SMALL_STORAGE}
 - kind: PersistentVolumeClaim
   apiVersion: v1
   metadata:
-    name: dev-${APP}-status
+    name: ${DEV}-${APP}-${STATUS}
   spec:
     accessModes:
     - ReadWriteMany
     persistentVolumeReclaimPolicy: Retain
     resources:
       requests:
-        storage: "1Gi"
+        storage: ${SMALL_STORAGE}
 - kind: Service
   apiVersion: v1
   metadata:
@@ -500,7 +528,7 @@ objects:
 - kind: Service
   apiVersion: v1
   metadata:
-    name: dev-${APP}
+    name: ${DEV}-${APP}
     labels:
       app: ${APP}
   spec:
@@ -511,7 +539,7 @@ objects:
       targetPort: ${{APP_PORT}}
     selector:
       app: ${APP}
-      deploymentconfig: dev-${APP}
+      deploymentconfig: ${DEV}-${APP}
 - kind: Service
   apiVersion: v1
   metadata:
@@ -530,7 +558,7 @@ objects:
 - kind: Service
   apiVersion: v1
   metadata:
-    name: dev-${LOG}
+    name: ${DEV}-${LOG}
     labels:
       app: ${APP}
   spec:
@@ -541,7 +569,7 @@ objects:
       targetPort: ${{LOG_PORT}}
     selector:
       app: ${APP}
-      deploymentconfig: dev-${LOG}
+      deploymentconfig: ${DEV}-${LOG}
 - kind: Route
   apiVersion: v1
   metadata:
@@ -557,24 +585,22 @@ objects:
     to:
       kind: Service
       name: ${APP}
-      weight: 100
     wildcardPolicy: None
 - kind: Route
   apiVersion: v1
   metadata:
-    name: dev-${APP}
+    name: ${DEV}-${APP}
     labels:
       app: ${APP}
   spec:
-    host: dev-${HOST}
+    host: ${DEV}-${HOST}
     port:
       targetPort: ${APP_PORT}-tcp
     tls:
       termination: edge
     to:
       kind: Service
-      name: dev-${APP}
-      weight: 100
+      name: ${DEV}-${APP}
     wildcardPolicy: None
 - kind: Route
   apiVersion: v1
@@ -583,7 +609,7 @@ objects:
     labels:
       app: ${APP}
   spec:
-    host: log-${HOST}
+    host: ${LOG_HOST}-${HOST}
     port:
       targetPort: ${LOG_PORT}-tcp
     tls:
@@ -591,24 +617,22 @@ objects:
     to:
       kind: Service
       name: ${LOG}
-      weight: 100
     wildcardPolicy: None
 - kind: Route
   apiVersion: v1
   metadata:
-    name: dev-${LOG}
+    name: ${DEV}-${LOG}
     labels:
       app: ${APP}
   spec:
-    host: dev-log-${HOST}
+    host: ${DEV}-${LOG_HOST}-${HOST}
     port:
       targetPort: ${LOG_PORT}-tcp
     tls:
       termination: edge
     to:
       kind: Service
-      name: dev-${LOG}
-      weight: 100
+      name: ${DEV}-${LOG}
     wildcardPolicy: None
 - kind: CronJob
   apiVersion: batch/v1beta1
@@ -616,8 +640,8 @@ objects:
     name: ${APP}
   spec:
     schedule: ${CRON_SCHEDULE}
-    successfulJobsHistoryLimit: 3
-    failedJobsHistoryLimit: 3
+    successfulJobsHistoryLimit: ${{CRON_LIMIT}}
+    failedJobsHistoryLimit: ${{CRON_LIMIT}}
     jobTemplate:
       spec:
         template:
@@ -626,17 +650,17 @@ objects:
               app: ${APP}
           spec:
             containers:
-            - name: ${APP}-job
-              image: ${APP}:latest
-              command: ${CRON_CMD}
+            - name: ${APP}-${CRON}
+              image: ${APP}:${TAG}
+              command: ${{CRON_CMD}}
               volumeMounts:
-              - mountPath: ${ARCHIVE_DIR}
-                name: dev-${APP}-archive
-              - mountPath: ${STATUS_DIR}
-                name: dev-${APP}-status
+              - mountPath: ${HOME}/${ARCHIVE}
+                name: ${DEV}-${APP}-${ARCHIVE}
+              - mountPath: ${HOME}/${STATUS}
+                name: ${DEV}-${APP}-${STATUS}
               env:
               - name: ENDPOINTS
-                value: https://${HOST}/${ENDPOINTS}
+                value: https://${HOST}/${ARCHIVE}
               - name: FINBIF_ACCESS_TOKEN
                 value: ${FINBIF_ACCESS_TOKEN}
               - name: FINBIF_API
@@ -652,21 +676,21 @@ objects:
               - name: GBIF_API
                 value: ${GBIF_API}
             volumes:
-            - name: ${APP}-archive
+            - name: ${APP}-${ARCHIVE}
               persistentVolumeClaim:
-                claimName: ${APP}-archive
-            - name: ${APP}-status
+                claimName: ${APP}-${ARCHIVE}
+            - name: ${APP}-${STATUS}
               persistentVolumeClaim:
-                claimName: ${APP}-status
+                claimName: ${APP}-${STATUS}
             restartPolicy: Never
 - kind: CronJob
   apiVersion: batch/v1beta1
   metadata:
-    name: dev-${APP}
+    name: ${DEV}-${APP}
   spec:
     schedule: ${CRON_SCHEDULE}
-    successfulJobsHistoryLimit: 3
-    failedJobsHistoryLimit: 3
+    successfulJobsHistoryLimit: ${{CRON_LIMIT}}
+    failedJobsHistoryLimit: ${{CRON_LIMIT}}
     jobTemplate:
       spec:
         template:
@@ -675,19 +699,19 @@ objects:
               app: ${APP}
           spec:
             containers:
-            - name: dev-${APP}-job
-              image: dev-${APP}:latest
-              command: ${CRON_CMD}
+            - name: ${DEV}-${APP}-${CRON}
+              image: ${DEV}-${APP}:${TAG}
+              command: ${{CRON_CMD}}
               volumeMounts:
-              - mountPath: ${ARCHIVE_DIR}
-                name: dev-${APP}-archive
-              - mountPath: ${STATUS_DIR}
-                name: dev-${APP}-status
+              - mountPath: ${HOME}/${ARCHIVE}
+                name: ${DEV}-${APP}-${ARCHIVE}
+              - mountPath: ${HOME}/${STATUS}
+                name: ${DEV}-${APP}-${STATUS}
               env:
               - name: BRANCH
-                value: ${DEV_BRANCH}
+                value: ${DEV}
               - name: ENDPOINTS
-                value: https://dev-${HOST}/${ENDPOINTS}
+                value: https://${DEV}-${HOST}/${ENDPOINTS}
               - name: FINBIF_ACCESS_TOKEN
                 value: ${DEV_FINBIF_ACCESS_TOKEN}
               - name: FINBIF_API
@@ -703,10 +727,10 @@ objects:
               - name: GBIF_API
                 value: ${DEV_GBIF_API}
             volumes:
-            - name: dev-${APP}-archive
+            - name: ${DEV}-${APP}-${ARCHIVE}
               persistentVolumeClaim:
-                claimName: dev-${APP}-archive
-            - name: dev-${APP}-status
+                claimName: ${DEV}-${APP}-${ARCHIVE}
+            - name: ${DEV}-${APP}-${STATUS}
               persistentVolumeClaim:
-                claimName: dev-${APP}-status
+                claimName: ${DEV}-${APP}-${STATUS}
             restartPolicy: Never
