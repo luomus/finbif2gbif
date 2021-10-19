@@ -22,7 +22,8 @@ get_archive_path <- function(
 
   message(
     sprintf(
-      "[INFO] Collection %s will be published to %s",
+      "INFO [%s] Collection %s will be published to %s",
+      Sys.time(),
       collection_id,
       archive_path
     )

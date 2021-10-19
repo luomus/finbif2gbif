@@ -82,7 +82,13 @@ count_occurrences.archive_file <- function(
   }
 
   message(
-    sprintf("[INFO] Found %s records in archive, %s; file, %s", n, x, file)
+    sprintf(
+      "INFO [%s] Found %s records in archive, %s; file, %s",
+      Sys.time(),
+      n,
+      x,
+      file
+    )
   )
 
   n

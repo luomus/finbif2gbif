@@ -58,7 +58,11 @@ update_gbif_dataset_metadata <- function(
   stopifnot("Update failed. Could not send metadata to GBIF" = ok)
 
   message(
-    sprintf("[INFO] Collection metadata pushed to GBIF for dataset: %s", uuid)
+    sprintf(
+      "INFO [%s] Collection metadata pushed to GBIF for dataset: %s",
+      Sys.time(),
+      uuid
+    )
   )
 
   invisible(NULL)

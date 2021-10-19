@@ -49,7 +49,8 @@ get_subsets <- function(
 
   message(
     sprintf(
-      "[INFO] Collection %s to be partitioned into %s %s",
+      "INFO [%s] Collection %s to be partitioned into %s %s",
+      Sys.time(),
       collection_id,
       n_subsets,
       txt

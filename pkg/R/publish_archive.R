@@ -22,7 +22,9 @@ publish_archive <- function(
 
   file.copy(staged_archive, archive, overwrite = TRUE)
 
-  message(sprintf("[INFO] %s published to %s", staged_archive, archive))
+  message(
+    sprintf("INFO [%s] %s published to %s", Sys.time(), staged_archive, archive)
+  )
 
   unlink(staged_archive)
 

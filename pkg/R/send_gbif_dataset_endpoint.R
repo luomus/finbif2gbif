@@ -52,7 +52,8 @@ send_gbif_dataset_endpoint <- function(
 
   message(
     sprintf(
-      "[INFO] GBIF dataset %s assigned endpoint %s",
+      "INFO [%s] GBIF dataset %s assigned endpoint %s",
+      Sys.time(),
       uuid,
       endpoint$url
     )

@@ -62,7 +62,9 @@ res <- tryCatch(
 
       if (stop_timer$toc - start_timer > 60 * 60 * 5) {
 
-        message("[INFO] Reached time limit. Job exiting")
+        message(
+          sprintf("INFO [%s] Reached time limit. Job exiting", Sys.time())
+        )
 
         break
 
@@ -72,7 +74,7 @@ res <- tryCatch(
 
     }
 
-    message("[INFO] Job complete")
+    message(sprintf("INFO [%s] Job complete", Sys.time()))
 
     "true"
 

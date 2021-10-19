@@ -50,7 +50,8 @@ send_gbif_dataset_id <- function(
 
   message(
     sprintf(
-      "[INFO] GBIF dataset %s assigned FinBIF identifier %s",
+      "INFO [%s] GBIF dataset %s assigned FinBIF identifier %s",
+      Sys.time(),
       uuid,
       id
     )
