@@ -2,6 +2,8 @@ res <- tryCatch(
 
   {
 
+    timeout <- as.numeric(Sys.getenv("TIMEOUT"))
+
     start_timer <- tic()
 
     finbif_collections <- get_collection_ids()
@@ -60,7 +62,7 @@ res <- tryCatch(
 
       stop_timer <- toc(quiet = TRUE)
 
-      if (stop_timer$toc - start_timer > 60 * 60 * 5) {
+      if (stop_timer$toc - start_timer > 60 * 60 * timeout) {
 
         message(
           sprintf("INFO [%s] Reached time limit. Job exiting", Sys.time())

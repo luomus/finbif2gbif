@@ -107,6 +107,8 @@ parameters:
     required: true
   - name: DEV_GBIF_API
     required: true
+  - name: TIMEOUT
+    required: true
   - name: GITHUB_SECRET
     required: true
     generate: expression
@@ -661,6 +663,8 @@ objects:
               env:
               - name: ENDPOINTS
                 value: https://${HOST}/${ARCHIVE}
+              - name: TIMEOUT
+                value: ${TIMEOUT}
               - name: FINBIF_ACCESS_TOKEN
                 value: ${FINBIF_ACCESS_TOKEN}
               - name: FINBIF_API
@@ -712,6 +716,8 @@ objects:
                 value: ${DEV}
               - name: ENDPOINTS
                 value: https://${DEV}-${HOST}/${ENDPOINTS}
+              - name: TIMEOUT
+                value: ${TIMEOUT}
               - name: FINBIF_ACCESS_TOKEN
                 value: ${DEV_FINBIF_ACCESS_TOKEN}
               - name: FINBIF_API
