@@ -260,7 +260,7 @@ objects:
         - name: ${LOG}
           persistentVolumeClaim:
             claimName: ${LOG}
-        - name: ${APP}-${ARCHIVE
+        - name: ${APP}-${ARCHIVE}
           persistentVolumeClaim:
             claimName: ${APP}-${ARCHIVE
         - name: ${APP}-${STATUS}
@@ -471,7 +471,7 @@ objects:
 - kind: PersistentVolumeClaim
   apiVersion: v1
   metadata:
-    name: ${APP}-archive
+    name: ${APP}-${ARCHIVE}
   spec:
     accessModes:
     - ReadWriteMany
