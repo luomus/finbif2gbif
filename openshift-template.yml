@@ -715,7 +715,7 @@ objects:
               - name: BRANCH
                 value: ${DEV}
               - name: ENDPOINTS
-                value: https://${DEV}-${HOST}/${ENDPOINTS}
+                value: https://${DEV}-${HOST}/${ARCHIVE}
               - name: TIMEOUT
                 value: ${TIMEOUT}
               - name: FINBIF_ACCESS_TOKEN
