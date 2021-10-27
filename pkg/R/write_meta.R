@@ -15,7 +15,9 @@
 #' @return The status value returned by the zip command, invisibly.
 #' @examples \dontrun{
 #'
-#' write_meta("dwca.zip", c("occurrenceID", "basisOfRecord"))
+#' write_meta(
+#'   "dwca.zip", list(collection = "HR.447"), c("occurrenceID", "basisOfRecord")
+#' )
 #'
 #' }
 #' @importFrom utils zip
@@ -65,9 +67,13 @@ write_meta <- function(
 
   iri <- "http://rs.tdwg.org/dwc"
 
-  files <- vapply(filters, get_file_name, character(1L))
+  files <- lapply(filters, get_file_name)
 
-  header <- list(files = list(location = as.list(files)))
+  files <- lapply(files, as.list)
+
+  names(files) <- rep_len("location", length(files))
+
+  header <- list(files = files)
 
   header[["id"]] <- switch(id %in% s, structure(list(), index = id - 1L))
 
@@ -88,6 +94,7 @@ write_meta <- function(
   meta <- xml2::as_xml_document(meta)
 
   tmpdir <- tempfile()
+  on.exit(unlink(tmpdir))
 
   dir.create(tmpdir)
 
