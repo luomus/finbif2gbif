@@ -8,14 +8,21 @@ default:
   fields:
   - occurrenceID
   - basisOfRecord
-  - eventDate
-  - country
-  - footprintWKT
-  - geodeticDatum
-  - coordinateUncertaintyInMeters
-  - kingdom
   - scientificName
   - taxonRank
+  - kingdom
+  - individualCount
+  - eventDate
+  - decimalLatitude
+  - decimalLongitude
+  - geodeticDatum
+  - coordinateUncertaintyInMeters
+  - footprintWKT
+  - locality
+  - county
+  - stateProvince
+  - higherGeography
+  - country
   nmax: 2.5e4
   filters:
 
