@@ -3,7 +3,7 @@ default:
   metadata:
     title: long_name
     description: description
-    language: language
+    dataLanguage: language
     license: intellectual_rights
   fields:
   - occurrenceID
