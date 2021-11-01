@@ -17,7 +17,7 @@
 
 get_file_name <- function(
   filter,
-  select = config::get("select"),
+  select = config::get("fields"),
   prefix = "occurrence"
 ) {
 
