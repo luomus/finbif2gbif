@@ -4,7 +4,7 @@
 \alias{get_file_name}
 \title{Get occurrence file name.}
 \usage{
-get_file_name(filter, select = config::get("select"), prefix = "occurrence")
+get_file_name(filter, select = config::get("fields"), prefix = "occurrence")
 }
 \arguments{
 \item{filter}{List.}

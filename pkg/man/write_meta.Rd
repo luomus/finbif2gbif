@@ -29,7 +29,9 @@ Write a Darwin Core archive meta data file.
 \examples{
 \dontrun{
 
-write_meta("dwca.zip", c("occurrenceID", "basisOfRecord"))
+write_meta(
+  "dwca.zip", list(collection = "HR.447"), c("occurrenceID", "basisOfRecord")
+)
 
 }
 }
