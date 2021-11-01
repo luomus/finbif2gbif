@@ -8,9 +8,11 @@ default:
   fields:
   - occurrenceID
   - basisOfRecord
+  - taxonID
   - scientificName
   - taxonRank
   - kingdom
+  - occurrenceStatus
   - individualCount
   - eventDate
   - decimalLatitude
@@ -25,6 +27,9 @@ default:
   - country
   nmax: 2.5e4
   filters:
+    abundance_min: 0
+    record_quality: ["expert_verified", "community_verified", "unassessed"]
+    requires_verification: false
 
 HR.447:
   filters:
