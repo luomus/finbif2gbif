@@ -73,7 +73,8 @@ get_metadata <- function(
     list(
       publishingOrganizationKey = org,
       installationKey = installation,
-      type = "OCCURRENCE"
+      type = "OCCURRENCE",
+      language = "eng"
     ),
     lapply(metadata_fields, function(x) m[[x]])
   )
