@@ -2,6 +2,10 @@ res <- tryCatch(
 
   {
 
+    library(future)
+
+    plan("multicore", workers = 2)
+
     timeout <- as.numeric(Sys.getenv("TIMEOUT"))
 
     start_timer <- tic()
