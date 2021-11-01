@@ -26,6 +26,15 @@ get_subsets <- function(
 
   n <- attr(n, "nrec_avl")
 
+  message(
+    sprintf(
+      "INFO [%s] Found %s occurrence records in FinBIF for filter: %s",
+      Sys.time(),
+      n,
+      paste(capture.output(dput(as.list(filters))), collapse = "")
+    )
+  )
+
   n_subsets <- n %/% as.integer(nmax) + 1
 
   subsets <- list()
