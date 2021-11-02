@@ -75,7 +75,7 @@ function(archive, res) {
 
 }
 
-#* @assets ./status /status
+#* @assets ./logs/status /status
 list()
 
 #* @assets ./archives /archives

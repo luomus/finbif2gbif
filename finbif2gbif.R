@@ -2,9 +2,9 @@ res <- tryCatch(
 
   {
 
-    library(future)
+    #library(future)
 
-    plan("multicore", workers = 2)
+    #plan("multicore", workers = 2)
 
     timeout <- as.numeric(Sys.getenv("TIMEOUT"))
 
@@ -88,5 +88,6 @@ res <- tryCatch(
   error = function(e) "false"
 )
 
-cat(res, file = "status/success.txt")
-cat(format(Sys.time(), usetz = TRUE), file = "status/last-update.txt")
+dir.create("logs/status", recursive = TRUE)
+cat(res, file = "logs/status/success.txt")
+cat(format(Sys.time(), usetz = TRUE), file = "logs/status/last-update.txt")
