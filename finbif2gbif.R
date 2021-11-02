@@ -6,6 +6,18 @@ res <- tryCatch(
 
     #plan("multicore", workers = 2)
 
+    if (!dir.exists("archives/split")) {
+
+      dir.create("archives/split", recursive = TRUE)
+
+    }
+
+    if (!dir.exists("archives/combined")) {
+
+      dir.create("archives/combined", recursive = TRUE)
+
+    }
+
     timeout <- as.numeric(Sys.getenv("TIMEOUT"))
 
     start_timer <- tic()

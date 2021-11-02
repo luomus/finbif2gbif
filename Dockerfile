@@ -73,8 +73,7 @@ WORKDIR /home/user
 
 RUN  R -e "remotes::install_local('f2g', NULL, FALSE, 'never')" \
   && mkdir -p \
-       /home/user/archives/split \
-       /home/user/archives/combined \
+       /home/user/archives \
        /home/user/coverage \
        /home/user/logs \
        /home/user/stage \
