@@ -88,6 +88,6 @@ res <- tryCatch(
   error = function(e) "false"
 )
 
-dir.create("logs/status", recursive = TRUE)
+if (!dir.exists("logs/status")) dir.create("logs/status", recursive = TRUE)
 cat(res, file = "logs/status/success.txt")
 cat(format(Sys.time(), usetz = TRUE), file = "logs/status/last-update.txt")
