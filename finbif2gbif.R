@@ -2,9 +2,9 @@ res <- tryCatch(
 
   {
 
-    #library(future)
+    library(future)
 
-    #plan("multicore", workers = 2)
+    plan("multicore", workers = 2)
 
     if (!dir.exists("archives/split")) {
 
