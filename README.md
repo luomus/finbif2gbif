@@ -55,7 +55,6 @@ default:
   metadata:
     title: long_name
     description: description
-    language: language
     license: intellectual_rights
   fields:
   - occurrenceID
