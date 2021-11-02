@@ -16,9 +16,6 @@ parameters:
   - name: ARCHIVE
     required: true
     value: archives
-  - name: STATUS
-    required: true
-    value: status
   - name: HEALTH
     required: true
     value: healthz
@@ -60,10 +57,10 @@ parameters:
     value: latest
   - name: STORAGE
     required: true
-    value: "12Gi"
+    value: "40Gi"
   - name: SMALL_STORAGE
     required: true
-    value: "1Gi"
+    value: "3Gi"
   - name: REPS
     required: true
     value: "1"
@@ -72,7 +69,7 @@ parameters:
     value: job
   - name: CRON_SCHEDULE
     required: true
-    value: "0 0 * * *"
+    value: "0/30 * * * *"
   - name: CRON_CMD
     required: true
     value: '["Rscript", "finbif2gbif.R"]'
@@ -239,8 +236,6 @@ objects:
             name: ${LOG}
           - mountPath: ${HOME}/${ARCHIVE}
             name: ${APP}-${ARCHIVE}
-          - mountPath: ${HOME}/${STATUS}
-            name: ${APP}-${STATUS}
           livenessProbe:
             httpGet:
               path: /${HEALTH}
@@ -263,9 +258,6 @@ objects:
         - name: ${APP}-${ARCHIVE}
           persistentVolumeClaim:
             claimName: ${APP}-${ARCHIVE
-        - name: ${APP}-${STATUS}
-          persistentVolumeClaim:
-            claimName: ${APP}-${STATUS}
     triggers:
     - type: ConfigChange
     - type: ImageChange
@@ -303,8 +295,6 @@ objects:
             name: ${DEV}-${LOG}
           - mountPath: ${HOME}/${ARCHIVE}
             name: ${DEV}-${APP}-${ARCHIVE}
-          - mountPath: ${HOME}/${STATUS}
-            name: ${DEV}-${APP}-${STATUS}
           livenessProbe:
             httpGet:
               path: /${HEALTH}
@@ -329,9 +319,6 @@ objects:
         - name: ${DEV}-${APP}-${ARCHIVE}
           persistentVolumeClaim:
             claimName: ${DEV}-${APP}-${ARCHIVE}
-        - name: ${DEV}-${APP}-${STATUS}
-          persistentVolumeClaim:
-            claimName: ${DEV}-${APP}-${STATUS}
     triggers:
     - type: ConfigChange
     - type: ImageChange
@@ -456,7 +443,7 @@ objects:
     persistentVolumeReclaimPolicy: Retain
     resources:
       requests:
-        storage: ${STORAGE}
+        storage: ${SMALL_STORAGE}
 - kind: PersistentVolumeClaim
   apiVersion: v1
   metadata:
@@ -467,7 +454,7 @@ objects:
     persistentVolumeReclaimPolicy: Retain
     resources:
       requests:
-        storage: ${STORAGE}
+        storage: ${SMALL_STORAGE}
 - kind: PersistentVolumeClaim
   apiVersion: v1
   metadata:
@@ -483,28 +470,6 @@ objects:
   apiVersion: v1
   metadata:
     name: ${DEV}-${APP}-${ARCHIVE}
-  spec:
-    accessModes:
-    - ReadWriteMany
-    persistentVolumeReclaimPolicy: Retain
-    resources:
-      requests:
-        storage: ${STORAGE}
-- kind: PersistentVolumeClaim
-  apiVersion: v1
-  metadata:
-    name: ${APP}-${STATUS}
-  spec:
-    accessModes:
-    - ReadWriteMany
-    persistentVolumeReclaimPolicy: Retain
-    resources:
-      requests:
-        storage: ${SMALL_STORAGE}
-- kind: PersistentVolumeClaim
-  apiVersion: v1
-  metadata:
-    name: ${DEV}-${APP}-${STATUS}
   spec:
     accessModes:
     - ReadWriteMany
@@ -658,8 +623,8 @@ objects:
               volumeMounts:
               - mountPath: ${HOME}/${ARCHIVE}
                 name: ${DEV}-${APP}-${ARCHIVE}
-              - mountPath: ${HOME}/${STATUS}
-                name: ${DEV}-${APP}-${STATUS}
+              - mountPath: ${HOME}/${LOG_DIR}
+                name: ${LOG}
               env:
               - name: ENDPOINTS
                 value: https://${HOST}/${ARCHIVE}
@@ -683,9 +648,9 @@ objects:
             - name: ${APP}-${ARCHIVE}
               persistentVolumeClaim:
                 claimName: ${APP}-${ARCHIVE}
-            - name: ${APP}-${STATUS}
+            - name: ${LOG}
               persistentVolumeClaim:
-                claimName: ${APP}-${STATUS}
+                claimName: ${LOG}
             restartPolicy: Never
 - kind: CronJob
   apiVersion: batch/v1beta1
@@ -709,8 +674,8 @@ objects:
               volumeMounts:
               - mountPath: ${HOME}/${ARCHIVE}
                 name: ${DEV}-${APP}-${ARCHIVE}
-              - mountPath: ${HOME}/${STATUS}
-                name: ${DEV}-${APP}-${STATUS}
+              - mountPath: ${HOME}/${LOG_DIR}
+                name: ${DEV}-${LOG}
               env:
               - name: BRANCH
                 value: ${DEV}
@@ -736,7 +701,7 @@ objects:
             - name: ${DEV}-${APP}-${ARCHIVE}
               persistentVolumeClaim:
                 claimName: ${DEV}-${APP}-${ARCHIVE}
-            - name: ${DEV}-${APP}-${STATUS}
+            - name: ${DEV}-${LOG}
               persistentVolumeClaim:
-                claimName: ${DEV}-${APP}-${STATUS}
+                claimName: ${DEV}-${LOG}
             restartPolicy: Never
