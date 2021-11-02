@@ -18,12 +18,23 @@ publish_archive <- function(
   dir = "archives"
 ) {
 
-  archive <- file.path(dir, basename(staged_archive))
+  split_archive <- file.path(dir, "split", basename(staged_archive))
 
-  file.copy(staged_archive, archive, overwrite = TRUE)
+  combined_archive <- file.path(dir, "combined", basename(staged_archive))
+
+  file.copy(staged_archive, split_archive, overwrite = TRUE)
+
+  system2("combine-dwca.sh", split_archive)
+
+  file.copy(split_archive, combined_archive, overwrite = TRUE)
+
+  file.copy(staged_archive, split_archive, overwrite = TRUE)
 
   message(
-    sprintf("INFO [%s] %s published to %s", Sys.time(), staged_archive, archive)
+    sprintf(
+      "INFO [%s] %s published to %s", Sys.time(), staged_archive,
+      combined_archive
+    )
   )
 
   unlink(staged_archive)

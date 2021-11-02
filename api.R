@@ -78,7 +78,7 @@ function(archive, res) {
 #* @assets ./logs/status /status
 list()
 
-#* @assets ./archives /archives
+#* @assets ./archives/combined /archives
 list()
 
 #* @assets /usr/local/lib/R/library/finbif/help/figures

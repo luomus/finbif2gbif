@@ -15,14 +15,14 @@
 
 get_archive_path <- function(
   collection_id,
-  dir = "archives"
+  dir = "archives/split"
 ) {
 
   archive_path <- sprintf("%s/%s.zip", dir, collection_id)
 
   message(
     sprintf(
-      "INFO [%s] Collection %s will be published to %s",
+      "INFO [%s] Collection %s will be archived in %s",
       Sys.time(),
       collection_id,
       archive_path

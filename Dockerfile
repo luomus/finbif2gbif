@@ -55,9 +55,10 @@ RUN  echo "R_ZIPCMD=${R_ZIPCMD-'/usr/bin/zip'}" >> /usr/local/lib/R/etc/Renviron
 RUN  sed -i 's/RapiDoc/FinBIF to GBIF/g' \
       /usr/local/lib/R/library/rapidoc/dist/index.html
 
-RUN  R -e "remotes::install_github('luomus/finbif@22a2f73d')"
+RUN  R -e "remotes::install_github('luomus/finbif@9cbcd44c')"
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY combine-dwca.sh /usr/local/bin/combine-dwca.sh
 COPY init.R /home/user/init.R
 COPY api.R /home/user/api.R
 COPY finbif2gbif.R /home/user/finbif2gbif.R
@@ -72,7 +73,8 @@ WORKDIR /home/user
 
 RUN  R -e "remotes::install_local('f2g', NULL, FALSE, 'never')" \
   && mkdir -p \
-       /home/user/archives \
+       /home/user/archives/split \
+       /home/user/archives/combined \
        /home/user/coverage \
        /home/user/logs \
        /home/user/stage \

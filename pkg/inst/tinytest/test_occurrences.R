@@ -7,7 +7,7 @@ expect_equal(write_meta(archive, list(), "occurrenceID"), 0L)
 expect_equal(
   archive_occurrences(
     archive,
-    "occurrence.txt",
+    "occurrence_test.txt",
     list(collection = "HR.139"),
     c("occurrenceID", "basisOfRecord"),
     10L,
@@ -15,19 +15,24 @@ expect_equal(
   0L
 )
 
-expect_equal(count_occurrences(archive, "occurrence.txt"), 10L)
+expect_equal(count_occurrences(archive, "occurrence_test.txt"), 10L)
 
 Sys.setenv(R_CONFIG_ACTIVE = "test")
 
-expect_equal(clean_occurrences(archive, get_subsets("HR.139", NULL)), 0L)
-
-expect_equal(count_occurrences(archive, "occurrence.txt"), 0L)
-
-expect_inherits(last_mod(archive, "occurrence.txt"), "POSIXct")
+dir.create("stage")
 
 expect_equal(
   stage_archive(archive),
   structure("stage/archive.zip", class = "archive_file")
 )
 
-expect_equal(publish_archive(archive, "."), 0L)
+dir.create("split")
+dir.create("combined")
+
+expect_equal(publish_archive("stage/archive.zip", "."), 0L)
+
+expect_equal(clean_occurrences(archive, get_subsets("HR.139", NULL)), 0L)
+
+expect_equal(count_occurrences(archive, "occurrence_test.txt"), 0L)
+
+expect_inherits(last_mod(archive, "occurrence_test.txt"), "POSIXct")
