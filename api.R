@@ -60,7 +60,7 @@ function() {
 #* @serializer unboxedJSON
 function(archive, res) {
 
-  path <- sprintf("archives/%s.zip", archive)
+  path <- sprintf("archives/combined/%s.zip", archive)
 
   if (!file.exists(path)) {
 
