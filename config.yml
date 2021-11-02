@@ -20,6 +20,7 @@ default:
   - geodeticDatum
   - coordinateUncertaintyInMeters
   - footprintWKT
+  - footprintSRS
   - locality
   - county
   - stateProvince
