@@ -74,6 +74,10 @@ res <- tryCatch(
 
         update_gbif_dataset_metadata(get_metadata(collection), registration)
 
+      } else if (unequal || outdated) {
+
+        initiate_gbif_ingestion(registration)
+
       }
 
       stop_timer <- toc(quiet = TRUE)

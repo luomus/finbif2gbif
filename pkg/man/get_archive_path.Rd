@@ -4,7 +4,7 @@
 \alias{get_archive_path}
 \title{Get archive file path}
 \usage{
-get_archive_path(collection_id, dir = "archives")
+get_archive_path(collection_id, dir = "archives/split")
 }
 \arguments{
 \item{collection_id}{Character. Collection id.}
