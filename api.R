@@ -48,7 +48,7 @@ function() {
 #* @serializer unboxedJSON
 function() {
 
- list.files("archives", pattern = "\\.zip$")
+ list.files("archives/combined", pattern = "\\.zip$")
 
 }
 
