@@ -9,7 +9,7 @@ expect_equal(
     archive,
     "occurrence_test.txt",
     list(collection = "HR.139"),
-    c("occurrenceID", "basisOfRecord"),
+    c("occurrenceID", "basisOfRecord", "associatedMedia", "license"),
     10L,
   ),
   0L

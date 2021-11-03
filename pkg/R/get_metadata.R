@@ -29,17 +29,6 @@ get_metadata <- function(
     supercollections = TRUE, select = TRUE, filter = id == collection_id
   )
 
-  licenses <- c(
-    "MY.intellectualRightsCC-BY" =
-      "https://creativecommons.org/licenses/by/4.0/legalcode",
-    "MY.intellectualRightsCC0" =
-      "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
-    "MY.intellectualRightsPD" =
-      "Public Domain",
-    "MY.intellectualRightsARR" =
-      "All Rights Reserved"
-  )
-
   m[["intellectual_rights"]] <- ifelse(
     is.na(m[["intellectual_rights"]]),
     "",

@@ -26,6 +26,8 @@ default:
   - stateProvince
   - higherGeography
   - country
+  - associatedMedia
+  - dcterms:license
   nmax: 2.5e4
   filters:
     abundance_min: 0
