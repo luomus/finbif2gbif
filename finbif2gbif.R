@@ -2,9 +2,9 @@ res <- tryCatch(
 
   {
 
-    library(future)
+#    library(future)
 
-    plan("multicore", workers = 2)
+#    plan("multicore", workers = 2)
 
     if (!dir.exists("archives/split")) {
 
@@ -107,7 +107,10 @@ res <- tryCatch(
     "true"
 
   },
-  error = function(e) "false"
+  error = function(e) {
+    message(sprintf("ERROR [%s] %s", Sys.time(), e$message))
+    "false"
+  }
 )
 
 if (!dir.exists("logs/status")) dir.create("logs/status", recursive = TRUE)
