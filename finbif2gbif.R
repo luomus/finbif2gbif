@@ -2,10 +2,6 @@ res <- tryCatch(
 
   {
 
-#    library(future)
-
-#    plan("multicore", workers = 2)
-
     if (!dir.exists("archives/split")) {
 
       dir.create("archives/split", recursive = TRUE)

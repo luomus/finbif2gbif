@@ -4,7 +4,8 @@ library(tictoc)
 
 options(
   finbif_api_url   = Sys.getenv("FINBIF_API"),
-  finbif_use_cache = FALSE
+  finbif_use_cache = FALSE,
+  finbif_max_page_size = 500L
 )
 
 if (identical(Sys.getenv("BRANCH"), "dev")) {
