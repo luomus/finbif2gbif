@@ -44,7 +44,9 @@ res <- tryCatch(
 
         file <- get_file_name(subset)
 
-        unequal <- count_occurrences(archive, file) != count_occurrences(subset)
+        subset_n <- count_occurrences(subset)
+
+        unequal <- count_occurrences(archive, file) != subset_n
 
         outdated <- last_mod(subset) > last_mod(archive, file)
 
@@ -52,7 +54,7 @@ res <- tryCatch(
 
         if (needs_archiving) {
 
-          archive_occurrences(archive, file, subset)
+          archive_occurrences(archive, file, subset, n = subset_n)
 
         }
 
