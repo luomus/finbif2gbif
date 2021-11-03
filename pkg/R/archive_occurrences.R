@@ -30,7 +30,7 @@ archive_occurrences <- function(
   archive,
   file_name,
   filter,
-  select = config::get("fields"),
+  select = sub("^.*:", "", config::get("fields")),
   n = config::get("nmax"),
   quiet = TRUE
 ) {
