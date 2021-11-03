@@ -42,6 +42,8 @@ res <- tryCatch(
 
       clean_occurrences(archive, subsets)
 
+      any_need_archiving <- logical()
+
       for (subset in subsets) {
 
         file <- get_file_name(subset)
@@ -50,11 +52,15 @@ res <- tryCatch(
 
         outdated <- last_mod(subset) > last_mod(archive, file)
 
-        if (unequal || outdated) {
+        needs_archiving <- any(unequal, outdated)
+
+        if (needs_archiving) {
 
           archive_occurrences(archive, file, subset)
 
         }
+
+        any_need_archiving <- any(needs_archiving, any_need_archiving)
 
       }
 
@@ -74,7 +80,7 @@ res <- tryCatch(
 
         update_gbif_dataset_metadata(get_metadata(collection), registration)
 
-      } else if (unequal || outdated) {
+      } else if (any_need_archiving) {
 
         initiate_gbif_ingestion(registration)
 
