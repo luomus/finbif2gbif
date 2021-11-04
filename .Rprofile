@@ -14,3 +14,15 @@ if (identical(Sys.getenv("BRANCH"), "dev")) {
   utils::assignInNamespace("filter_names", finbif:::filter_names_test, "finbif")
 
 }
+
+if (!dir.exists("archives/split")) {
+
+  dir.create("archives/split", recursive = TRUE)
+
+}
+
+if (!dir.exists("archives/combined")) {
+
+  dir.create("archives/combined", recursive = TRUE)
+
+}
