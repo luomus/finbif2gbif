@@ -100,9 +100,7 @@ process_media <- function(data) {
       function(x) c(x[!is.na(x)], NA_character_)[[1L]], character(1L)
     )
 
-    data[[media]] <- vapply(
-      data[[media]], paste, character(1L), collapse = " | "
-    )
+    data[[media]] <- vapply(data[[media]], pipe_collapse, character(1L))
 
   }
 
@@ -120,10 +118,28 @@ process_recorded_by <- function(data) {
 
   if (has_rb) {
 
-    data[[rb]] <- vapply(data[[rb]], paste, character(1L), collapse = " | ")
+    data[[rb]] <- vapply(data[[rb]], pipe_collapse, character(1L))
 
   }
 
   data
+
+}
+
+#' @noRd
+
+pipe_collapse <- function(x) {
+
+  x <- na.omit(x)
+
+  ans <- ""
+
+  if (length(x) > 0L) {
+
+    ans <- paste(x, collapse = " | ")
+
+  }
+
+  ans
 
 }
