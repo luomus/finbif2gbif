@@ -1,5 +1,6 @@
 default:
   enabled: true
+  gbif: true
   metadata:
     title: long_name
     description: description

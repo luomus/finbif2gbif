@@ -52,6 +52,8 @@ res <- tryCatch(
 
       publish_archive(archive)
 
+      if (skip_gbif(collection)) next
+
       registration <- get_registration(gbif_datasets, collection)
 
       if (is.null(registration)) {
