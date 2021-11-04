@@ -27,6 +27,7 @@ default:
   - stateProvince
   - higherGeography
   - country
+  - recordedBy
   - associatedMedia
   - dcterms:license
   nmax: 2.5e4

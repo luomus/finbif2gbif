@@ -38,6 +38,8 @@ get_occurrences <- function(
 
   data <- process_media(data)
 
+  data <- process_recorded_by(data)
+
   data
 
 }
@@ -101,6 +103,24 @@ process_media <- function(data) {
     data[[media]] <- vapply(
       data[[media]], paste, character(1L), collapse = " | "
     )
+
+  }
+
+  data
+
+}
+
+#' @noRd
+
+process_recorded_by <- function(data) {
+
+  rb <- "recordedBy"
+
+  has_rb <- rb %in% names(data)
+
+  if (has_rb) {
+
+    data[[rb]] <- vapply(data[[rb]], paste, character(1L), collapse = " | ")
 
   }
 
