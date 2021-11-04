@@ -15,6 +15,8 @@ default:
   - kingdom
   - occurrenceStatus
   - individualCount
+  - lifeStage
+  - sex
   - eventDate
   - decimalLatitude
   - decimalLongitude
@@ -28,9 +30,12 @@ default:
   - higherGeography
   - country
   - recordedBy
+  - identifiedBy
   - associatedMedia
   - dcterms:license
   - dcterms:bibliographicCitation
+  - occurrenceRemarks
+  - eventRemarks
   nmax: 2.5e4
   filters:
     abundance_min: 0
