@@ -8,7 +8,7 @@
 #' @return Logical.
 #' @examples \dontrun{
 #'
-#' skip_collection()
+#' skip_collection("HR.139")
 #'
 #' }
 #' @export

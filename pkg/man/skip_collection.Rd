@@ -20,7 +20,7 @@ Should the collection be skipped?
 \examples{
 \dontrun{
 
-skip_collection()
+skip_collection("HR.139")
 
 }
 }
