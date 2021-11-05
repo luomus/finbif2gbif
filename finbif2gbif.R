@@ -50,7 +50,7 @@ res <- tryCatch(
 
       }
 
-      publish_archive(archive)
+      publish_archive(archive, subsets)
 
       if (skip_gbif(collection)) next
 

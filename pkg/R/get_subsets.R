@@ -66,6 +66,10 @@ get_subsets <- function(
     )
   )
 
+  attr(subsets, "n") <- n
+
+  attr(subsets, "collection_id") <- collection_id
+
   subsets
 
 }

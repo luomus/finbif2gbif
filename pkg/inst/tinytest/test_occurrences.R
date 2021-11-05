@@ -4,11 +4,17 @@ archive <- structure("archive.zip", class = "archive_file")
 
 expect_equal(write_meta(archive, list(), "occurrenceID"), 0L)
 
+filter <- list(collection = "HR.139")
+
+attr(filter, "n") <- 10L
+
+attr(filter, "collection_id") <- "HR.139"
+
 expect_equal(
   archive_occurrences(
     archive,
     "occurrence_test.txt",
-    list(collection = "HR.139"),
+    filter,
     c(
       "occurrenceID", "basisOfRecord", "associatedMedia", "license",
       "recordedBy"
@@ -32,7 +38,7 @@ expect_equal(
 dir.create("split")
 dir.create("combined")
 
-expect_equal(publish_archive("stage/archive.zip", "."), 0L)
+expect_equal(publish_archive("stage/archive.zip", filter, "."), 0L)
 
 expect_equal(clean_occurrences(archive, get_subsets("HR.139", NULL)), 0L)
 

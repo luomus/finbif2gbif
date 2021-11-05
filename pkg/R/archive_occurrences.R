@@ -35,9 +35,27 @@ archive_occurrences <- function(
   quiet = TRUE
 ) {
 
+  n_in <- as.integer(n)
 
-  occ <- get_occurrences(filter, select, as.integer(n), quiet = quiet)
+  occ <- get_occurrences(filter, select, n_in, quiet = quiet)
 
-  write_occurrences(occ, archive, file_name)
+  ans <- write_occurrences(occ, archive, file_name)
+
+  n_out <- count_occurrences(archive, file_name)
+
+  cond <- identical(n_out, n_in)
+
+  names(cond) <- sprintf(
+    "Count mismatch for file %s in %s [n = %s] and filter %s [n = %s]",
+    file_name,
+    archive,
+    n_out,
+    paste(trimws(capture.output(dput(as.list(filter)))), collapse = " "),
+    n_in
+  )
+
+  do.call(stopifnot, list(cond))
+
+  ans
 
 }
