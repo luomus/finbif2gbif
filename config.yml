@@ -43,6 +43,6 @@ default:
     requires_verification: false
 
 HR.447:
-  enabled: false
+  enabled: true
   filters:
     date_range_ymd: ["2015-01-01", ""]
