@@ -24,7 +24,7 @@ between 1 and the number of fields specified.}
 The status value returned by the zip command, invisibly.
 }
 \description{
-Write a Darwin Core archive meta data file.
+Write a Darwin Core archive metadata file.
 }
 \examples{
 \dontrun{

@@ -1,6 +1,6 @@
 #' Write metafile
 #'
-#' Write a Darwin Core archive meta data file.
+#' Write a Darwin Core archive metadata file.
 #'
 #' @param archive Character. Path to the archive.
 #' @param filter List.
