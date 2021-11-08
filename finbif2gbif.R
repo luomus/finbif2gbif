@@ -54,7 +54,7 @@ res <- tryCatch(
 
       md <- get_metadata(collection)
 
-      needs_metadata_upd <- last_mod(collection) > last_mod(registration)
+      need_metadata_upd <- last_mod(collection) > last_mod(registration)
 
       if (!skip_gbif(collection)) {
 
@@ -68,7 +68,7 @@ res <- tryCatch(
 
         } else {
 
-          if (needs_metadata_upd) {
+          if (need_metadata_upd) {
 
             update_gbif_dataset_metadata(md, registration)
 
@@ -84,7 +84,7 @@ res <- tryCatch(
 
       publish_archive(archive, subsets)
 
-      if (!skip_gbif(collection) && needs_metadata_upd || any_need_archiving) {
+      if (!skip_gbif(collection) && (need_metadata_upd || any_need_archiving)) {
 
         initiate_gbif_ingestion(uuid)
 
