@@ -21,15 +21,13 @@
 #' @export
 
 initiate_gbif_ingestion <- function(
-  registration,
+  uuid,
   url = Sys.getenv("GBIF_API"),
   user = Sys.getenv("GBIF_USER"),
   pass = Sys.getenv("GBIF_PASS")
 ) {
 
   auth <- httr::authenticate(user, pass)
-
-  uuid <- attr(registration, "key")
 
   res <- httr::RETRY(
     "POST",

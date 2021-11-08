@@ -2,10 +2,16 @@ default:
   enabled: true
   gbif: true
   metadata:
+    type: type
     title: long_name
     description: description
-    dataLanguage: language
+    language: metadata_language
     license: intellectual_rights
+  eml:
+    dataLanguage: language
+    collectionCode: abbreviation
+    methods: methods
+    geographicDescription: geographic_coverage
   fields:
   - occurrenceID
   - basisOfRecord

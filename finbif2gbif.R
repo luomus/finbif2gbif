@@ -50,27 +50,43 @@ res <- tryCatch(
 
       }
 
-      publish_archive(archive, subsets)
-
-      if (skip_gbif(collection)) next
-
       registration <- get_registration(gbif_datasets, collection)
 
-      if (is.null(registration)) {
+      md <- get_metadata(collection)
 
-        uuid <- send_gbif_dataset_metadata(get_metadata(collection))
+      needs_metadata_upd <- last_mod(collection) > last_mod(registration)
 
-        send_gbif_dataset_endpoint(get_endpoint(collection), uuid)
+      if (!skip_gbif(collection)) {
 
-        send_gbif_dataset_id(collection, uuid)
+        if (is.null(registration)) {
 
-      } else if (last_mod(collection) > last_mod(registration)) {
+          uuid <- send_gbif_dataset_metadata(md)
 
-        update_gbif_dataset_metadata(get_metadata(collection), registration)
+          send_gbif_dataset_endpoint(get_endpoint(collection), uuid)
 
-      } else if (any_need_archiving) {
+          send_gbif_dataset_id(collection, uuid)
 
-        initiate_gbif_ingestion(registration)
+        } else {
+
+          if (needs_metadata_upd) {
+
+            update_gbif_dataset_metadata(md, registration)
+
+          }
+
+          uuid <- get_uuid(registration)
+
+        }
+
+      }
+
+      write_eml(archive, collection, uuid, md)
+
+      publish_archive(archive, subsets)
+
+      if (!skip_gbif(collection) && needs_metadata_upd || any_need_archiving) {
+
+        initiate_gbif_ingestion(uuid)
 
       }
 

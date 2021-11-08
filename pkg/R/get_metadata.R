@@ -29,25 +29,18 @@ get_metadata <- function(
     supercollections = TRUE, select = TRUE, filter = id == collection_id
   )
 
+  m[["type"]] <- "OCCURRENCE"
+
+  m[["metadata_language"]] <- "eng"
+
   m[["intellectual_rights"]] <- ifelse(
     is.na(m[["intellectual_rights"]]),
     "",
     licenses[[m[["intellectual_rights"]]]]
   )
 
-  languages <- c(
-    "english" = "eng",
-    "estonian" = "est",
-    "finnish" = "fin",
-    "mixed" = "mul",
-    "russion" = "rus",
-    "swedish" = "swe"
-  )
-
   m[["language"]] <- ifelse(
-    is.na(m[["language"]]),
-    "eng",
-    languages[[m[["language"]]]]
+    is.na(m[["language"]]), "mul", languages[[m[["language"]]]]
   )
 
   message(
@@ -61,11 +54,20 @@ get_metadata <- function(
   c(
     list(
       publishingOrganizationKey = org,
-      installationKey = installation,
-      type = "OCCURRENCE",
-      language = "eng"
+      installationKey = installation
     ),
     lapply(metadata_fields, function(x) m[[x]])
   )
 
 }
+
+#' @noRd
+
+languages <- c(
+  "english" = "eng",
+  "estonian" = "est",
+  "finnish" = "fin",
+  "mixed" = "mul",
+  "russion" = "rus",
+  "swedish" = "swe"
+)

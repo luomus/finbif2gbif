@@ -6,14 +6,16 @@ RUN  apk add --no-cache --update-cache \
        zip \
        tzdata \
   && export TZDIR=/usr/share/zoneinfo \
+  && DOWNLOAD_STATIC_LIBV8=1 installr -d -t curl-dev V8 \
   && installr -d \
-      -t "curl-dev libxml2-dev linux-headers" \
-      -a "libxml2" \
+      -t "curl-dev jq-dev libxml2-dev linux-headers" \
+      -a "libxml2 jq" \
       callr \
       config \
       covr \
       digest \
       DT \
+      EML \
       htmltools \
       httr \
       logger \

@@ -9,14 +9,8 @@ gbif$post(
 
 api <- webfakes::local_app_process(gbif)
 
-reg <- 1
-attr(reg, "key") <- "1234"
-attr(reg, "created") <- format(
-  as.POSIXlt(Sys.time(), "UTC"), "%FT%R:%OS+00:00"
-)
-
 expect_identical(
-  initiate_gbif_ingestion(reg, api$url()),
+  initiate_gbif_ingestion("1234", api$url()),
   NULL
 )
 

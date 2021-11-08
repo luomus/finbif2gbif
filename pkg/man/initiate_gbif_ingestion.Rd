@@ -5,15 +5,13 @@
 \title{Initiate ingestion}
 \usage{
 initiate_gbif_ingestion(
-  registration,
+  uuid,
   url = Sys.getenv("GBIF_API"),
   user = Sys.getenv("GBIF_USER"),
   pass = Sys.getenv("GBIF_PASS")
 )
 }
 \arguments{
-\item{registration}{Integer. GBIF registration.}
-
 \item{url}{Character. URL of GBIF API. Defaults to system environment
 variable, "GBIF_API".}
 
@@ -22,6 +20,8 @@ variable, "GBIF_USER".}
 
 \item{pass}{Character. GBIF password. Defaults to system environment
 variable, "GBIF_PASS".}
+
+\item{registration}{Integer. GBIF registration.}
 }
 \value{
 NULL.
