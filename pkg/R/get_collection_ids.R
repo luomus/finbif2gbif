@@ -23,7 +23,7 @@ get_collection_ids <- function(
 
   # TODO
   # For use when backend changes are implemented
-  # cols[which(cols[["share_to_gbif"]] == cols[["id"]]), "id"]
+  # cols[which(cols[["share_to_gbif"]] == cols[["id"]]), c("id", "date_edited")]
 
   ans <- as.list(cols[["id"]])
 
