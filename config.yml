@@ -9,7 +9,6 @@ default:
     license: intellectual_rights
   eml:
     dataLanguage: language
-    collectionCode: abbreviation
     methods: methods
     geographicDescription: geographic_coverage
   fields:
