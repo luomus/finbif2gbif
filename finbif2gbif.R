@@ -84,7 +84,9 @@ res <- tryCatch(
 
       publish_archive(archive, subsets)
 
-      if (!skip_gbif(collection) && (need_metadata_upd || any_need_archiving)) {
+      ingest <- need_metadata_upd || any_need_archiving || is.null(registration)
+
+      if (!skip_gbif(collection) && ingest) {
 
         initiate_gbif_ingestion(uuid)
 
