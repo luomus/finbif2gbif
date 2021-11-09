@@ -24,7 +24,9 @@ clean_occurrences <- function(
 
   old_files <- utils::unzip(archive, list = TRUE)
 
-  obsolete_files <- setdiff(old_files[["Name"]], c("meta.xml", current_files))
+  obsolete_files <- setdiff(
+    old_files[["Name"]], c("meta.xml", "eml.xml", current_files)
+  )
 
   ans <- 0L
 
