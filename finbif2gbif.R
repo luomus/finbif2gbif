@@ -78,9 +78,9 @@ res <- tryCatch(
 
         }
 
-      }
+        write_eml(archive, collection, uuid, md)
 
-      write_eml(archive, collection, uuid, md)
+      }
 
       publish_archive(archive, subsets)
 
