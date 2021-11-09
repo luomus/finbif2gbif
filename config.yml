@@ -11,6 +11,8 @@ default:
     dataLanguage: language
     methods: methods
     geographicDescription: geographic_coverage
+    contact: person_responsible
+    email: contact_email
   fields:
   - occurrenceID
   - basisOfRecord

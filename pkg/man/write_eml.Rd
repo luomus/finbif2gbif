@@ -9,7 +9,11 @@ write_eml(archive, collection_id, uuid, metadata, eml = config::get("eml"))
 \arguments{
 \item{archive}{Character. Path to a DarwinCore archive.}
 
-\item{collection_id}{Collection ID.}
+\item{collection_id}{Character. Collection ID.}
+
+\item{uuid}{Character. GBIF ID.}
+
+\item{metadata}{List.}
 
 \item{eml}{List.}
 }

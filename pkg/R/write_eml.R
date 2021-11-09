@@ -3,7 +3,9 @@
 #' Write an EML metadata file.
 #'
 #' @param archive Character. Path to a DarwinCore archive.
-#' @param collection_id Collection ID.
+#' @param collection_id Character. Collection ID.
+#' @param uuid Character. GBIF ID.
+#' @param metadata List.
 #' @param eml List.
 #'
 #' @return The status value returned by the zip command, invisibly.
@@ -15,8 +17,9 @@
 #'
 #' }
 #' @importFrom EML set_coverage write_eml
+#' @importFrom emld as_emld
 #' @importFrom finbif finbif_occurrence scientific_name
-#' @importFrom utils zip
+#' @importFrom utils as.personList zip
 #' @export
 
 write_eml <- function(
@@ -29,19 +32,36 @@ write_eml <- function(
 
   eml <- get_metadata(collection_id, eml)
 
+  temp_cov <- temporal_coverage(collection_id)
+
+  contacts <- get_persons(eml[["contact"]], eml[["email"]])
+
+  contact <- contacts
+
+  associatedParties <- NULL
+
+  if (!inherits(contacts, "emld")) {
+
+    contact <- contacts[[1L]]
+
+    associatedParties <- contacts[-1L]
+
+  }
+
   eml <- list(
-    packageId = paste0(uuid, "/v1.1"),
-    system="http://gbif.org",
-    scope="system",
+    packageId = uuid,
     dataset = list(
       title = metadata[["title"]],
-      abstract = metadata[["description"]],
+      abstract = list(para = metadata[["description"]]),
+      contact = contact,
+      associatedParties = associatedParties,
       intellectualRights = metadata[["license"]],
-      collectionCode = eml[["collectionCode"]],
+      pubDate = Sys.Date(),
       language = eml[["dataLanguage"]],
       methods = eml[["methods"]],
       coverage = EML::set_coverage(
-        date = temporal_coverage(collection_id),
+        beginDate = temp_cov[[1L]],
+        endDate  = temp_cov[[2L]],
         sci_names = taxonomic_coverage(collection_id),
         geographicDescription = eml[["geographicDescription"]],
         westBoundingCoordinate = geographic_coverage(
@@ -130,5 +150,40 @@ geographic_coverage <- function(
   )
 
   ans[[1L, 1L]]
+
+}
+
+#' @noRd
+
+get_persons <- function(persons, emails) {
+
+  emails <- strsplit(emails, ",|;")
+  emails <- emails[[1L]]
+  emails <- trimws(emails)
+
+  sep <- ";"
+
+  is_comma_sep <- strsplit(persons, ",")
+  is_comma_sep <- is_comma_sep[[1L]]
+  is_comma_sep <- length(is_comma_sep) > 1L && grepl(" ", is_comma_sep[[1L]])
+
+  if (is_comma_sep) sep <- ","
+
+  persons <- strsplit(persons, sep)
+  persons <- persons[[1L]]
+  persons <- strsplit(persons, ",")
+  persons <- lapply(persons, trimws)
+  persons <- lapply(persons, rev)
+  persons <- lapply(persons, paste, collapse = " ")
+
+  for (i in seq_len(pmin(length(persons), length(emails)))) {
+
+    persons[[i]] <- sprintf("%s <%s>", persons[[i]], emails[[i]])
+
+  }
+
+  persons <- utils::as.personList(persons)
+
+  emld::as_emld(persons)
 
 }
