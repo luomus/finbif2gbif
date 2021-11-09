@@ -67,7 +67,12 @@ has_identifier <- function(x, collection_id) {
 
   x <- vapply(x[["identifiers"]], getElement, character(1L), "identifier")
 
-  x <- vapply(x, identical, logical(1L), as.character(collection_id))
+  x <- vapply(
+    x,
+    identical,
+    logical(1L),
+    sprintf("http://tun.fi/%s", as.character(collection_id))
+  )
 
   any(x)
 
