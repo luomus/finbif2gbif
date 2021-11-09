@@ -10,7 +10,7 @@ get_uuid(registration)
 \item{registration}{Integer.}
 }
 \value{
-A list.
+Character.
 }
 \description{
 Get the UUID of a registered dataset.
