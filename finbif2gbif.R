@@ -76,6 +76,8 @@ res <- tryCatch(
 
           uuid <- get_uuid(registration)
 
+          update_gbif_dataset_endpoint(get_endpoint(collection), uuid)
+
         }
 
         write_eml(archive, collection, uuid, md)
