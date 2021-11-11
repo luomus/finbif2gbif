@@ -99,8 +99,6 @@ parameters:
     required: true
   - name: GBIF_API
     required: true
-  - name: DEV_GBIF_ORG
-    required: true
   - name: DEV_GBIF_INSTALLATION
     required: true
   - name: DEV_GBIF_PASS
@@ -693,7 +691,7 @@ objects:
               - name: GBIF_USER
                 value: ${GBIF_USER}
               - name: GBIF_ORG
-                value: ${DEV_GBIF_ORG}
+                value: ${GBIF_ORG}
               - name: GBIF_INSTALLATION
                 value: ${DEV_GBIF_INSTALLATION}
               - name: GBIF_PASS
