@@ -37,9 +37,6 @@ parameters:
   - name: LOG_DIR
     required: true
     value: logs
-  - name: LOG_HOST
-    required: true
-    value: log
   - name: GIT_HOST
     required: true
     value: https://github.com
@@ -77,6 +74,12 @@ parameters:
     required: true
     value: "3"
   - name: HOST
+    required: true
+  - name: SUBDOMAIN
+    required: true
+  - name: LOG_HOST
+    required: true
+  - name: LOG_SUBDOMAIN
     required: true
   - name: FINBIF_ACCESS_TOKEN
     required: true
@@ -544,7 +547,7 @@ objects:
     labels:
       app: ${APP}
   spec:
-    host: ${HOST}
+    host: ${SUBDOMAIN}.${HOST}
     port:
       targetPort: ${APP_PORT}-tcp
     tls:
@@ -560,7 +563,7 @@ objects:
     labels:
       app: ${APP}
   spec:
-    host: ${DEV}-${HOST}
+    host: ${SUBDOMAIN}-${DEV}.${HOST}
     port:
       targetPort: ${APP_PORT}-tcp
     tls:
@@ -576,7 +579,7 @@ objects:
     labels:
       app: ${APP}
   spec:
-    host: ${LOG_HOST}-${HOST}
+    host: ${LOG_SUBDOMAIN}.${LOG_HOST}
     port:
       targetPort: ${LOG_PORT}-tcp
     tls:
@@ -592,7 +595,7 @@ objects:
     labels:
       app: ${APP}
   spec:
-    host: ${DEV}-${LOG_HOST}-${HOST}
+    host: ${LOG_SUBDOMAIN}-${DEV}.${LOG_HOST}
     port:
       targetPort: ${LOG_PORT}-tcp
     tls:
