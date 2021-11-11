@@ -260,7 +260,7 @@ objects:
             claimName: ${LOG}
         - name: ${APP}-${ARCHIVE}
           persistentVolumeClaim:
-            claimName: ${APP}-${ARCHIVE
+            claimName: ${APP}-${ARCHIVE}
     triggers:
     - type: ConfigChange
     - type: ImageChange
