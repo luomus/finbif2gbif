@@ -12,8 +12,10 @@ if (identical(Sys.getenv("BRANCH"), "dev")) {
 
   utils::assignInNamespace("var_names", finbif:::var_names_test, "finbif")
   utils::assignInNamespace("filter_names", finbif:::filter_names_test, "finbif")
-  file.copy("config-dev.yml", "config.yml", overwrite = TRUE)
-
+  stopifnot(
+    "Copying dev config failed" =
+      file.copy("config-dev.yml", "config.yml", overwrite = TRUE)
+  )
 }
 
 if (!dir.exists("archives/split")) {
