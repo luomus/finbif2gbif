@@ -628,7 +628,7 @@ objects:
                 name: ${LOG}
               env:
               - name: ENDPOINTS
-                value: https://${HOST}/${ARCHIVE}
+                value: https://${SUBDOMAIN}-${DEV}.${HOST}/${ARCHIVE}
               - name: TIMEOUT
                 value: ${TIMEOUT}
               - name: FINBIF_ACCESS_TOKEN
@@ -681,7 +681,7 @@ objects:
               - name: BRANCH
                 value: ${DEV}
               - name: ENDPOINTS
-                value: https://${DEV}-${HOST}/${ARCHIVE}
+                value: https://${SUBDOMAIN}-${DEV}.${HOST}/${ARCHIVE}
               - name: TIMEOUT
                 value: ${TIMEOUT}
               - name: FINBIF_ACCESS_TOKEN
