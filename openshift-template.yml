@@ -623,12 +623,12 @@ objects:
               command: ${{CRON_CMD}}
               volumeMounts:
               - mountPath: ${HOME}/${ARCHIVE}
-                name: ${DEV}-${APP}-${ARCHIVE}
+                name: ${APP}-${ARCHIVE}
               - mountPath: ${HOME}/${LOG_DIR}
                 name: ${LOG}
               env:
               - name: ENDPOINTS
-                value: https://${SUBDOMAIN}-${DEV}.${HOST}/${ARCHIVE}
+                value: https://${SUBDOMAIN}.${HOST}/${ARCHIVE}
               - name: TIMEOUT
                 value: ${TIMEOUT}
               - name: FINBIF_ACCESS_TOKEN
