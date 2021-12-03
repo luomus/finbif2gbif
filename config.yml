@@ -52,3 +52,7 @@ default:
 HR.89:
   enabled: true
   gbif: false
+
+HR.48:
+  enabled: true
+  gbif: false
