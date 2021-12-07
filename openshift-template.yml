@@ -72,7 +72,10 @@ parameters:
     value: '["Rscript", "finbif2gbif.R"]'
   - name: CRON_LIMIT
     required: true
-    value: "3"
+    value: "7"
+  - name: CRON_CONCURRENCY
+    required: true
+    value: "Forbid"
   - name: HOST
     required: true
   - name: SUBDOMAIN
@@ -608,6 +611,7 @@ objects:
     name: ${APP}
   spec:
     schedule: ${CRON_SCHEDULE}
+    concurrencyPolicy: ${CRON_CONCURRENCY}
     successfulJobsHistoryLimit: ${{CRON_LIMIT}}
     failedJobsHistoryLimit: ${{CRON_LIMIT}}
     jobTemplate:
@@ -659,6 +663,7 @@ objects:
     name: ${DEV}-${APP}
   spec:
     schedule: ${CRON_SCHEDULE}
+    concurrencyPolicy: ${CRON_CONCURRENCY}
     successfulJobsHistoryLimit: ${{CRON_LIMIT}}
     failedJobsHistoryLimit: ${{CRON_LIMIT}}
     jobTemplate:
