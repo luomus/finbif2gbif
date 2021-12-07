@@ -54,5 +54,5 @@ HR.89:
   gbif: false
 
 HR.48:
-  enabled: false
+  enabled: true
   gbif: false
