@@ -30,6 +30,10 @@ get_occurrences <- function(
   quiet = TRUE
 ) {
 
+  oq <- "occurrenceQuality"
+
+  select <- c(select, oq)
+
   data <- finbif::finbif_occurrence(
     filter = filter, select = select, n = n, dwc = TRUE, quiet = quiet
   )
@@ -39,6 +43,10 @@ get_occurrences <- function(
   data <- process_media(data)
 
   data <- process_recorded_by(data)
+
+  data <- process_occurrence_remarks(data, oq)
+
+  data[[oq]] <- NULL
 
   data
 
@@ -119,6 +127,30 @@ process_recorded_by <- function(data) {
   if (has_rb) {
 
     data[[rb]] <- vapply(data[[rb]], pipe_collapse, character(1L))
+
+  }
+
+  data
+
+}
+
+#' @noRd
+
+process_occurrence_remarks <- function(data, oq) {
+
+  or <- "occurrenceRemarks"
+
+  has_or <- or %in% names(data)
+
+  if (has_or) {
+
+    data[[or]] <- ifelse(is.na(data[[or]]), "", paste0("\n", data[[or]]))
+
+    data[[or]] <- paste0(
+      "Quality assessment: ",
+      ifelse(data[[oq]] == "NEUTRAL", "UNASSESSED", data[[oq]]),
+      data[[or]]
+    )
 
   }
 

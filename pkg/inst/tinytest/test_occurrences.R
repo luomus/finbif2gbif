@@ -17,7 +17,7 @@ expect_equal(
     filter,
     c(
       "occurrenceID", "basisOfRecord", "associatedMedia", "license",
-      "recordedBy"
+      "recordedBy", "occurrenceRemarks"
     ),
     10L,
   ),
