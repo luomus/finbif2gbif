@@ -4,14 +4,16 @@
 \alias{publish_archive}
 \title{Get archive file path}
 \usage{
-publish_archive(staged_archive, filter, dir = "archives")
+publish_archive(staged_archive, filter, dir = "archives", n_in)
 }
 \arguments{
 \item{staged_archive}{Character. Path to the staged archive.}
 
 \item{filter}{List.}
 
-\item{dir}{Character. Path to the archive directory}
+\item{dir}{Character. Path to the archive directory.}
+
+\item{n_in}{Integer.}
 }
 \value{
 Character. The file path of the staged archive.

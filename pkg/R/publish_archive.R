@@ -4,7 +4,8 @@
 #'
 #' @param staged_archive Character. Path to the staged archive.
 #' @param filter List.
-#' @param dir Character. Path to the archive directory
+#' @param dir Character. Path to the archive directory.
+#' @param n_in Integer.
 #'
 #' @return Character. The file path of the staged archive.
 #' @examples \dontrun{
@@ -17,7 +18,8 @@
 publish_archive <- function(
   staged_archive,
   filter,
-  dir = "archives"
+  dir = "archives",
+  n_in
 ) {
 
   split_archive <- file.path(dir, "split", basename(staged_archive))
@@ -30,11 +32,20 @@ publish_archive <- function(
 
   system2("combine-dwca.sh", split_archive)
 
-  n_in <- attr(filter, "n")
+  n_out <- system(
+    sprintf("unzip -p %s -x meta.xml | wc -l", split_archive), TRUE
+  )
 
-  n_out <- count_occurrences(split_archive, "occurrence.txt")
+  message(
+    sprintf(
+      "INFO [%s] Found %s records in archive, %s; file, occurrence.txt",
+      Sys.time(),
+      n_out,
+      split_archive
+    )
+  )
 
-  cond <- identical(n_out, n_in)
+  cond <- identical(n_out, as.character(n_in))
 
   names(cond) <- sprintf(
     "Count mismatch for file %s in %s [n = %s] & collection %s [n = %s]",

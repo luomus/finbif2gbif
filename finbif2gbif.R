@@ -28,11 +28,15 @@ res <- tryCatch(
 
       any_need_archiving <- logical()
 
+      n <- 0L
+
       for (subset in subsets) {
 
         file <- get_file_name(subset)
 
         subset_n <- count_occurrences(subset)
+
+        n <- n + subset_n
 
         unequal <- count_occurrences(archive, file) != subset_n
 
@@ -84,7 +88,7 @@ res <- tryCatch(
 
       }
 
-      publish_archive(archive, subsets)
+      publish_archive(archive, subsets, n)
 
       ingest <- need_metadata_upd || any_need_archiving || is.null(registration)
 
