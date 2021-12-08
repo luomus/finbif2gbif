@@ -81,7 +81,7 @@ list()
 #* @assets ./archives/combined /archives
 list()
 
-#* @assets /usr/local/lib/R/library/finbif/help/figures
+#* @assets /usr/local/lib/R/library/finbif/help/figures/public /public
 list()
 
 #* @get /favicon.ico
@@ -89,6 +89,14 @@ list()
 function() {
 
   readBin("favicon.ico", "raw", n = file.info("favicon.ico")$size)
+
+}
+
+#* @get /
+function(res) {
+
+  res$status <- 303L
+  res$setHeader("Location", "/__docs__/")
 
 }
 
@@ -105,6 +113,7 @@ function(pr) {
 
       spec$paths$`/healthz` <- NULL
       spec$paths$`/favicon.ico` <- NULL
+      spec$paths$`/` <- NULL
 
       spec
 
