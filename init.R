@@ -1,4 +1,4 @@
-pkgs <- c("f2g", "logger", "plumber", "rapidoc", "tictoc", "utils")
+pkgs <- c("f2g", "lubridate", "logger", "plumber", "rapidoc", "tictoc", "utils")
 
 for (pkg in pkgs) {
 
