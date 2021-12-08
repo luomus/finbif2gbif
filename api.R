@@ -54,13 +54,13 @@ function() {
 
 #* Get the last modified time for a Darwin Core archive
 #* @get /lastmod
-#* @param archive:str Collection ID of archive to check the last modified time for.
+#* @param archive:str Archive to check.
 #* @tag info
 #* @response 200 A json object
 #* @serializer unboxedJSON
 function(archive, res) {
 
-  path <- sprintf("archives/combined/%s.zip", archive)
+  path <- sprintf("archives/combined/%s", archive)
 
   if (!file.exists(path)) {
 
@@ -71,7 +71,7 @@ function(archive, res) {
 
   ans <- file.mtime(path)
 
-  format(ans)
+  format_ISO8601(ans, usetz = TRUE)
 
 }
 
