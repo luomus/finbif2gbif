@@ -38,7 +38,7 @@ expect_equal(
 dir.create("split")
 dir.create("combined")
 
-expect_equal(publish_archive("stage/archive.zip", filter, ".", 73L), 0L)
+expect_equal(publish_archive("stage/archive.zip", filter, 73L, "."), 0L)
 
 expect_equal(clean_occurrences(archive, get_subsets("HR.139", NULL)), 0L)
 
