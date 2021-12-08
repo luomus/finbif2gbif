@@ -2,6 +2,8 @@
 #'
 #' Get collection IDs of FinBIF collections that are published to GBIF.
 #'
+#' @param datasets List. GBIF dataset metadata retrieved using `gbif_datasets`.
+#'
 #' @return A character vector.
 #' @examples \dontrun{
 #'
@@ -12,6 +14,7 @@
 #' @export
 
 get_collection_ids <- function(
+  datasets
 ) {
 
   cols <- finbif::finbif_collections(
@@ -28,13 +31,29 @@ get_collection_ids <- function(
 
   to_gbif_cols <- cols[which_to_gbif, ]
 
-  to_gbif_ids <- to_gbif_cols[["id"]]
+  for (id in to_gbif_cols[["id"]]) {
 
-  for (id in to_gbif_ids) {
+    ids_remove <- id
 
     parents <- get_parents(id, cols)
 
-    ids_keep <- setdiff(to_gbif_cols[["id"]], parents)
+    registered_parent <- FALSE
+
+    for (pid in parents) {
+
+      reg <- get_registration(datasets, pid)
+
+      registered_parent <- registered_parent || !is.null(reg)
+
+    }
+
+    if (!registered_parent) {
+
+      ids_remove <- parents
+
+    }
+
+    ids_keep <- setdiff(to_gbif_cols[["id"]], ids_remove)
 
     to_gbif_cols <- to_gbif_cols[ids_keep, ]
 

@@ -6,9 +6,9 @@ res <- tryCatch(
 
     start_timer <- tic()
 
-    finbif_collections <- get_collection_ids()
-
     gbif_datasets <- get_gbif_datasets()
+
+    finbif_collections <- get_collection_ids(gbif_datasets)
 
     for (collection in sample(finbif_collections)) {
 
