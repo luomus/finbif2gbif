@@ -4,8 +4,9 @@
 #'
 #' @param staged_archive Character. Path to the staged archive.
 #' @param filter List.
-#' @param dir Character. Path to the archive directory.
 #' @param n_in Integer.
+#' @param dir Character. Path to the archive directory.
+
 #'
 #' @return Character. The file path of the staged archive.
 #' @examples \dontrun{
@@ -18,8 +19,8 @@
 publish_archive <- function(
   staged_archive,
   filter,
-  dir = "archives",
-  n_in
+  n_in,
+  dir = "archives"
 ) {
 
   split_archive <- file.path(dir, "split", basename(staged_archive))
