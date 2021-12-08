@@ -4,7 +4,10 @@
 \alias{get_collection_ids}
 \title{Get collection IDs}
 \usage{
-get_collection_ids()
+get_collection_ids(datasets)
+}
+\arguments{
+\item{datasets}{List. GBIF dataset metadata retrieved using \code{gbif_datasets}.}
 }
 \value{
 A character vector.
