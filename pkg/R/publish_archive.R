@@ -37,6 +37,8 @@ publish_archive <- function(
     sprintf("unzip -p %s -x meta.xml | wc -l", split_archive), TRUE
   )
 
+  n_out <- as.integer(n_out) - 1L
+
   message(
     sprintf(
       "INFO [%s] Found %s records in archive, %s; file, occurrence.txt",
@@ -46,7 +48,7 @@ publish_archive <- function(
     )
   )
 
-  cond <- identical(n_out, as.character(n_in))
+  cond <- identical(n_out, as.integer(n_in))
 
   names(cond) <- sprintf(
     "Count mismatch for file %s in %s [n = %s] & collection %s [n = %s]",

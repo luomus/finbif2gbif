@@ -41,7 +41,7 @@ get_collection_ids <- function(
 
     for (pid in parents) {
 
-      reg <- get_registration(datasets, pid)
+      reg <- get_registration(datasets, pid, TRUE)
 
       registered_parent <- registered_parent || !is.null(reg)
 
