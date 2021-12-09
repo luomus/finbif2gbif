@@ -4,6 +4,7 @@
 #'
 #' @param datasets List. GBIF dataset metadata retrieved using `gbif_datasets`.
 #' @param collection_id Character. ID string of FinBIF collection.
+#' @param quiet Logical. Suppress messages.
 #'
 #' @return Integer.
 #' @examples \dontrun{
@@ -15,7 +16,8 @@
 
 get_registration <- function(
   datasets,
-  collection_id
+  collection_id,
+  quiet = FALSE
 ) {
 
   ans <- vapply(datasets, has_identifier, logical(1L), collection_id)
@@ -34,26 +36,34 @@ get_registration <- function(
       last_mod = as.Date(datasets[[ans]][["modified"]])
     )
 
-    message(
-      sprintf(
-        "INFO [%s] Collection %s registered as %s on %s and last modified %s",
-        Sys.time(),
-        collection_id,
-        attr(ans, "key"),
-        attr(ans, "created"),
-        attr(ans, "last_mod")
+    if (!quiet) {
+
+      message(
+        sprintf(
+          "INFO [%s] Collection %s registered as %s on %s and last modified %s",
+          Sys.time(),
+          collection_id,
+          attr(ans, "key"),
+          attr(ans, "created"),
+          attr(ans, "last_mod")
+        )
       )
-    )
+
+    }
 
   } else {
 
-    message(
-      sprintf(
-        "INFO [%s] Collection %s has not been registered",
-        Sys.time(),
-        collection_id
+    if (!quiet) {
+
+      message(
+        sprintf(
+          "INFO [%s] Collection %s has not been registered",
+          Sys.time(),
+          collection_id
+        )
       )
-    )
+
+    }
 
     ans <- NULL
 

@@ -4,12 +4,14 @@
 \alias{get_registration}
 \title{Check registration}
 \usage{
-get_registration(datasets, collection_id)
+get_registration(datasets, collection_id, quiet = FALSE)
 }
 \arguments{
 \item{datasets}{List. GBIF dataset metadata retrieved using \code{gbif_datasets}.}
 
 \item{collection_id}{Character. ID string of FinBIF collection.}
+
+\item{quiet}{Logical. Suppress messages.}
 }
 \value{
 Integer.
