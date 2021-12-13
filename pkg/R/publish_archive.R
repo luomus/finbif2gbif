@@ -4,7 +4,6 @@
 #'
 #' @param staged_archive Character. Path to the staged archive.
 #' @param filter List.
-#' @param n_in Integer.
 #' @param dir Character. Path to the archive directory.
 
 #'
@@ -19,7 +18,6 @@
 publish_archive <- function(
   staged_archive,
   filter,
-  n_in,
   dir = "archives"
 ) {
 
@@ -47,19 +45,6 @@ publish_archive <- function(
       split_archive
     )
   )
-
-  cond <- identical(n_out, as.integer(n_in))
-
-  names(cond) <- sprintf(
-    "Count mismatch for file %s in %s [n = %s] & collection %s [n = %s]",
-    "occurrence.txt",
-    combined_archive,
-    n_out,
-    attr(filter, "collection_id"),
-    n_in
-  )
-
-  do.call(stopifnot, list(cond))
 
   file.copy(split_archive, combined_archive, overwrite = TRUE)
 
