@@ -18,13 +18,13 @@ res <- tryCatch(
 
       archive <- get_archive_path(collection)
 
-      archive <- stage_archive(archive)
+      staged_archive <- stage_archive(archive)
 
       subsets <- get_subsets(collection)
 
-      write_meta(archive, subsets)
+      write_meta(staged_archive, subsets)
 
-      clean_occurrences(archive, subsets)
+      clean_occurrences(staged_archive, subsets)
 
       any_need_archiving <- logical()
 
@@ -34,15 +34,17 @@ res <- tryCatch(
 
         subset_n <- count_occurrences(subset)
 
-        unequal <- count_occurrences(archive, file) != subset_n
+        unequal <- count_occurrences(staged_archive, file) != subset_n
 
-        outdated <- last_mod(subset) > last_mod(archive, file)
+        outdated <- last_mod(subset) > last_mod(staged_archive, file)
 
         needs_archiving <- any(unequal, outdated)
 
         if (needs_archiving) {
 
-          archive_occurrences(archive, file, subset, n = subset_n)
+          archive_occurrences(staged_archive, file, subset, n = subset_n)
+
+          unstage_archive(staged_archive)
 
         }
 

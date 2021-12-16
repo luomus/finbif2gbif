@@ -1,6 +1,6 @@
-#' Get archive file path
+#' Publish archive
 #'
-#' Get the file path of an archive for a collection.
+#' Publish a Darwin Core archive.
 #'
 #' @param staged_archive Character. Path to the staged archive.
 #' @param filter List.
@@ -16,23 +16,15 @@
 #' @export
 
 publish_archive <- function(
-  staged_archive,
+  split_archive,
   filter,
   dir = "archives"
 ) {
 
-  split_archive <- file.path(dir, "split", basename(staged_archive))
-
-  class(split_archive) <- "archive_file"
-
-  combined_archive <- file.path(dir, "combined", basename(staged_archive))
-
-  file.copy(staged_archive, split_archive, overwrite = TRUE)
-
   system2("combine-dwca.sh", split_archive)
 
   n_out <- system(
-    sprintf("unzip -p %s -x meta.xml | wc -l", split_archive), TRUE
+    sprintf("unzip -p %s -x meta.xml eml.xml | wc -l", split_archive), TRUE
   )
 
   n_out <- as.integer(n_out) - 1L
@@ -46,17 +38,17 @@ publish_archive <- function(
     )
   )
 
-  file.copy(split_archive, combined_archive, overwrite = TRUE)
+  combined_archive <- file.path(dir, "combined", basename(split_archive))
 
-  file.copy(staged_archive, split_archive, overwrite = TRUE)
+  ans <-file.copy(split_archive, combined_archive, overwrite = TRUE)
 
   message(
     sprintf(
-      "INFO [%s] %s published to %s", Sys.time(), staged_archive,
+      "INFO [%s] %s published to %s", Sys.time(), split_archive,
       combined_archive
     )
   )
 
-  unlink(staged_archive)
+  ans
 
 }
