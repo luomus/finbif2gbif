@@ -4,11 +4,9 @@
 \alias{publish_archive}
 \title{Publish archive}
 \usage{
-publish_archive(split_archive, filter, dir = "archives")
+publish_archive(split_archive, dir = "archives")
 }
 \arguments{
-\item{filter}{List.}
-
 \item{dir}{Character. Path to the archive directory.}
 
 \item{staged_archive}{Character. Path to the staged archive.}

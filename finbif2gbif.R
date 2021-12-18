@@ -86,7 +86,7 @@ res <- tryCatch(
 
       }
 
-      publish_archive(archive, subsets)
+      publish_archive(archive)
 
       ingest <- need_metadata_upd || any_need_archiving || is.null(registration)
 
