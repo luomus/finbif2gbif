@@ -40,7 +40,7 @@ dir.create("combined")
 
 expect_true(unstage_archive("stage/archive.zip", "."))
 
-expect_true(publish_archive("split/archive.zip", filter, "."))
+expect_true(publish_archive("split/archive.zip", "."))
 
 expect_equal(clean_occurrences(archive, get_subsets("HR.139", NULL)), 0L)
 

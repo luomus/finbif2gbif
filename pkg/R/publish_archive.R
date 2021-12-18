@@ -3,7 +3,6 @@
 #' Publish a Darwin Core archive.
 #'
 #' @param staged_archive Character. Path to the staged archive.
-#' @param filter List.
 #' @param dir Character. Path to the archive directory.
 
 #'
@@ -17,7 +16,6 @@
 
 publish_archive <- function(
   split_archive,
-  filter,
   dir = "archives"
 ) {
 
@@ -40,7 +38,7 @@ publish_archive <- function(
 
   combined_archive <- file.path(dir, "combined", basename(split_archive))
 
-  ans <-file.copy(split_archive, combined_archive, overwrite = TRUE)
+  ans <- file.copy(split_archive, combined_archive, overwrite = TRUE)
 
   message(
     sprintf(
