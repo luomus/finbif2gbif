@@ -88,6 +88,8 @@ res <- tryCatch(
 
       publish_archive(archive)
 
+      unstage_archive(staged_archive)
+
       ingest <- need_metadata_upd || any_need_archiving || is.null(registration)
 
       if (!skip_gbif(collection) && ingest) {
