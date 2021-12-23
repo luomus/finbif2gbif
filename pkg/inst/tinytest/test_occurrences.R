@@ -38,6 +38,8 @@ expect_equal(
 dir.create("split")
 dir.create("combined")
 
+expect_equal(n_archived_subsets("stage/archive.zip"), 1L)
+
 expect_true(unstage_archive("stage/archive.zip", "."))
 
 expect_true(publish_archive("split/archive.zip", "."))
