@@ -26,9 +26,9 @@ res <- tryCatch(
 
       clean_occurrences(staged_archive, subsets)
 
-      any_need_archiving <- logical()
+      any_need_archive <- logical()
 
-      for (subset in subsets) {
+      for (subset in sample(subsets)) {
 
         file <- get_file_name(subset)
 
@@ -48,53 +48,69 @@ res <- tryCatch(
 
         }
 
-        any_need_archiving <- any(needs_archiving, any_need_archiving)
+        any_need_archive <- any(needs_archiving, any_need_archive)
 
-      }
+        stop_timer <- toc(quiet = TRUE)
 
-      registration <- get_registration(gbif_datasets, collection)
+        if (stop_timer$toc - start_timer > 60 * 60 * timeout) {
 
-      md <- get_metadata(collection)
-
-      need_metadata_upd <- last_mod(collection) > last_mod(registration)
-
-      if (!skip_gbif(collection)) {
-
-        if (is.null(registration)) {
-
-          uuid <- send_gbif_dataset_metadata(md)
-
-          send_gbif_dataset_endpoint(get_endpoint(collection), uuid)
-
-          send_gbif_dataset_id(collection, uuid)
-
-        } else {
-
-          if (need_metadata_upd) {
-
-            update_gbif_dataset_metadata(md, registration)
-
-          }
-
-          uuid <- get_uuid(registration)
-
-          update_gbif_dataset_endpoint(get_endpoint(collection), uuid)
+          break
 
         }
 
-        write_eml(archive, collection, uuid, md)
+        tic()
 
       }
 
-      publish_archive(archive)
+      has_all_subsets <- identical(length(subsets), n_archived_subsets(archive))
 
-      unstage_archive(staged_archive)
+      if (has_all_subsets) {
 
-      ingest <- need_metadata_upd || any_need_archiving || is.null(registration)
+        registration <- get_registration(gbif_datasets, collection)
 
-      if (!skip_gbif(collection) && ingest) {
+        md <- get_metadata(collection)
 
-        initiate_gbif_ingestion(uuid)
+        need_metadata_upd <- last_mod(collection) > last_mod(registration)
+
+        if (!skip_gbif(collection)) {
+
+          if (is.null(registration)) {
+
+            uuid <- send_gbif_dataset_metadata(md)
+
+            send_gbif_dataset_endpoint(get_endpoint(collection), uuid)
+
+            send_gbif_dataset_id(collection, uuid)
+
+          } else {
+
+            if (need_metadata_upd) {
+
+              update_gbif_dataset_metadata(md, registration)
+
+            }
+
+            uuid <- get_uuid(registration)
+
+            update_gbif_dataset_endpoint(get_endpoint(collection), uuid)
+
+          }
+
+          write_eml(archive, collection, uuid, md)
+
+        }
+
+        publish_archive(archive)
+
+        unstage_archive(staged_archive)
+
+        ingest <- need_metadata_upd || any_need_archive || is.null(registration)
+
+        if (!skip_gbif(collection) && ingest) {
+
+          initiate_gbif_ingestion(uuid)
+
+        }
 
       }
 
