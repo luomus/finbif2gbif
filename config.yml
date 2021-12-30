@@ -1,5 +1,5 @@
 default:
-  enabled: false
+  enabled: true
   gbif: false
   metadata:
     type: type
@@ -48,11 +48,3 @@ default:
     abundance_min: 0
     record_quality: ["expert_verified", "community_verified", "unassessed"]
     requires_verification: false
-
-HR.89:
-  enabled: true
-  gbif: false
-
-HR.48:
-  enabled: true
-  gbif: false
