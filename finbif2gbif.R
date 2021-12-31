@@ -52,13 +52,13 @@ res <- tryCatch(
 
         stop_timer <- toc(quiet = TRUE)
 
+        tic()
+
         if (stop_timer$toc - start_timer > 60 * 60 * timeout) {
 
           break
 
         }
-
-        tic()
 
       }
 
@@ -116,6 +116,8 @@ res <- tryCatch(
 
       stop_timer <- toc(quiet = TRUE)
 
+      tic()
+
       if (stop_timer$toc - start_timer > 60 * 60 * timeout) {
 
         message(
@@ -125,8 +127,6 @@ res <- tryCatch(
         break
 
       }
-
-      tic()
 
     }
 
