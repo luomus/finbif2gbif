@@ -64,6 +64,8 @@ res <- tryCatch(
 
       has_all_subsets <- identical(length(subsets), n_archived_subsets(archive))
 
+      uuid <- NULL
+
       if (has_all_subsets) {
 
         registration <- get_registration(gbif_datasets, collection)
@@ -96,9 +98,10 @@ res <- tryCatch(
 
           }
 
-          write_eml(archive, collection, uuid, md)
 
         }
+
+        write_eml(archive, collection, uuid, md)
 
         publish_archive(archive)
 
