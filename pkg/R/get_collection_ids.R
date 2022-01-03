@@ -3,6 +3,8 @@
 #' Get collection IDs of FinBIF collections that are published to GBIF.
 #'
 #' @param datasets List. GBIF dataset metadata retrieved using `gbif_datasets`.
+#' @param collection_ids Character. Collection ids to include regardless of
+#'   sharing status.
 #'
 #' @return A character vector.
 #' @examples \dontrun{
@@ -14,7 +16,8 @@
 #' @export
 
 get_collection_ids <- function(
-  datasets
+  datasets,
+  collection_ids = config::get("collections")
 ) {
 
   cols <- finbif::finbif_collections(
@@ -28,6 +31,16 @@ get_collection_ids <- function(
     which_to_gbif <- which(cols[["share_to_gbif"]])
 
   }
+
+  if (is.null(collection_ids)) {
+
+    collection_ids <- character()
+
+  }
+
+  which_to_gbif <- unique(
+    c(which_to_gbif, which(cols[["id"]] %in% collection_ids))
+  )
 
   to_gbif_cols <- cols[which_to_gbif, ]
 
