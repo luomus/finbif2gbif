@@ -4,10 +4,13 @@
 \alias{get_collection_ids}
 \title{Get collection IDs}
 \usage{
-get_collection_ids(datasets)
+get_collection_ids(datasets, collection_ids = config::get("collections"))
 }
 \arguments{
 \item{datasets}{List. GBIF dataset metadata retrieved using \code{gbif_datasets}.}
+
+\item{collection_ids}{Character. Collection ids to include regardless of
+sharing status.}
 }
 \value{
 A character vector.
