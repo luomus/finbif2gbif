@@ -98,7 +98,6 @@ res <- tryCatch(
 
           }
 
-
         }
 
         write_eml(archive, collection, uuid, md)
