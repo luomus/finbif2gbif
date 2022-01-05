@@ -6,8 +6,7 @@ RUN  apk add --no-cache --update-cache \
        zip \
        tzdata \
   && export TZDIR=/usr/share/zoneinfo \
-  && DOWNLOAD_STATIC_LIBV8=1 installr -d -t curl-dev V8 \
-  && installr -d \
+  && DOWNLOAD_STATIC_LIBV8=1 installr -d \
       -t "curl-dev jq-dev libxml2-dev linux-headers" \
       -a "libxml2 jq" \
       callr \
@@ -26,6 +25,7 @@ RUN  apk add --no-cache --update-cache \
       remotes \
       tictoc \
       tinytest \
+      V8 \
       webfakes \
       withr \
       xml2 \
