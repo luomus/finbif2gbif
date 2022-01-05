@@ -1,54 +1,35 @@
-FROM ghcr.io/r-hub/r-minimal/r-minimal:4.1.2
+FROM rstudio/plumber:latest
 
-RUN  apk add --no-cache --update-cache \
-       --repository http://nl.alpinelinux.org/alpine/v3.14/main \
-       curl \
-       zip \
-       tzdata \
-  && export TZDIR=/usr/share/zoneinfo \
-  && DOWNLOAD_STATIC_LIBV8=1 installr -d -t curl-dev V8 \
-  && installr -d \
-      -t "curl-dev jq-dev libxml2-dev linux-headers" \
-      -a "libxml2 jq" \
-      callr \
-      config \
-      covr \
-      digest \
-      DT \
-      EML \
-      htmltools \
-      httr \
-      later \
-      logger \
-      lutz \
-      promises \
-      rapidoc \
-      remotes \
-      tictoc \
-      tinytest \
-      webfakes \
-      withr \
-      xml2 \
-      yaml
+RUN  install2.r -e -s \
+       callr \
+       config \
+       covr \
+       digest \
+       DT \
+       EML \
+       htmltools \
+       httr \
+       logger \
+       lutz \
+       rapidoc \
+       remotes \
+       tictoc \
+       tinytest \
+       V8 \
+       webfakes \
+       withr \
+       xml2 \
+       yaml
 
-RUN  apk add --no-cache --update-cache \
-       --repository http://nl.alpinelinux.org/alpine/v3.14/main \
-       autoconf=2.71-r0 \
-       automake=1.16.3-r0 \
-       curl-dev \
-       g++ \
-  && curl -o httpuv_1.6.5.tar.gz \
-          -L https://api.github.com/repos/rstudio/httpuv/tarball/v1.6.5 \
-  && mkdir -p httpuv \
-  && tar xf httpuv_1.6.5.tar.gz -C httpuv --strip-components 1 \
-  && rm -rf httpuv_1.6.5.tar.gz \
-  && sed -i '77,78d' httpuv/src/Makevars \
-  && R -e "remotes::install_local('httpuv', NULL, FALSE, 'never')" \
-  && rm -rf httpuv \
-  && installr -d \
-      -t "autoconf automake bash curl-dev g++ libsodium-dev linux-headers" \
-      -a "libsodium" \
-      plumber
+RUN  apt-get update -qq \
+  && apt-get install -y \
+       libjq-dev \
+  && apt-get autoremove -y \
+  && apt-get autoclean -y \
+  && rm -rf /var/lib/apt/lists/*
+
+RUN  install2.r -e -r cran.r-project.org \
+       jqr
 
 HEALTHCHECK --interval=1m --timeout=10s \
   CMD curl -sfI -o /dev/null 0.0.0.0:8000/healthz || exit 1
@@ -56,7 +37,7 @@ HEALTHCHECK --interval=1m --timeout=10s \
 RUN  echo "R_ZIPCMD=${R_ZIPCMD-'/usr/bin/zip'}" >> /usr/local/lib/R/etc/Renviron
 
 RUN  sed -i 's/RapiDoc/FinBIF to GBIF/g' \
-      /usr/local/lib/R/library/rapidoc/dist/index.html
+      /usr/local/lib/R/site-library/rapidoc/dist/index.html
 
 RUN  R -e "remotes::install_github('luomus/finbif@830e5ea9')"
 
