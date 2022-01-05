@@ -144,12 +144,16 @@ geographic_coverage <- function(
 
   if (grepl("max", var)) sign <- "-"
 
-  ans <- finbif::finbif_occurrence(
+  x <- finbif::finbif_occurrence(
     filter = c(collection = id, filters), select = var, aggregate = "records",
     order_by = paste0(sign, var), n = 1L
   )
 
-  ans[[1L, 1L]]
+  ans <- NA_real_
+
+  if (nrow(x)) ans <- x[[1L, 1L]]
+
+  ans
 
 }
 
