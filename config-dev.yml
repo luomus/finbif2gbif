@@ -1,6 +1,12 @@
 default:
   enabled: true
   gbif: true
+  collections:
+  - HR.48
+  - HR.139
+  - HR.61
+  - HR.769
+  - HR.447
   metadata:
     type: type
     title: long_name
@@ -48,6 +54,3 @@ default:
     abundance_min: 0
     record_quality: ["expert_verified", "community_verified", "unassessed"]
     requires_verification: false
-
-HR.447:
-  enabled: true

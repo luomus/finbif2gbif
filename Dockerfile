@@ -1,7 +1,7 @@
-FROM ghcr.io/r-hub/r-minimal/r-minimal:4.1.1
+FROM ghcr.io/r-hub/r-minimal/r-minimal:4.1.2
 
 RUN  apk add --no-cache --update-cache \
-       --repository http://nl.alpinelinux.org/alpine/v3.12/main \
+       --repository http://nl.alpinelinux.org/alpine/v3.14/main \
        curl \
        zip \
        tzdata \
@@ -18,8 +18,10 @@ RUN  apk add --no-cache --update-cache \
       EML \
       htmltools \
       httr \
+      later \
       logger \
       lutz \
+      promises \
       rapidoc \
       remotes \
       tictoc \
@@ -30,17 +32,17 @@ RUN  apk add --no-cache --update-cache \
       yaml
 
 RUN  apk add --no-cache --update-cache \
-       --repository http://nl.alpinelinux.org/alpine/v3.12/main \
-       autoconf=2.69-r2 \
-       automake=1.16.2-r0 \
+       --repository http://nl.alpinelinux.org/alpine/v3.14/main \
+       autoconf=2.71-r0 \
+       automake=1.16.3-r0 \
        curl-dev \
        g++ \
-  && curl -o httpuv_1.6.3.tar.gz \
-          -L https://api.github.com/repos/rstudio/httpuv/tarball/v1.6.3 \
+  && curl -o httpuv_1.6.5.tar.gz \
+          -L https://api.github.com/repos/rstudio/httpuv/tarball/v1.6.5 \
   && mkdir -p httpuv \
-  && tar xf httpuv_1.6.3.tar.gz -C httpuv --strip-components 1 \
-  && rm -rf httpuv_1.6.3.tar.gz \
-  && sed -i '67,68d' httpuv/src/Makevars \
+  && tar xf httpuv_1.6.5.tar.gz -C httpuv --strip-components 1 \
+  && rm -rf httpuv_1.6.5.tar.gz \
+  && sed -i '77,78d' httpuv/src/Makevars \
   && R -e "remotes::install_local('httpuv', NULL, FALSE, 'never')" \
   && rm -rf httpuv \
   && installr -d \
@@ -56,7 +58,7 @@ RUN  echo "R_ZIPCMD=${R_ZIPCMD-'/usr/bin/zip'}" >> /usr/local/lib/R/etc/Renviron
 RUN  sed -i 's/RapiDoc/FinBIF to GBIF/g' \
       /usr/local/lib/R/library/rapidoc/dist/index.html
 
-RUN  R -e "remotes::install_github('luomus/finbif@4a7df23c')"
+RUN  R -e "remotes::install_github('luomus/finbif@830e5ea9')"
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY combine-dwca.sh /usr/local/bin/combine-dwca.sh
