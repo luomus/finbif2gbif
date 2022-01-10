@@ -109,7 +109,7 @@ function(archive, res) {
   con <- unz(archive, file, "rb")
   on.exit(close(con))
 
-  eml <- readBin(con, n = files[files[["Name"]] == file, "Length"])
+  eml <- readBin(con, "raw", n = files[files[["Name"]] == file, "Length"])
 
   plumber::as_attachment(eml, file)
 
