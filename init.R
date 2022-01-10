@@ -8,17 +8,21 @@ for (pkg in pkgs) {
 
 }
 
-if (file.exists("var/config.yml")) {
+if (!dir.exists("var/status")) {
 
-  file.copy("var/config.yml", "config.yml", TRUE)
+   status_dir <- dir.create("var/status", recursive = TRUE)
 
-} else {
-
-  file.copy("config.yml", "var")
+   stopifnot("Status dir creation failed" = status_dir)
 
 }
 
-if (!dir.exists("var/status")) dir.create("var/status", recursive = TRUE)
+if (!dir.exists("var/logs")) {
+
+  log_dir <- dir.create("var/logs", recursive = TRUE)
+
+  stopifnot("Log dir creation failed" = log_dir)
+
+}
 
 log_dir <- "var/logs"
 
