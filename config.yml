@@ -1,5 +1,5 @@
 default:
-  enabled: true
+  enabled: false
   gbif: false
   timeout: 10
   metadata:
