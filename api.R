@@ -75,6 +75,46 @@ function(archive, res) {
 
 }
 
+#* Get the EML file from a Darwin Core archive
+#* @get /eml/<archive:str>
+#* @param archive:str Archive file.
+#* @tag info
+#* @response 200 An xml file attachment
+#* @response 404 File not found
+#* @serializer contentType list(type="application/xml")
+function(archive, res) {
+
+  archive <- paste0("archives/combined/", archive)
+
+  if (!file.exists(archive)) {
+
+    res$serializer <- plumber::serializer_unboxed_json()
+    res$status <- 404L
+    return("Archive not found")
+
+  }
+
+  files <- utils::unzip(archive, list = TRUE)
+
+  file <- "eml.xml"
+
+  if (!any(grepl(file, files[["Name"]]))) {
+
+    res$serializer <- plumber::serializer_unboxed_json()
+    res$status <- 404L
+    return("EML file not found")
+
+  }
+
+  con <- unz(archive, file, "rb")
+  on.exit(close(con))
+
+  eml <- readBin(con, n = files[files[["Name"]] == file, "Length"])
+
+  plumber::as_attachment(eml, file)
+
+}
+
 #* @assets ./logs/status /status
 list()
 
