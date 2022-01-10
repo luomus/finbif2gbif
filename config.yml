@@ -1,6 +1,7 @@
 default:
   enabled: true
   gbif: false
+  timeout: 10
   metadata:
     type: type
     title: long_name
@@ -46,5 +47,8 @@ default:
   nmax: 2.5e4
   filters:
     abundance_min: 0
-    record_quality: ["expert_verified", "community_verified", "unassessed"]
+    record_quality:
+    - expert_verified
+    - community_verified
+    - unassessed
     requires_verification: false

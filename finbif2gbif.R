@@ -2,8 +2,6 @@ res <- tryCatch(
 
   {
 
-    timeout <- as.numeric(Sys.getenv("TIMEOUT"))
-
     start_timer <- tic()
 
     gbif_datasets <- get_gbif_datasets()
@@ -13,6 +11,8 @@ res <- tryCatch(
     for (collection in sample(finbif_collections)) {
 
       Sys.setenv(R_CONFIG_ACTIVE = collection)
+
+      timeout <- config::get("timeout")
 
       if (skip_collection(collection)) next
 
@@ -143,6 +143,5 @@ res <- tryCatch(
   }
 )
 
-if (!dir.exists("logs/status")) dir.create("logs/status", recursive = TRUE)
-cat(res, file = "logs/status/success.txt")
-cat(format(Sys.time(), usetz = TRUE), file = "logs/status/last-update.txt")
+cat(res, file = "var/status/success.txt")
+cat(format(Sys.time(), usetz = TRUE), file = "var/status/last-update.txt")

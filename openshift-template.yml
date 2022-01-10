@@ -37,6 +37,9 @@ parameters:
   - name: LOG_DIR
     required: true
     value: logs
+  - name: VAR
+    required: true
+    value: var
   - name: GIT_HOST
     required: true
     value: https://github.com
@@ -66,7 +69,7 @@ parameters:
     value: job
   - name: CRON_SCHEDULE
     required: true
-    value: "0 22 * * *"
+    value: "0 20 * * *"
   - name: CRON_CMD
     required: true
     value: '["Rscript", "finbif2gbif.R"]'
@@ -107,8 +110,6 @@ parameters:
   - name: DEV_GBIF_PASS
     required: true
   - name: DEV_GBIF_API
-    required: true
-  - name: TIMEOUT
     required: true
   - name: GITHUB_SECRET
     required: true
@@ -236,8 +237,8 @@ objects:
           ports:
           - containerPort: ${APP_PORT}
           volumeMounts:
-          - mountPath: ${HOME}/${LOG_DIR}
-            name: ${LOG}
+          - mountPath: ${HOME}/${VAR}
+            name: ${VAR}
           - mountPath: ${HOME}/${ARCHIVE}
             name: ${APP}-${ARCHIVE}
           livenessProbe:
@@ -256,9 +257,9 @@ objects:
           - name: PAGE_TITLE
             value: ${APP_TITLE}
         volumes:
-        - name: ${LOG}
+        - name: ${VAR}
           persistentVolumeClaim:
-            claimName: ${LOG}
+            claimName: ${VAR}
         - name: ${APP}-${ARCHIVE}
           persistentVolumeClaim:
             claimName: ${APP}-${ARCHIVE}
@@ -295,8 +296,8 @@ objects:
           ports:
           - containerPort: ${APP_PORT}
           volumeMounts:
-          - mountPath: ${HOME}/${LOG_DIR}
-            name: ${DEV}-${LOG}
+          - mountPath: ${HOME}/${VAR}
+            name: ${DEV}-${VAR}
           - mountPath: ${HOME}/${ARCHIVE}
             name: ${DEV}-${APP}-${ARCHIVE}
           livenessProbe:
@@ -317,9 +318,9 @@ objects:
           - name: BRANCH
             value: ${DEV}
         volumes:
-        - name: ${DEV}-${LOG}
+        - name: ${DEV}-${VAR}
           persistentVolumeClaim:
-            claimName: ${DEV}-${LOG}
+            claimName: ${DEV}-${VAR}
         - name: ${DEV}-${APP}-${ARCHIVE}
           persistentVolumeClaim:
             claimName: ${DEV}-${APP}-${ARCHIVE}
@@ -356,8 +357,8 @@ objects:
           ports:
           - containerPort: ${LOG_PORT}
           volumeMounts:
-          - mountPath: ${HOME}/${LOG_DIR}
-            name: ${LOG}
+          - mountPath: ${HOME}/${VAR}
+            name: ${VAR}
           livenessProbe:
             httpGet:
               port: ${{LOG_PORT}}
@@ -371,10 +372,12 @@ objects:
           env:
           - name: PAGE_TITLE
             value: ${APP_TITLE}
+          - name: LOG_DIR
+            value: ${VAR}/${LOG}
         volumes:
-        - name: ${LOG}
+        - name: ${VAR}
           persistentVolumeClaim:
-            claimName: ${LOG}
+            claimName: ${VAR}
     triggers:
     - type: ConfigChange
     - type: ImageChange
@@ -408,8 +411,8 @@ objects:
           ports:
           - containerPort: ${LOG_PORT}
           volumeMounts:
-          - mountPath: ${HOME}/${LOG_DIR}
-            name: ${DEV}-${LOG}
+          - mountPath: ${HOME}/${VAR}
+            name: ${DEV}-${VAR}
           livenessProbe:
             httpGet:
               port: ${{LOG_PORT}}
@@ -423,10 +426,12 @@ objects:
           env:
           - name: PAGE_TITLE
             value: ${APP_TITLE}-${DEV}
+          - name: LOG_DIR
+            value: ${VAR}/${LOG}
         volumes:
-        - name: ${DEV}-${LOG}
+        - name: ${DEV}-${VAR}
           persistentVolumeClaim:
-            claimName: ${DEV}-${LOG}
+            claimName: ${DEV}-${VAR}
     triggers:
     - type: ConfigChange
     - type: ImageChange
@@ -440,7 +445,7 @@ objects:
 - kind: PersistentVolumeClaim
   apiVersion: v1
   metadata:
-    name: ${LOG}
+    name: ${VAR}
   spec:
     accessModes:
     - ReadWriteMany
@@ -451,7 +456,7 @@ objects:
 - kind: PersistentVolumeClaim
   apiVersion: v1
   metadata:
-    name: ${DEV}-${LOG}
+    name: ${DEV}-${VAR}
   spec:
     accessModes:
     - ReadWriteMany
@@ -628,13 +633,11 @@ objects:
               volumeMounts:
               - mountPath: ${HOME}/${ARCHIVE}
                 name: ${APP}-${ARCHIVE}
-              - mountPath: ${HOME}/${LOG_DIR}
-                name: ${LOG}
+              - mountPath: ${HOME}/${VAR}
+                name: ${VAR}
               env:
               - name: ENDPOINTS
                 value: https://${SUBDOMAIN}.${HOST}/${ARCHIVE}
-              - name: TIMEOUT
-                value: ${TIMEOUT}
               - name: FINBIF_ACCESS_TOKEN
                 value: ${FINBIF_ACCESS_TOKEN}
               - name: FINBIF_API
@@ -653,9 +656,9 @@ objects:
             - name: ${APP}-${ARCHIVE}
               persistentVolumeClaim:
                 claimName: ${APP}-${ARCHIVE}
-            - name: ${LOG}
+            - name: ${VAR}
               persistentVolumeClaim:
-                claimName: ${LOG}
+                claimName: ${VAR}
             restartPolicy: Never
 - kind: CronJob
   apiVersion: batch/v1beta1
@@ -680,15 +683,13 @@ objects:
               volumeMounts:
               - mountPath: ${HOME}/${ARCHIVE}
                 name: ${DEV}-${APP}-${ARCHIVE}
-              - mountPath: ${HOME}/${LOG_DIR}
-                name: ${DEV}-${LOG}
+              - mountPath: ${HOME}/${VAR}
+                name: ${DEV}-${VAR}
               env:
               - name: BRANCH
                 value: ${DEV}
               - name: ENDPOINTS
                 value: https://${SUBDOMAIN}-${DEV}.${HOST}/${ARCHIVE}
-              - name: TIMEOUT
-                value: ${TIMEOUT}
               - name: FINBIF_ACCESS_TOKEN
                 value: ${DEV_FINBIF_ACCESS_TOKEN}
               - name: FINBIF_API
@@ -707,7 +708,7 @@ objects:
             - name: ${DEV}-${APP}-${ARCHIVE}
               persistentVolumeClaim:
                 claimName: ${DEV}-${APP}-${ARCHIVE}
-            - name: ${DEV}-${LOG}
+            - name: ${DEV}-${VAR}
               persistentVolumeClaim:
-                claimName: ${DEV}-${LOG}
+                claimName: ${DEV}-${VAR}
             restartPolicy: Never
