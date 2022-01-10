@@ -81,7 +81,7 @@ list()
 #* @assets ./archives/combined /archives
 list()
 
-#* @assets /usr/local/lib/R/library/finbif/help/figures
+#* @assets /usr/local/lib/R/site-library/finbif/help/figures
 list()
 
 #* @get /favicon.ico
