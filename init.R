@@ -8,7 +8,19 @@ for (pkg in pkgs) {
 
 }
 
-log_dir <- "logs"
+if (file.exists("var/config.yml")) {
+
+  file.copy("var/config.yml", "config.yml", TRUE)
+
+} else {
+
+  file.copy("config.yml", "var")
+
+}
+
+if (!dir.exists("var/status")) dir.create("var/status", recursive = TRUE)
+
+log_dir <- "var/logs"
 
 log_file <- tempfile("plumber_", log_dir, ".log")
 

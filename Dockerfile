@@ -24,6 +24,7 @@ RUN  install2.r -e -s \
 RUN  apt-get update -qq \
   && apt-get install -y \
        libjq-dev \
+       nano \
   && apt-get autoremove -y \
   && apt-get autoclean -y \
   && rm -rf /var/lib/apt/lists/*
@@ -47,7 +48,6 @@ COPY init.R /home/user/init.R
 COPY api.R /home/user/api.R
 COPY finbif2gbif.R /home/user/finbif2gbif.R
 COPY config.yml /home/user/config.yml
-COPY config-dev.yml /home/user/config-dev.yml
 COPY favicon.ico /home/user/favicon.ico
 COPY pkg /home/user/f2g
 
@@ -60,7 +60,7 @@ RUN  R -e "remotes::install_local('f2g', NULL, FALSE, 'never')" \
   && mkdir -p \
        /home/user/archives \
        /home/user/coverage \
-       /home/user/logs \
+       /home/user/var \
        /home/user/stage \
   && chgrp -R 0 /home/user \
   && chmod -R g=u /home/user /etc/passwd
