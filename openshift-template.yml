@@ -373,7 +373,7 @@ objects:
           - name: PAGE_TITLE
             value: ${APP_TITLE}
           - name: LOG_DIR
-            value: ${VAR}/${LOG_DIR}
+            value: ${HOME}/${VAR}/${LOG_DIR}
         volumes:
         - name: ${VAR}
           persistentVolumeClaim:
@@ -427,7 +427,7 @@ objects:
           - name: PAGE_TITLE
             value: ${APP_TITLE}-${DEV}
           - name: LOG_DIR
-            value: ${VAR}/${LOG_DIR}
+            value: ${HOME}/${VAR}/${LOG_DIR}
         volumes:
         - name: ${DEV}-${VAR}
           persistentVolumeClaim:
