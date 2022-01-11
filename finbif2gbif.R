@@ -4,15 +4,7 @@ res <- tryCatch(
 
     start_timer <- tic()
 
-    if (file.exists("var/config.yml")) {
-
-      file.copy("var/config.yml", "config.yml", TRUE)
-
-    } else {
-
-      file.copy("config.yml", "var")
-
-    }
+    file.copy("var/config.yml", "config.yml", TRUE)
 
     gbif_datasets <- get_gbif_datasets()
 

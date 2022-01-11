@@ -27,3 +27,9 @@ if (!dir.exists("archives/combined")) {
   dir.create("archives/combined", recursive = TRUE)
 
 }
+
+if (!file.exists("var/config.yml")) {
+
+  file.copy("config.yml", "var")
+
+}
