@@ -89,7 +89,8 @@ write_meta <- function(
 
   meta <- list(
     archive = structure(
-      list(core = core), xmlns = sprintf("%s/text/", iri), metadata = "eml.xml")
+      list(core = core), xmlns = sprintf("%s/text/", iri), metadata = "eml.xml"
+    )
   )
 
   meta <- xml2::as_xml_document(meta)
