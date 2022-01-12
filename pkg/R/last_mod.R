@@ -72,7 +72,7 @@ last_mod.archive_file <- function(
 
   if (identical(length(ans), 0L)) {
 
-    ans <- as.POSIXct(Inf)
+    ans <- as.POSIXct(-Inf)
 
   }
 

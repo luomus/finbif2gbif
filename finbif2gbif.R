@@ -4,15 +4,7 @@ res <- tryCatch(
 
     start_timer <- tic()
 
-    if (file.exists("var/config.yml")) {
-
-      file.copy("var/config.yml", "config.yml", TRUE)
-
-    } else {
-
-      file.copy("config.yml", "var")
-
-    }
+    file.copy("var/config.yml", "config.yml", TRUE)
 
     gbif_datasets <- get_gbif_datasets()
 
@@ -22,7 +14,7 @@ res <- tryCatch(
 
       Sys.setenv(R_CONFIG_ACTIVE = collection)
 
-      timeout <- config::get("timeout")
+      timeout <- 60 * 60 * config::get("timeout")
 
       if (skip_collection(collection)) next
 
@@ -34,6 +26,8 @@ res <- tryCatch(
 
       write_meta(staged_archive, subsets)
 
+      unstage_archive(staged_archive)
+
       clean_occurrences(staged_archive, subsets)
 
       any_need_archive <- logical()
@@ -42,19 +36,27 @@ res <- tryCatch(
 
         file <- get_file_name(subset)
 
-        subset_n <- count_occurrences(subset)
+        mod_time <- last_mod(staged_archive, file)
 
-        unequal <- count_occurrences(staged_archive, file) != subset_n
-
-        outdated <- last_mod(subset) > last_mod(staged_archive, file)
-
-        needs_archiving <- any(unequal, outdated)
+        needs_archiving <- difftime(Sys.time(), mod_time, units = "weeks") > 1
 
         if (needs_archiving) {
 
-          archive_occurrences(staged_archive, file, subset, n = subset_n)
+          subset_n <- count_occurrences(subset)
 
-          unstage_archive(staged_archive)
+          unequal <- count_occurrences(staged_archive, file) != subset_n
+
+          outdated <- last_mod(subset) > mod_time
+
+          needs_archiving <- any(unequal, outdated)
+
+          if (needs_archiving) {
+
+            archive_occurrences(staged_archive, file, subset, n = subset_n)
+
+            unstage_archive(staged_archive)
+
+          }
 
         }
 
@@ -64,11 +66,7 @@ res <- tryCatch(
 
         tic()
 
-        if (stop_timer$toc - start_timer > 60 * 60 * timeout) {
-
-          break
-
-        }
+        if (stop_timer$toc - start_timer > timeout) break
 
       }
 
@@ -118,11 +116,7 @@ res <- tryCatch(
 
         ingest <- need_metadata_upd || any_need_archive || is.null(registration)
 
-        if (!skip_gbif(collection) && ingest) {
-
-          initiate_gbif_ingestion(uuid)
-
-        }
+        if (!skip_gbif(collection) && ingest) initiate_gbif_ingestion(uuid)
 
       }
 
@@ -130,7 +124,7 @@ res <- tryCatch(
 
       tic()
 
-      if (stop_timer$toc - start_timer > 60 * 60 * timeout) {
+      if (stop_timer$toc - start_timer > timeout) {
 
         message(
           sprintf("INFO [%s] Reached time limit. Job exiting", Sys.time())
@@ -148,10 +142,14 @@ res <- tryCatch(
 
   },
   error = function(e) {
+
     message(sprintf("ERROR [%s] %s", Sys.time(), e$message))
+
     "false"
+
   }
 )
 
 cat(res, file = "var/status/success.txt")
+
 cat(format(Sys.time(), usetz = TRUE), file = "var/status/last-update.txt")
