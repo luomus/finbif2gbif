@@ -89,6 +89,18 @@ write_eml <- function(
 
   EML::write_eml(eml, file_name)
 
+  eml <- xml2::read_xml(file_name)
+
+  eml <- xml2::as_list(eml)
+
+  eml[["eml"]][["dataset"]][["intellectualRights"]] <- get_license(
+    eml[["eml"]][["dataset"]][["intellectualRights"]][[1L]]
+  )
+
+  eml <- xml2::as_xml_document(eml)
+
+  xml2::write_xml(eml, file_name)
+
   message(sprintf("INFO [%s] Writing eml.xml file to %s", Sys.time(), archive))
 
   utils::zip(archive, file_name, "-jqr9X")
@@ -120,17 +132,25 @@ temporal_coverage <- function(
   id, filters = config::get("filters")
 ) {
 
+  ans <- c("", "")
+
   begin <- finbif::finbif_occurrence(
     filter = c(collection = id, filters), select = "date_start",
     aggregate = "records", order_by = "date_start", n = 1L
   )
 
-  end <- finbif::finbif_occurrence(
-     filter = c(collection = id, filters), select = "date_end",
-     aggregate = "records", order_by = "-date_end", n = 1L
-  )
+  if (nrow(begin)) {
 
-  c(begin[[1L, 1L]], end[[1L, 1L]])
+    end <- finbif::finbif_occurrence(
+       filter = c(collection = id, filters), select = "date_end",
+       aggregate = "records", order_by = "-date_end", n = 1L
+    )
+
+    ans <- c(begin[[1L, 1L]], end[[1L, 1L]])
+
+  }
+
+  ans
 
 }
 
@@ -149,7 +169,7 @@ geographic_coverage <- function(
     order_by = paste0(sign, var), n = 1L
   )
 
-  ans <- NA_real_
+  ans <- ""
 
   if (nrow(x)) ans <- x[[1L, 1L]]
 
@@ -189,5 +209,62 @@ get_persons <- function(persons, emails) {
   persons <- utils::as.personList(persons)
 
   emld::as_emld(persons)
+
+}
+
+get_license <- function(x) {
+
+  cc <- "Creative Commons"
+
+  a <- "Attribution"
+
+  switch(
+    x,
+    "https://creativecommons.org/licenses/by/4.0/legalcode" = license(
+      x,
+      paste(cc, a, "(CC-BY) 4.0 License")
+    ),
+    "https://creativecommons.org/publicdomain/zero/1.0/legalcode" = license(
+      x,
+      paste(cc, "(CC0) 1.0 License")
+    ),
+    "https://creativecommons.org/licenses/by-nc/4.0/legalcode" = license(
+      x,
+      paste(cc, a, "Non Commercial (CC-BY-NC) 4.0 License")
+    ),
+    "https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode" = license(
+      x,
+      paste(cc, a, "Non Commercial Share Alike (CC-BY-NC-SA) 4.0 License")
+    ),
+    "https://creativecommons.org/licenses/by-sa/4.0/legalcode" = license(
+      x,
+      paste(cc, a, "Share Alike (CC-SA) 4.0 License")
+    ),
+    "https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode" = license(
+      x,
+      paste(cc, a, "Non Commercial No Derivatives(CC-BY-NC) 4.0 License")
+    ),
+    "https://creativecommons.org/licenses/by-nd/4.0/legalcode" = license(
+      x,
+      paste(cc, a, "No Derivatives(CC-BY-NC) 4.0 License")
+    ),
+    list(
+      para = list(
+        "This work is licensed under ", list(citetitle = list(x)), "."
+      )
+    )
+  )
+
+}
+
+license <- function(x, y) {
+
+  list(
+    para = list(
+      "This work is licensed under a ",
+      ulink = structure(list(citetitle = list(y)), url = x),
+      "."
+    )
+  )
 
 }

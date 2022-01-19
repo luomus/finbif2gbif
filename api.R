@@ -115,7 +115,7 @@ function(archive, res) {
 
 }
 
-#* @assets ./logs/status /status
+#* @assets ./var/status /status
 list()
 
 #* @assets ./archives/combined /archives
