@@ -120,17 +120,25 @@ temporal_coverage <- function(
   id, filters = config::get("filters")
 ) {
 
+  ans <- c("", "")
+
   begin <- finbif::finbif_occurrence(
     filter = c(collection = id, filters), select = "date_start",
     aggregate = "records", order_by = "date_start", n = 1L
   )
 
-  end <- finbif::finbif_occurrence(
-     filter = c(collection = id, filters), select = "date_end",
-     aggregate = "records", order_by = "-date_end", n = 1L
-  )
+  if (nrow(begin)) {
 
-  c(begin[[1L, 1L]], end[[1L, 1L]])
+    end <- finbif::finbif_occurrence(
+       filter = c(collection = id, filters), select = "date_end",
+       aggregate = "records", order_by = "-date_end", n = 1L
+    )
+
+    ans <- c(begin[[1L, 1L]], end[[1L, 1L]])
+
+  }
+
+  ans
 
 }
 
@@ -149,7 +157,7 @@ geographic_coverage <- function(
     order_by = paste0(sign, var), n = 1L
   )
 
-  ans <- NA_real_
+  ans <- ""
 
   if (nrow(x)) ans <- x[[1L, 1L]]
 
