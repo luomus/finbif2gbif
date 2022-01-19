@@ -20,6 +20,7 @@
 #' @importFrom emld as_emld
 #' @importFrom finbif finbif_occurrence scientific_name
 #' @importFrom utils as.personList zip
+#' @importFrom xml2 as_list as_xml_document read_xml write_xml
 #' @export
 
 write_eml <- function(
