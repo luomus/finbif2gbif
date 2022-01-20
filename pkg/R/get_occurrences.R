@@ -48,6 +48,16 @@ get_occurrences <- function(
 
   data[[oq]] <- NULL
 
+  for (i in names(data)) {
+
+    if (inherits(data[[i]], "character")) {
+
+      data[[i]] <- gsub("\\t|\\r|\\n|\\r\\n|\\n\\r"," ", data[[i]])
+
+    }
+
+  }
+
   data
 
 }
