@@ -14,7 +14,7 @@ res <- tryCatch(
 
       Sys.setenv(R_CONFIG_ACTIVE = collection)
 
-      timeout <- 60 * 60 * config::get("timeout")
+      timeout <- 3600 * config::get("timeout")
 
       if (skip_collection(collection)) next
 
