@@ -98,6 +98,10 @@ write_eml <- function(
     eml[["eml"]][["dataset"]][["intellectualRights"]][[1L]]
   )
 
+  eml[["eml"]][["dataset"]][["coverage"]][["geographicCoverage"]] <- clean_geo(
+    eml[["eml"]][["dataset"]][["coverage"]][["geographicCoverage"]]
+  )
+
   eml <- xml2::as_xml_document(eml)
 
   xml2::write_xml(eml, file_name)
@@ -267,5 +271,27 @@ license <- function(x, y) {
       "."
     )
   )
+
+}
+
+clean_geo <- function(x) {
+
+  ans <- NULL
+
+  bc <- x[["boundingCoordinates"]]
+
+  if (is.null(bc) || length(unlist(bc)) < 4L) {
+
+    x[["boundingCoordinates"]] <- NULL
+
+  }
+
+  if (length(x) > 0L) {
+
+    ans <- x
+
+  }
+
+  ans
 
 }

@@ -28,3 +28,5 @@ res <- write_eml(
 )
 
 expect_equal(res, 0L)
+
+expect_null(f2g:::clean_geo(list()))
