@@ -16,20 +16,20 @@ if (identical(Sys.getenv("BRANCH"), "dev")) {
 
 }
 
-if (!dir.exists("archives/split")) {
+if (identical(getwd(), "/home/user") && !dir.exists("archives/split")) {
 
   dir.create("archives/split", recursive = TRUE)
 
 }
 
-if (!dir.exists("archives/combined")) {
+if (identical(getwd(), "/home/user") && !dir.exists("archives/combined")) {
 
   dir.create("archives/combined", recursive = TRUE)
 
 }
 
-if (!file.exists("var/config.yml")) {
+if (identical(getwd(), "/home/user") && !file.exists("var/config.yml")) {
 
-  file.copy("config.yml", "var")
+  invisible(file.copy("config.yml", "var"))
 
 }

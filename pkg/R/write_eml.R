@@ -20,6 +20,7 @@
 #' @importFrom emld as_emld
 #' @importFrom finbif finbif_occurrence scientific_name
 #' @importFrom utils as.personList zip
+#' @importFrom xml2 as_list as_xml_document read_xml write_xml
 #' @export
 
 write_eml <- function(
@@ -95,6 +96,10 @@ write_eml <- function(
 
   eml[["eml"]][["dataset"]][["intellectualRights"]] <- get_license(
     eml[["eml"]][["dataset"]][["intellectualRights"]][[1L]]
+  )
+
+  eml[["eml"]][["dataset"]][["coverage"]][["geographicCoverage"]] <- clean_geo(
+    eml[["eml"]][["dataset"]][["coverage"]][["geographicCoverage"]]
   )
 
   eml <- xml2::as_xml_document(eml)
@@ -266,5 +271,27 @@ license <- function(x, y) {
       "."
     )
   )
+
+}
+
+clean_geo <- function(x) {
+
+  ans <- NULL
+
+  bc <- x[["boundingCoordinates"]]
+
+  if (is.null(bc) || length(unlist(bc)) < 4L) {
+
+    x[["boundingCoordinates"]] <- NULL
+
+  }
+
+  if (length(x) > 0L) {
+
+    ans <- x
+
+  }
+
+  ans
 
 }

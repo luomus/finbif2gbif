@@ -2,6 +2,7 @@ default:
   enabled: false
   gbif: false
   timeout: 10
+  max_age_weeks: 1
   metadata:
     type: type
     title: long_name

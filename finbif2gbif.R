@@ -14,7 +14,7 @@ res <- tryCatch(
 
       Sys.setenv(R_CONFIG_ACTIVE = collection)
 
-      timeout <- 60 * 60 * config::get("timeout")
+      timeout <- 3600 * config::get("timeout")
 
       if (skip_collection(collection)) next
 
@@ -38,7 +38,9 @@ res <- tryCatch(
 
         mod_time <- last_mod(staged_archive, file)
 
-        needs_archiving <- difftime(Sys.time(), mod_time, units = "weeks") > 1
+        subset_age <- difftime(Sys.time(), mod_time, units = "weeks")
+
+        needs_archiving <-  subset_age > config::get("max_age_weeks")
 
         if (needs_archiving) {
 
