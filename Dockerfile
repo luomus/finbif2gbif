@@ -49,6 +49,7 @@ COPY api.R /home/user/api.R
 COPY finbif2gbif.R /home/user/finbif2gbif.R
 COPY config.yml /home/user/config.yml
 COPY favicon.ico /home/user/favicon.ico
+COPY robots.txt /home/user/robots.txt
 COPY pkg /home/user/f2g
 
 ENV  HOME /home/user
