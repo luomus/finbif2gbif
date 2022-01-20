@@ -38,7 +38,9 @@ res <- tryCatch(
 
         mod_time <- last_mod(staged_archive, file)
 
-        needs_archiving <- difftime(Sys.time(), mod_time, units = "weeks") > 1
+        subset_age <- difftime(Sys.time(), mod_time, units = "weeks")
+
+        needs_archiving <-  subset_age > config::get("max_age_weeks")
 
         if (needs_archiving) {
 
