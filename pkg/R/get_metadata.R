@@ -35,7 +35,7 @@ get_metadata <- function(
 
   m[["intellectual_rights"]] <- ifelse(
     is.na(m[["intellectual_rights"]]),
-    "",
+    "All Rights Reserved",
     licenses[[m[["intellectual_rights"]]]]
   )
 
