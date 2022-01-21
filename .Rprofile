@@ -6,7 +6,10 @@ options(
   finbif_api_url   = Sys.getenv("FINBIF_API"),
   finbif_use_cache = FALSE,
   finbif_max_page_size = 250L,
-  finbif_rate_limit = 10L
+  finbif_rate_limit = 10L,
+  finbif_retry_times = 10,
+  finbif_retry_pause_base = 2,
+  finbif_retry_pause_cap = 5e3
 )
 
 if (identical(Sys.getenv("BRANCH"), "dev")) {
