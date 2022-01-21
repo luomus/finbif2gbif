@@ -39,7 +39,7 @@ send_gbif_dataset_id <- function(
     config = auth,
     path = sprintf("v1/dataset/%s/identifier", uuid),
     body = list(
-      type = "UNKNOWN",
+      type = "URL",
       identifier = paste0("http://tun.fi/", as.character(id))
     ),
     encode = "json"
