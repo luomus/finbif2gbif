@@ -33,10 +33,14 @@ licenses <- c(
     "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
   "http://tun.fi/MZ.intellectualRightsCC0-4.0" =
     "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
-  "MY.intellectualRightsPD" = "Public Domain",
-  "MZ.intellectualRightsPD" = "Public Domain",
-  "http://tun.fi/MY.intellectualRightsPD" = "Public Domain",
-  "http://tun.fi/MZ.intellectualRightsPD" = "Public Domain",
+  "MY.intellectualRightsPD" =
+    "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
+  "MZ.intellectualRightsPD" =
+    "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
+  "http://tun.fi/MY.intellectualRightsPD" =
+    "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
+  "http://tun.fi/MZ.intellectualRightsPD" =
+    "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
   "MY.intellectualRightsARR" = "All Rights Reserved",
   "MZ.intellectualRightsARR" = "All Rights Reserved",
   "http://tun.fi/MY.intellectualRightsARR" = "All Rights Reserved",
