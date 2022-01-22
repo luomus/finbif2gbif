@@ -2,7 +2,7 @@
 
 set -e
 
-unzip -p $1 occurrence_*.txt | awk '!seen[$0]++' > occurrence.txt
+unzip -p $1 occurrence_*.txt | awk -F'\t' '!seen[$1]++' > occurrence.txt
 
 zip -jqr9X $1 occurrence.txt
 
