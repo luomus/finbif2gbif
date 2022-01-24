@@ -4,7 +4,7 @@
 #'
 #' @param collection_id Character. ID string of FinBIF collection.
 #' @param url_base Character. The base URL for the collection's data endpoint.
-#'   Defaults to system environment variable, "ENDPOINTS_URL_BASE".
+#'   Defaults to system environment variable, "ENDPOINTS".
 #'
 #' @return A list.
 #' @examples \dontrun{
@@ -20,8 +20,14 @@ get_endpoint <- function(
 ) {
 
   ans <- list(
-    type = "DWC_ARCHIVE",
-    url = sprintf("%s/%s.zip", url_base, collection_id)
+    list(
+      type = "DWC_ARCHIVE",
+      url = sprintf("%s/archives/%s.zip", url_base, collection_id)
+    ),
+    list(
+      type = "EML",
+      url = sprintf("%s/eml/%s.zip", url_base, collection_id)
+    )
   )
 
   message(
@@ -29,7 +35,7 @@ get_endpoint <- function(
       "INFO [%s] Collection %s archive has publication endpoint %s",
       Sys.time(),
       collection_id,
-      ans$url
+      ans[[1L]][["url"]]
     )
   )
 

@@ -10,7 +10,7 @@ gbif$post(
 api <- webfakes::local_app_process(gbif)
 
 expect_identical(
-  send_gbif_dataset_endpoint(list(), "1234", api$url()), NULL
+  send_gbif_dataset_endpoint(get_endpoint("abc"), "1234", api$url()), NULL
 )
 
 api$stop()

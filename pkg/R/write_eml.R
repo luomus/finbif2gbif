@@ -19,7 +19,7 @@
 #' @importFrom EML set_coverage write_eml
 #' @importFrom emld as_emld
 #' @importFrom finbif finbif_occurrence scientific_name
-#' @importFrom utils as.personList zip
+#' @importFrom utils as.personList person zip
 #' @importFrom xml2 as_list as_xml_document read_xml write_xml
 #' @export
 
@@ -35,19 +35,16 @@ write_eml <- function(
 
   temp_cov <- temporal_coverage(collection_id)
 
-  contacts <- get_persons(eml[["contact"]], eml[["email"]])
-
-  contact <- contacts
-
-  associatedParties <- NULL
-
-  if (!inherits(contacts, "emld")) {
-
-    contact <- contacts[[1L]]
-
-    associatedParties <- contacts[-1L]
-
-  }
+  contact <- c(
+    list(get_persons(eml[["contact"]], eml[["email"]])),
+    list(
+      emld::as_emld(
+        utils::as.personList(
+          utils::person("FinBIF", email = "helpdesk@laji.fi")
+        )
+      )
+    )
+  )
 
   eml <- list(
     packageId = uuid,
@@ -55,7 +52,6 @@ write_eml <- function(
       title = metadata[["title"]],
       abstract = list(para = metadata[["description"]]),
       contact = contact,
-      associatedParties = associatedParties,
       intellectualRights = metadata[["license"]],
       pubDate = Sys.Date(),
       language = eml[["dataLanguage"]],
@@ -101,6 +97,8 @@ write_eml <- function(
   eml[["eml"]][["dataset"]][["coverage"]][["geographicCoverage"]] <- clean_geo(
     eml[["eml"]][["dataset"]][["coverage"]][["geographicCoverage"]]
   )
+
+  attr(eml[[1L]], "packageId") <- uuid
 
   eml <- xml2::as_xml_document(eml)
 
