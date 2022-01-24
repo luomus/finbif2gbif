@@ -37,6 +37,8 @@ archive_occurrences <- function(
 
   n_in <- as.integer(n)
 
+  select <- unique(c("occurrenceID", select))
+
   occ <- get_occurrences(filter, select, n_in, quiet = quiet)
 
   ans <- write_occurrences(occ, archive, file_name)
