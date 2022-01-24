@@ -10,7 +10,7 @@ get_endpoint(collection_id, url_base = Sys.getenv("ENDPOINTS"))
 \item{collection_id}{Character. ID string of FinBIF collection.}
 
 \item{url_base}{Character. The base URL for the collection's data endpoint.
-Defaults to system environment variable, "ENDPOINTS_URL_BASE".}
+Defaults to system environment variable, "ENDPOINTS".}
 }
 \value{
 A list.

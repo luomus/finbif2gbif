@@ -35,29 +35,33 @@ send_gbif_dataset_endpoint <- function(
 
   auth <- httr::authenticate(user, pass)
 
-  res <- httr::RETRY(
-    "POST",
-    url = url,
-    config = auth,
-    path = sprintf("v1/dataset/%s/endpoint", uuid),
-    body = endpoint,
-    encode = "json"
-  )
+  for (ep in endpoint) {
 
-  status <- httr::status_code(res)
-
-  ok <- identical(status, 201L)
-
-  stopifnot("Post failed. Could not send endpoint to GBIF" = ok)
-
-  message(
-    sprintf(
-      "INFO [%s] GBIF dataset %s assigned endpoint %s",
-      Sys.time(),
-      uuid,
-      endpoint$url
+    res <- httr::RETRY(
+      "POST",
+      url = url,
+      config = auth,
+      path = sprintf("v1/dataset/%s/endpoint", uuid),
+      body = ep,
+      encode = "json"
     )
-  )
+
+    status <- httr::status_code(res)
+
+    ok <- identical(status, 201L)
+
+    stopifnot("Post failed. Could not send endpoint to GBIF" = ok)
+
+    message(
+      sprintf(
+        "INFO [%s] GBIF dataset %s assigned endpoint %s",
+        Sys.time(),
+        uuid,
+        ep[["url"]]
+      )
+    )
+
+  }
 
   invisible(NULL)
 

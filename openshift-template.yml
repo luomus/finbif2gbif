@@ -637,7 +637,7 @@ objects:
                 name: ${VAR}
               env:
               - name: ENDPOINTS
-                value: https://${SUBDOMAIN}.${HOST}/${ARCHIVE}
+                value: https://${SUBDOMAIN}.${HOST}
               - name: FINBIF_ACCESS_TOKEN
                 value: ${FINBIF_ACCESS_TOKEN}
               - name: FINBIF_API
@@ -689,7 +689,7 @@ objects:
               - name: BRANCH
                 value: ${DEV}
               - name: ENDPOINTS
-                value: https://${SUBDOMAIN}-${DEV}.${HOST}/${ARCHIVE}
+                value: https://${SUBDOMAIN}-${DEV}.${HOST}
               - name: FINBIF_ACCESS_TOKEN
                 value: ${DEV_FINBIF_ACCESS_TOKEN}
               - name: FINBIF_API

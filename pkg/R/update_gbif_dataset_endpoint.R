@@ -48,22 +48,25 @@ update_gbif_dataset_endpoint <- function(
 
   stopifnot("Request failed. Could not get endpoints from GBIF" = ok)
 
-  endpoints <- httr::content(res, "text", encoding = "UTF-8")
-  endpoints <- jsonlite::fromJSON(endpoints, simplifyVector = TRUE)
+  endpoint_old <- httr::content(res, "text", encoding = "UTF-8")
 
-  correct_ep <- endpoints[["url"]] == endpoint[["url"]]
+  endpoint_old <- jsonlite::fromJSON(endpoint_old, simplifyVector = TRUE)
 
-  endpoints <- endpoints[!correct_ep, ]
+  endpoint_urls <- vapply(endpoint, getElement, character(1L), "url")
 
-  for (i in seq_len(nrow(endpoints))) {
+  correct_ep <- endpoint_old[["url"]] %in% endpoint_urls
 
-    id <- endpoints[[i, "key"]]
+  wrong_ep <- endpoint_old[!correct_ep, ]
+
+  for (i in seq_len(nrow(wrong_ep))) {
+
+    key <- wrong_ep[[i, "key"]]
 
     res <- httr::RETRY(
       "DELETE",
       url = url,
       config = auth,
-      path = sprintf("v1/dataset/%s/endpoint/%s", uuid, id)
+      path = sprintf("v1/dataset/%s/endpoint/%s", uuid, key)
     )
 
     status <- httr::status_code(res)
@@ -76,18 +79,16 @@ update_gbif_dataset_endpoint <- function(
       sprintf(
         "INFO [%s] Deleted endpoint %s from GBIF dataset %s",
         Sys.time(),
-        endpoints[[i, "url"]],
+        wrong_ep[[i, "url"]],
         uuid
       )
     )
 
   }
 
-  if (!any(correct_ep)) {
+  missing_ep <- endpoint_urls %in% endpoint_old[["url"]]
 
-    send_gbif_dataset_endpoint(endpoint, uuid, url, user, pass)
-
-  }
+  send_gbif_dataset_endpoint(endpoint[missing_ep], uuid, url, user, pass)
 
   invisible(NULL)
 

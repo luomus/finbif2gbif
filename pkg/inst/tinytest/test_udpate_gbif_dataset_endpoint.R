@@ -33,7 +33,10 @@ gbif$delete(
 api <- webfakes::local_app_process(gbif)
 
 expect_identical(
-  update_gbif_dataset_endpoint(list(url = "test"), "1234", api$url()), NULL
+  update_gbif_dataset_endpoint(
+    list(list(url = "test")), "1234", api$url()
+  ),
+  NULL
 )
 
 api$stop()
