@@ -98,6 +98,8 @@ write_eml <- function(
     eml[["eml"]][["dataset"]][["coverage"]][["geographicCoverage"]]
   )
 
+  attr(eml[[1L]], "packageId") <- uuid
+
   eml <- xml2::as_xml_document(eml)
 
   xml2::write_xml(eml, file_name)
