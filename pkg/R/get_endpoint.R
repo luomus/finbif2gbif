@@ -32,10 +32,11 @@ get_endpoint <- function(
 
   message(
     sprintf(
-      "INFO [%s] Collection %s archive has publication endpoint %s",
+      "INFO [%s] Collection %s archive has endpoints %s and %s",
       Sys.time(),
       collection_id,
-      ans[[1L]][["url"]]
+      ans[[1L]][["url"]],
+      ans[[2L]][["url"]]
     )
   )
 

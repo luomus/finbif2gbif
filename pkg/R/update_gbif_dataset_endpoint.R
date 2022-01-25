@@ -86,7 +86,7 @@ update_gbif_dataset_endpoint <- function(
 
   }
 
-  missing_ep <- endpoint_urls %in% endpoint_old[["url"]]
+  missing_ep <- !endpoint_urls %in% endpoint_old[["url"]]
 
   send_gbif_dataset_endpoint(endpoint[missing_ep], uuid, url, user, pass)
 
