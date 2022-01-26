@@ -55,7 +55,11 @@ write_eml <- function(
       intellectualRights = metadata[["license"]],
       pubDate = Sys.Date(),
       language = eml[["dataLanguage"]],
-      methods = eml[["methods"]],
+      methods = list(
+        sampling = list(
+          samplingDescription = list(para = list(eml[["methods"]]))
+        )
+      ),
       coverage = EML::set_coverage(
         beginDate = temp_cov[[1L]],
         endDate  = temp_cov[[2L]],
