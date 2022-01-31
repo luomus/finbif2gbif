@@ -17,15 +17,18 @@ default:
     email: contact_email
   fields:
   - occurrenceID
+  - catalogNumber
   - basisOfRecord
   - taxonID
   - scientificName
   - taxonRank
   - kingdom
+  - verbatimIdentification
   - occurrenceStatus
   - individualCount
   - lifeStage
   - sex
+  - eventID
   - eventDate
   - decimalLatitude
   - decimalLongitude
