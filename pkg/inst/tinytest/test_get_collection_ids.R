@@ -17,6 +17,10 @@ datasets <- get_gbif_datasets(api$url(), "abcd")
 
 api$stop()
 
+collections_null <- get_collection_ids(datasets, NULL)
+
+expect_inherits(collections_null, "list")
+
 collections <- get_collection_ids(datasets)
 
 expect_inherits(collections, "list")

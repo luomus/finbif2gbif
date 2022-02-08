@@ -1,5 +1,11 @@
 default:
   enabled: true
+  collections:
+  - HR.48
+  - HR.139
+  - HR.61
+  - HR.769
+  - HR.447
   metadata:
     title: long_name
     description: description
