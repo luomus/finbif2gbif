@@ -120,6 +120,12 @@ process_media <- function(data) {
 
   license <- "license"
 
+  accepted_licenses <- c(
+    "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
+    "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "https://creativecommons.org/licenses/by-nc/4.0/legalcode"
+  )
+
   has_media <- all(c(media, license) %in% names(data))
 
   if (has_media) {
@@ -128,7 +134,7 @@ process_media <- function(data) {
 
     data[[license]] <- lapply(
       data[[license]],
-      function(x) ifelse(x == "All Rights Reserved", NA_character_, x)
+      function(x) ifelse(x %in% accepted_licenses, x, NA_character_)
     )
 
     data[[license]] <- lapply(
