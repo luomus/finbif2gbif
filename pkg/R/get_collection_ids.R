@@ -26,12 +26,6 @@ get_collection_ids <- function(
 
   which_to_gbif <- which(cols[["share_to_gbif"]] == cols[["id"]])
 
-  if (inherits(cols[["share_to_gbif"]], "logical")) {
-
-    which_to_gbif <- which(cols[["share_to_gbif"]])
-
-  }
-
   if (is.null(collection_ids)) {
 
     collection_ids <- character()

@@ -30,12 +30,42 @@ get_occurrences <- function(
   quiet = TRUE
 ) {
 
-  oq <- "occurrenceQuality"
+  oq <- NULL
 
-  select <- c(select, oq)
+  if ("occurrenceRemarks" %in% select) {
+
+    oq <- "occurrenceQuality"
+
+  }
+
+  type_vars <- NULL
+
+  if ("typeStatus" %in% select) {
+
+    type_vars <- c(
+      "typeStatus",
+      "typeSpecimenStatus",
+      "scientificName",
+      "typeSpecimenAuthor",
+      "typeSpecimenBasionymePublication"
+    )
+
+  }
+
+  verbatim_loc <- c(
+    "county" = "verbatimCounty",
+    "stateProvince" = "verbatimStateProvince2",
+    "country"= "verbatimCountry"
+  )
+
+  verbatim_loc <- verbatim_loc[intersect(select, names(verbatim_loc))]
 
   data <- finbif::finbif_occurrence(
-    filter = filter, select = select, n = n, dwc = TRUE, quiet = quiet
+    filter = filter,
+    select = unique(c(select, oq, unname(verbatim_loc), type_vars)),
+    n = n,
+    dwc = TRUE,
+    quiet = quiet
   )
 
   data <- process_record_bases(data)
@@ -46,7 +76,9 @@ get_occurrences <- function(
 
   data <- process_occurrence_remarks(data, oq)
 
-  data[[oq]] <- NULL
+  data <- process_location(data, verbatim_loc)
+
+  data <- process_type_status(data, type_vars, select)
 
   for (i in names(data)) {
 
@@ -88,6 +120,12 @@ process_media <- function(data) {
 
   license <- "license"
 
+  accepted_licenses <- c(
+    "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
+    "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "https://creativecommons.org/licenses/by-nc/4.0/legalcode"
+  )
+
   has_media <- all(c(media, license) %in% names(data))
 
   if (has_media) {
@@ -96,7 +134,7 @@ process_media <- function(data) {
 
     data[[license]] <- lapply(
       data[[license]],
-      function(x) ifelse(x == "All Rights Reserved", NA_character_, x)
+      function(x) ifelse(x %in% accepted_licenses, x, NA_character_)
     )
 
     data[[license]] <- lapply(
@@ -148,11 +186,9 @@ process_recorded_by <- function(data) {
 
 process_occurrence_remarks <- function(data, oq) {
 
-  or <- "occurrenceRemarks"
+  if (!is.null(oq)) {
 
-  has_or <- or %in% names(data)
-
-  if (has_or) {
+    or <- "occurrenceRemarks"
 
     data[[or]] <- ifelse(is.na(data[[or]]), "", paste0("\n", data[[or]]))
 
@@ -162,9 +198,101 @@ process_occurrence_remarks <- function(data, oq) {
       data[[or]]
     )
 
+    data[[oq]] <- NULL
+
   }
 
   data
+
+}
+
+#' @noRd
+
+process_location <- function(data, verbatim_loc) {
+
+  for (i in seq_along(verbatim_loc)) {
+
+    var_name <- names(verbatim_loc)[[i]]
+
+    var <- verbatim_loc[[i]]
+
+    has_var <- var_name %in% names(data)
+
+    if (has_var) {
+
+      data[[var_name]] <- ifelse(
+        is.na(data[[var_name]]), data[[var]], data[[var_name]]
+      )
+
+    }
+
+    data[[var]] <- NULL
+
+  }
+
+  data
+
+}
+
+#' @noRd
+
+process_type_status <- function(data, type_vars, select) {
+
+  if (!is.null(type_vars)) {
+
+    data[["typeStatus"]] <- unlist(
+      .mapply(paste_type_status, data[type_vars], NULL)
+    )
+
+    data[setdiff(type_vars, select)] <- NULL
+
+  }
+
+  data
+
+}
+
+#' @noRd
+
+paste_type_status <- function(
+  typeStatus,
+  typeSpecimenStatus,
+  scientificName,
+  typeSpecimenAuthor,
+  typeSpecimenBasionymePublication
+) {
+
+  ans <- ""
+
+  if (typeStatus) {
+
+    typeSpecimenStatus <- na.omit(typeSpecimenStatus)
+    typeSpecimenStatus <- types[typeSpecimenStatus]
+
+    scientificName <- na.omit(scientificName)
+
+    typeSpecimenAuthor <- na.omit(typeSpecimenAuthor)
+
+    typeSpecimenBasionymePublication <- na.omit(
+      typeSpecimenBasionymePublication
+    )
+
+    ans <- paste(
+      typeSpecimenStatus, scientificName, typeSpecimenAuthor, "-",
+      typeSpecimenBasionymePublication
+    )
+
+    ans <- paste(ans, collapse = " | ")
+
+    ans <- gsub("\\s+", " ", ans)
+
+    ans <- gsub("^ *-|- *$", "", ans)
+
+    ans <- trimws(ans)
+
+  }
+
+  ans
 
 }
 

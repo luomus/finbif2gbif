@@ -1,0 +1,28 @@
+types <-c(
+  "http://tun.fi/MY.typeStatusType" = "Type of",
+  "http://tun.fi/MY.typeStatusHolotype" = "Holotype of",
+  "http://tun.fi/MY.typeStatusSyntype" = "Syntype of",
+  "http://tun.fi/MY.typeStatusParatype" = "Paratype of",
+  "http://tun.fi/MY.typeStatusLectotype" = "Lectotype of",
+  "http://tun.fi/MY.typeStatusParalectotype" = "Paralectotype of",
+  "http://tun.fi/MY.typeStatusNeotype" = "Neotype of",
+  "http://tun.fi/MY.typeStatusAllotype" = "Allotype of",
+  "http://tun.fi/MY.typeStatusNeoallotype" = "Neoallotype of",
+  "http://tun.fi/MY.typeStatusIsotype" = "Isotype of",
+  "http://tun.fi/MY.typeStatusEpitype" = "Epitype of",
+  "http://tun.fi/MY.typeStatusIsolectotype" = "Isolectotype of",
+  "http://tun.fi/MY.typeStatusIsoepitype" = "Isoepitype of",
+  "http://tun.fi/MY.typeStatusIsoneotype" = "Soneotype of",
+  "http://tun.fi/MY.typeStatusIsoparatype" = "Soparatype of",
+  "http://tun.fi/MY.typeStatusIsosyntype" = "Sosyntype of",
+  "http://tun.fi/MY.typeStatusOriginalMaterial" = "Original material of",
+  "http://tun.fi/MY.typeStatusCotype" = "Cotype of",
+  "http://tun.fi/MY.typeStatusTopotype" = "Topotype of",
+  "http://tun.fi/MY.typeStatusHomotype" = "Homotype of",
+  "http://tun.fi/MY.typeStatusNo" = "Not a type of",
+  "http://tun.fi/MY.typeStatusPossible" = "Possible type (unable to verify) of",
+  "http://tun.fi/MY.typeStatusObscure" = "Obscure/Enigmatic type of",
+  "http://tun.fi/MY.typeStatusTypeStrain" = "Type strain of",
+  "http://tun.fi/MY.typeStatusPathovarReferenceStrain" =
+    "Pathovar reference strain of"
+)
