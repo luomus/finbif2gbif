@@ -28,6 +28,7 @@ default:
   - individualCount
   - lifeStage
   - sex
+  - typeStatus
   - eventID
   - eventDate
   - decimalLatitude
