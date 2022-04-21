@@ -36,16 +36,6 @@ write_occurrences <- function(
 
   options(scipen = 99L)
 
-  for (i in seq_along(data)) {
-
-    if (inherits(data[[i]], "character")) {
-
-      data[[i]] <- gsub("\n|\t", " ", data[[i]])
-
-    }
-
-  }
-
   utils::write.table(
     data,
     file_name,

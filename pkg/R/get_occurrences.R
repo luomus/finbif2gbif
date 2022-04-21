@@ -84,7 +84,7 @@ get_occurrences <- function(
 
     if (inherits(data[[i]], "character")) {
 
-      data[[i]] <- gsub("\\t|\\r|\\n|\\r\\n|\\n\\r"," ", data[[i]])
+      data[[i]] <- gsub("\t|\r|\n|\r\n|\n\r"," ", data[[i]])
 
     }
 
