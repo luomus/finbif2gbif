@@ -110,11 +110,11 @@ res <- tryCatch(
 
         }
 
-        write_eml(archive, collection, uuid, md)
-
-        publish_archive(archive)
+        write_eml(staged_archive, collection, uuid, md)
 
         unstage_archive(staged_archive)
+
+        publish_archive(archive)
 
         ingest <- need_metadata_upd || any_need_archive || is.null(registration)
 
