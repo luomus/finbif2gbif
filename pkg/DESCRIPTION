@@ -1,6 +1,6 @@
 Package: f2g
 Title: FinBIF to GBIF
-Version: 0.4.0.9000
+Version: 0.5.0.9000
 Authors@R: c(
     person(given = "Finnish Museum of Natural History - Luomus",
            role = "cph"),
@@ -23,6 +23,8 @@ Imports:
     finbif,
     httr,
     jsonlite,
+    rlang,
+    tidyr,
     utils,
     xml2
 Suggests: 

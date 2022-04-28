@@ -4,6 +4,8 @@
 #'
 #' @param archive Character. Path to the archive.
 #' @param file_name Character. The name of the file to write to the archive.
+#' @param media_file_name Character. The name of the media extension file to
+#'   write to the archive.
 #' @param filter List of named character vectors. Filters to apply to records.
 #' @param select Character vector. Variables to return. If not specified, a
 #'   default set of commonly used variables will be used. Use `"default_vars"`
@@ -29,6 +31,7 @@
 archive_occurrences <- function(
   archive,
   file_name,
+  media_file_name,
   filter,
   select = sub("^.*:", "", config::get("fields")),
   n = config::get("nmax"),
@@ -41,7 +44,7 @@ archive_occurrences <- function(
 
   occ <- get_occurrences(filter, select, n_in, quiet = quiet)
 
-  ans <- write_occurrences(occ, archive, file_name)
+  ans <- write_occurrences(occ, archive, file_name, media_file_name)
 
   n_out <- count_occurrences(archive, file_name)
 

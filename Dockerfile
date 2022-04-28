@@ -13,7 +13,9 @@ RUN  install2.r -e -s \
        lutz \
        rapidoc \
        remotes \
+       rlang \
        tictoc \
+       tidyr \
        tinytest \
        V8 \
        webfakes \
@@ -40,7 +42,7 @@ RUN  echo "R_ZIPCMD=${R_ZIPCMD-'/usr/bin/zip'}" >> /usr/local/lib/R/etc/Renviron
 RUN  sed -i 's/RapiDoc/FinBIF to GBIF/g' \
       /usr/local/lib/R/site-library/rapidoc/dist/index.html
 
-RUN  R -e "remotes::install_github('luomus/finbif@8f8c6d29')"
+RUN  R -e "remotes::install_github('luomus/finbif@05b59fdc')"
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY combine-dwca.sh /usr/local/bin/combine-dwca.sh

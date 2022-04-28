@@ -4,7 +4,12 @@
 \alias{write_occurrences}
 \title{Write occurrences}
 \usage{
-write_occurrences(data, archive, file_name = "occurrence.txt")
+write_occurrences(
+  data,
+  archive,
+  file_name = "occurrence.txt",
+  media_file_name = "media.txt"
+)
 }
 \arguments{
 \item{data}{A data.frame. Occurrence records.}
@@ -12,6 +17,9 @@ write_occurrences(data, archive, file_name = "occurrence.txt")
 \item{archive}{Character. Path to the archive.}
 
 \item{file_name}{Character. The name of the file to write to the archive.}
+
+\item{media_file_name}{Character. The name of the media extension file to
+write to the archive.}
 }
 \value{
 The status value returned by the zip command, invisibly.

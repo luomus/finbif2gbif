@@ -20,7 +20,11 @@ clean_occurrences <- function(
   filters
 ) {
 
-  current_files <- vapply(filters, get_file_name, character(1L))
+  current_files <- vapply(filters, get_file_name, "")
+
+  current_files <- c(
+    current_files, vapply(filters, get_file_name, "", prefix = "media")
+  )
 
   old_files <- utils::unzip(archive, list = TRUE)
 

@@ -60,17 +60,36 @@ get_occurrences <- function(
 
   verbatim_loc <- verbatim_loc[intersect(select, names(verbatim_loc))]
 
+  media_vars <- NULL
+
+  if ("associatedMedia" %in% select) {
+
+    media_vars <- c(
+      id = "occurrenceID",
+      type = "associatedMediaType",
+      format = "associatedMedia",
+      identifier = "associatedMedia",
+      creator = "associatedMediaBy",
+      license = "license"
+    )
+
+  }
+
+  select_vars <- unname(verbatim_loc)
+  select_vars <- c(select, oq, select_vars, type_vars)
+  select_vars <- unique(select_vars)
+  select_vars <- setdiff(select_vars, "associatedMedia")
+  select_vars <- c(select_vars, media_vars)
+
   data <- finbif::finbif_occurrence(
     filter = filter,
-    select = unique(c(select, oq, unname(verbatim_loc), type_vars)),
+    select = select_vars,
     n = n,
     dwc = TRUE,
     quiet = quiet
   )
 
   data <- process_record_bases(data)
-
-  data <- process_media(data)
 
   data <- process_recorded_by(data)
 
@@ -80,11 +99,15 @@ get_occurrences <- function(
 
   data <- process_type_status(data, type_vars, select)
 
-  for (i in names(data)) {
+  data <- process_media(data, media_vars)
 
-    if (inherits(data[[i]], "character")) {
+  for (i in names(data[["occurrence"]])) {
 
-      data[[i]] <- gsub("\t|\r|\n|\r\n|\n\r"," ", data[[i]])
+    if (inherits(data[["occurrence"]][[i]], "character")) {
+
+      data[["occurrence"]][[i]] <- gsub(
+        "\t|\r|\n|\r\n|\n\r"," ", data[["occurrence"]][[i]]
+      )
 
     }
 
@@ -105,58 +128,6 @@ process_record_bases <- function(data) {
   if (has_bor) {
 
     data[[bor]] <- record_bases[data[[bor]]]
-
-  }
-
-  data
-
-}
-
-#' @noRd
-
-process_media <- function(data) {
-
-  media <- "associatedMedia"
-
-  license <- "license"
-
-  accepted_licenses <- c(
-    "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
-    "https://creativecommons.org/licenses/by/4.0/legalcode",
-    "https://creativecommons.org/licenses/by-nc/4.0/legalcode"
-  )
-
-  has_media <- all(c(media, license) %in% names(data))
-
-  if (has_media) {
-
-    data[[license]] <- lapply(data[[license]] , function(x) licenses[x])
-
-    data[[license]] <- lapply(
-      data[[license]],
-      function(x) ifelse(x %in% accepted_licenses, x, NA_character_)
-    )
-
-    data[[license]] <- lapply(
-      data[[license]],
-      function(x) {
-        ifelse(x != c(x[!is.na(x)], NA_character_)[[1L]], NA_character_, x)
-      }
-    )
-
-    data[[media]] <- mapply(
-      function(x, y) ifelse(is.na(x), NA_character_, y),
-      data[[license]],
-      data[[media]],
-      SIMPLIFY = FALSE
-    )
-
-    data[[license]] <- vapply(
-      data[[license]],
-      function(x) c(x[!is.na(x)], NA_character_)[[1L]], character(1L)
-    )
-
-    data[[media]] <- vapply(data[[media]], pipe_collapse, character(1L))
 
   }
 
@@ -249,6 +220,65 @@ process_type_status <- function(data, type_vars, select) {
   }
 
   data
+
+}
+
+#' @noRd
+#' @importFrom tidyr unnest
+#' @importFrom rlang .data
+
+process_media <- function(data, media_vars) {
+
+  media_data <- NULL
+
+  has_media <- all(names(media_vars) %in% names(data))
+
+  if (has_media) {
+
+    media_data <- data[names(media_vars)]
+
+    data[names(media_vars)] <- NULL
+
+    media_data[["type"]] <- lapply(
+      media_data[["type"]],
+      function(x) ifelse(x == "IMAGE", "StillImage", NA_character_)
+    )
+
+    media_data[["format"]] <- lapply(media_data[["format"]], tools::file_ext)
+
+    media_data[["format"]] <- lapply(media_data[["format"]], tolower)
+
+    media_data[["format"]] <- lapply(
+      media_data[["format"]], function(x) ifelse(x == "jpg", "jpeg", x)
+    )
+
+    media_data[["format"]] <- lapply(
+      media_data[["format"]],
+      function(x) ifelse(x == "jpeg", "image/jpeg", NA_character_)
+    )
+
+    media_data[["license"]] <- lapply(
+      media_data[["license"]], function(x) licenses[x]
+    )
+
+    media_data[["license"]] <- lapply(
+      media_data[["license"]],
+      function(x) ifelse(x == "All Rights Reserved", NA_character_, x)
+    )
+
+    media_data <- tidyr::unnest(media_data, -.data[["id"]])
+
+    media_data <- media_data[!is.na(media_data[["license"]]), , drop = FALSE]
+
+    if (nrow(media_data) < 1L) {
+
+      media_data <- NULL
+
+    }
+
+  }
+
+  list(occurrence = data, media = media_data)
 
 }
 
