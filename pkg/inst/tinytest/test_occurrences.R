@@ -14,9 +14,10 @@ expect_equal(
   archive_occurrences(
     archive,
     "occurrence_test.txt",
+    "media_test.txt",
     filter,
     c(
-      "occurrenceID", "basisOfRecord", "associatedMedia", "license",
+      "occurrenceID", "basisOfRecord", "associatedMedia",
       "recordedBy", "occurrenceRemarks", "typeStatus", "country"
     ),
     10L,
@@ -49,3 +50,18 @@ expect_equal(clean_occurrences(archive, get_subsets("HR.139", NULL)), 0L)
 expect_equal(count_occurrences(archive, "occurrence_test.txt"), 0L)
 
 expect_inherits(last_mod(archive, "occurrence_test.txt"), "POSIXct")
+
+unlink("archive.zip")
+
+filter <- list(list(collection = "HR.85", has_record_media = TRUE))
+
+write_meta(archive, filter)
+
+expect_equal(
+  archive_occurrences(
+    archive, "occurrence_6bf4e5cf.txt", "media_6bf4e5cf.txt", filter, n = 136L
+  ),
+  0L
+)
+
+expect_equal(write_meta(archive, filter), 0L)

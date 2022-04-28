@@ -22,6 +22,7 @@ default:
   - kingdom
   - scientificName
   - taxonRank
+  - associatedMedia
   nmax: 2.5e4
   filters:
 
