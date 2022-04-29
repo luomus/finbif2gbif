@@ -10,13 +10,21 @@ rm occurrence.txt
 
 zip -djqr9X $1 occurrence_*.txt
 
-unzip -p $1 media_*.txt | awk -F'\t' '!seen[$1]++' > media.txt
+unzip -l $1 | grep -q media_*.txt
 
-zip -jqr9X $1 media.txt
+if [ "$?" == "0" ]
 
-rm media.txt
+then
 
-zip -djqr9X $1 media_*.txt
+  unzip -p $1 media_*.txt | awk -F'\t' '!seen[$1]++' > media.txt
+
+  zip -jqr9X $1 media.txt
+
+  rm media.txt
+
+  zip -djqr9X $1 media_*.txt
+
+fi
 
 unzip -p $1 meta.xml > meta.xml
 
