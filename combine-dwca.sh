@@ -1,6 +1,4 @@
-#!/bin/sh
-
-set -e
+#!/bin/bash
 
 unzip -p $1 occurrence_*.txt | awk -F'\t' '!seen[$1]++' > occurrence.txt
 
@@ -10,7 +8,7 @@ rm occurrence.txt
 
 zip -djqr9X $1 occurrence_*.txt
 
-unzip -l $1 | grep -q media_*.txt
+unzip -l $1 | grep -q media_
 
 if [ "$?" == "0" ]
 
@@ -28,7 +26,7 @@ fi
 
 unzip -p $1 meta.xml > meta.xml
 
-sed -i '/<location>occurence_/c\      <location>occurrence.txt</location>' meta.xml
+sed -i '/<location>occurrence_/c\      <location>occurrence.txt</location>' meta.xml
 
 sed -i '/<location>media_/c\      <location>media.txt</location>' meta.xml
 
