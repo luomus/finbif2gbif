@@ -20,7 +20,7 @@
 #' )
 #'
 #' }
-#' @importFrom utils zip
+#' @importFrom utils unzip zip
 #' @importFrom xml2 as_xml_document write_xml
 #' @export
 
@@ -92,6 +92,32 @@ write_meta <- function(
       list(core = core), xmlns = sprintf("%s/text/", iri), metadata = "eml.xml"
     )
   )
+
+  files_in_archive <- character()
+
+  if (file.exists(archive)) {
+
+    files_in_archive <- utils::unzip(archive, list = TRUE)
+
+    files_in_archive <- files_in_archive[["Name"]]
+
+  }
+
+  media_files <- vapply(filters, get_file_name, "", prefix = "media")
+
+  media_files <- intersect(media_files, files_in_archive)
+
+  if (length(media_files) > 0L) {
+
+    meta[["archive"]][["extension"]] <- media_extension_xml()
+
+    media_files <- lapply(media_files, as.list)
+
+    names(media_files) <- rep_len("location", length(media_files))
+
+    meta[["archive"]][["extension"]][["files"]] <- media_files
+
+  }
 
   meta <- xml2::as_xml_document(meta)
 

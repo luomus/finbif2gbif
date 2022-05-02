@@ -5,6 +5,8 @@
 #' @param data A data.frame. Occurrence records.
 #' @param archive Character. Path to the archive.
 #' @param file_name Character. The name of the file to write to the archive.
+#' @param media_file_name Character. The name of the media extension file to
+#'   write to the archive.
 #'
 #' @return The status value returned by the zip command, invisibly.
 #' @examples \dontrun{
@@ -16,17 +18,19 @@
 #'
 #' }
 #' @importFrom finbif finbif_occurrence
-#' @importFrom utils zip
+#' @importFrom utils write.table zip
 #' @export
 
 write_occurrences <- function(
   data,
   archive,
-  file_name = "occurrence.txt"
+  file_name = "occurrence.txt",
+  media_file_name = "media.txt"
 ) {
 
   op <- options()
   on.exit(options(op))
+  options(scipen = 99L)
 
   tmpdir <- tempfile()
   dir.create(tmpdir)
@@ -34,27 +38,36 @@ write_occurrences <- function(
 
   file_name <- paste0(tmpdir, "/", file_name)
 
-  options(scipen = 99L)
+  if (!is.null(data[["media"]])) {
 
-  for (i in seq_along(data)) {
+    media_file_name <- paste0(tmpdir, "/", media_file_name)
 
-    if (inherits(data[[i]], "character")) {
+    meta_file_name <- paste0(tmpdir, "/", "meta.xml")
 
-      data[[i]] <- gsub("\n|\t", " ", data[[i]])
+    message(
+      sprintf(
+        "INFO [%s] Writing media records to %s in archive %s",
+        Sys.time(),
+        basename(media_file_name),
+        archive
+      )
+    )
 
-    }
+    utils::write.table(
+      data[["media"]],
+      media_file_name,
+      quote = FALSE,
+      sep = "\t",
+      na = "",
+      row.names = FALSE,
+      fileEncoding = "UTF-8"
+    )
+
+    media_extension(archive, meta_file_name, media_file_name)
+
+    utils::zip(archive, c(media_file_name, meta_file_name), "-jqr9X")
 
   }
-
-  utils::write.table(
-    data,
-    file_name,
-    quote = FALSE,
-    sep = "\t",
-    na = "",
-    row.names = FALSE,
-    fileEncoding = "UTF-8"
-  )
 
   message(
     sprintf(
@@ -63,6 +76,16 @@ write_occurrences <- function(
       basename(file_name),
       archive
     )
+  )
+
+  utils::write.table(
+    data[["occurrence"]],
+    file_name,
+    quote = FALSE,
+    sep = "\t",
+    na = "",
+    row.names = FALSE,
+    fileEncoding = "UTF-8"
   )
 
   utils::zip(archive, file_name, "-jqr9X")

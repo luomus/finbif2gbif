@@ -1,1 +1,1 @@
-expect_equal(get_file_name("x"), "occurrence_67f3f727.txt")
+expect_equal(get_file_name("x"), "occurrence_1ac5cca9.txt")

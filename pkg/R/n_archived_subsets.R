@@ -16,7 +16,7 @@ n_archived_subsets <- function(archive) {
 
   df <- utils::unzip(archive, list = TRUE)
 
-  archived <- grep("txt$", df[["Name"]], value = TRUE)
+  archived <- grep("^occurrence_.+\\.txt$", df[["Name"]], value = TRUE)
 
   ans <- length(archived)
 

@@ -7,6 +7,7 @@
 archive_occurrences(
   archive,
   file_name,
+  media_file_name,
   filter,
   select = sub("^.*:", "", config::get("fields")),
   n = config::get("nmax"),
@@ -17,6 +18,9 @@ archive_occurrences(
 \item{archive}{Character. Path to the archive.}
 
 \item{file_name}{Character. The name of the file to write to the archive.}
+
+\item{media_file_name}{Character. The name of the media extension file to
+write to the archive.}
 
 \item{filter}{List of named character vectors. Filters to apply to records.}
 

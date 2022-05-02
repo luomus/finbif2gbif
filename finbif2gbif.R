@@ -36,6 +36,8 @@ res <- tryCatch(
 
         file <- get_file_name(subset)
 
+        media_file <- get_file_name(subset, prefix = "media")
+
         mod_time <- last_mod(staged_archive, file)
 
         subset_age <- difftime(Sys.time(), mod_time, units = "weeks")
@@ -54,7 +56,9 @@ res <- tryCatch(
 
           if (needs_archiving) {
 
-            archive_occurrences(staged_archive, file, subset, n = subset_n)
+            archive_occurrences(
+              staged_archive, file, media_file, subset, n = subset_n
+            )
 
             unstage_archive(staged_archive)
 
@@ -110,11 +114,11 @@ res <- tryCatch(
 
         }
 
-        write_eml(archive, collection, uuid, md)
-
-        publish_archive(archive)
+        write_eml(staged_archive, collection, uuid, md)
 
         unstage_archive(staged_archive)
+
+        publish_archive(archive)
 
         ingest <- need_metadata_upd || any_need_archive || is.null(registration)
 

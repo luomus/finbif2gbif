@@ -45,7 +45,6 @@ default:
   - recordedBy
   - identifiedBy
   - associatedMedia
-  - dcterms:license
   - dcterms:bibliographicCitation
   - occurrenceRemarks
   - eventRemarks
