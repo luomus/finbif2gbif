@@ -31,6 +31,8 @@ write_meta <- function(
   id = 1
 ) {
 
+  fields <- setdiff(fields, "associatedMedia")
+
   n_fields <- length(fields)
 
   core <- replicate(n_fields, structure(list()), FALSE)
