@@ -54,7 +54,7 @@ get_occurrences <- function(
 
   verbatim_loc <- c(
     "county" = "verbatimCounty",
-    "stateProvince" = "verbatimStateProvince2",
+    "stateProvince" = "verbatimStateProvince",
     "country"= "verbatimCountry"
   )
 
