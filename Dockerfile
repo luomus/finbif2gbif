@@ -1,5 +1,7 @@
 FROM rstudio/plumber:v1.2.0
 
+ENV  OPENBLAS_NUM_THREADS 1
+
 RUN  install2.r -e -s \
        callr \
        config \
@@ -55,7 +57,6 @@ COPY robots.txt /home/user/robots.txt
 COPY pkg /home/user/f2g
 
 ENV  HOME /home/user
-ENV  OPENBLAS_NUM_THREADS 1
 
 WORKDIR /home/user
 
