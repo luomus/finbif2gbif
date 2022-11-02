@@ -1,4 +1,12 @@
-FROM rstudio/plumber:v1.2.0
+FROM rocker/r-ver:4.2.1
+
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+      libsodium-dev \
+      libxml2-dev \
+ && apt-get autoremove -y \
+ && apt-get autoclean -y \
+ && rm -rf /var/lib/apt/lists/*
 
 ENV  OPENBLAS_NUM_THREADS 1
 
@@ -13,6 +21,7 @@ RUN  install2.r -e -s \
        httr \
        logger \
        lutz \
+       plumber \
        rapidoc \
        remotes \
        rlang \
