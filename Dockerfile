@@ -1,4 +1,14 @@
-FROM rstudio/plumber:v1.2.0
+FROM rocker/r-ver:4.2.1
+
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+      libsodium-dev \
+      libxml2-dev \
+ && apt-get autoremove -y \
+ && apt-get autoclean -y \
+ && rm -rf /var/lib/apt/lists/*
+
+ENV  OPENBLAS_NUM_THREADS 1
 
 RUN  install2.r -e -s \
        callr \
@@ -11,6 +21,7 @@ RUN  install2.r -e -s \
        httr \
        logger \
        lutz \
+       plumber \
        rapidoc \
        remotes \
        rlang \
@@ -42,7 +53,7 @@ RUN  echo "R_ZIPCMD=${R_ZIPCMD-'/usr/bin/zip'}" >> /usr/local/lib/R/etc/Renviron
 RUN  sed -i 's/RapiDoc/FinBIF to GBIF/g' \
       /usr/local/lib/R/site-library/rapidoc/dist/index.html
 
-RUN  R -e "remotes::install_github('luomus/finbif@55342669')"
+RUN  R -e "remotes::install_github('luomus/finbif@1eb33b12')"
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY combine-dwca.sh /usr/local/bin/combine-dwca.sh
@@ -55,7 +66,6 @@ COPY robots.txt /home/user/robots.txt
 COPY pkg /home/user/f2g
 
 ENV  HOME /home/user
-ENV  OPENBLAS_NUM_THREADS 1
 
 WORKDIR /home/user
 
