@@ -1,7 +1,7 @@
 #* @apiTitle FinBIF - GBIF data endpoints
 #* @apiTOS https://laji.fi/en/about/845
 #* @apiContact list(name = "laji.fi support", email = "helpdesk@laji.fi")
-#* @apiLicense list(name = "GPL-2.0", url = "https://opensource.org/licenses/GPL-2.0")
+#* @apiLicense list(name = "MIT", url = "https://opensource.org/licenses/MIT")
 #* @apiTag list List archives
 #* @apiTag info Get info for an archive
 #* @apiTag status Check status of API
