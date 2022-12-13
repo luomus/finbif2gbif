@@ -20,6 +20,7 @@ default:
   - catalogNumber
   - basisOfRecord
   - taxonID
+  - taxonConceptID
   - scientificName
   - taxonRank
   - kingdom
