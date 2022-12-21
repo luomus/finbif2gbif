@@ -93,6 +93,8 @@ get_occurrences <- function(
 
   data <- process_recorded_by(data)
 
+  data <- process_taxon_concept(data)
+
   data <- process_occurrence_remarks(data, oq)
 
   data <- process_location(data, verbatim_loc)
@@ -146,6 +148,24 @@ process_recorded_by <- function(data) {
   if (has_rb) {
 
     data[[rb]] <- vapply(data[[rb]], pipe_collapse, character(1L))
+
+  }
+
+  data
+
+}
+
+#' @noRd
+
+process_taxon_concept <- function(data) {
+
+  tc <- "taxonConceptID"
+
+  has_tc <- tc %in% names(data)
+
+  if (has_tc) {
+
+    data[[tc]] <- vapply(data[[tc]], pipe_collapse, character(1L))
 
   }
 

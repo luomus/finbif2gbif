@@ -8,7 +8,7 @@
 #' @return A Date object.
 #' @examples \dontrun{
 #'
-#' last_modified(list(collection = "HR.3991"))
+#' last_mod(list(collection = "HR.3991"))
 #'
 #' }
 #' @importFrom finbif finbif_occurrence
