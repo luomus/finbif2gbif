@@ -319,16 +319,24 @@ paste_type_status <- function(
     typeSpecimenStatus <- na.omit(typeSpecimenStatus)
     typeSpecimenStatus <- types[typeSpecimenStatus]
 
+    needs_auth <- !grepl(typeSpecimenAuthor, scientificName)
+
     scientificName <- na.omit(scientificName)
 
-    typeSpecimenAuthor <- na.omit(typeSpecimenAuthor)
+    author <- character()
+
+    if (needs_auth) {
+
+      author <- na.omit(typeSpecimenAuthor)
+
+    }
 
     typeSpecimenBasionymePublication <- na.omit(
       typeSpecimenBasionymePublication
     )
 
     ans <- paste(
-      typeSpecimenStatus, scientificName, typeSpecimenAuthor, "-",
+      typeSpecimenStatus, scientificName, author, "-",
       typeSpecimenBasionymePublication
     )
 
