@@ -325,7 +325,7 @@ paste_type_status <- function(
 
     author <- character()
 
-    if (needs_auth) {
+    if (is.na(needs_auth) || needs_auth) {
 
       author <- na.omit(typeSpecimenAuthor)
 
