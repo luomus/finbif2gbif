@@ -31,6 +31,7 @@ RUN  install2.r -e -s \
        V8 \
        webfakes \
        withr \
+       wk \
        xml2 \
        yaml
 

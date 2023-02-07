@@ -59,7 +59,7 @@ write_meta(archive, filter)
 
 expect_equal(
   archive_occurrences(
-    archive, "occurrence_6bf4e5cf.txt", "media_6bf4e5cf.txt", filter, n = 136L
+    archive, "occurrence_0c34c5bf.txt", "media_0c34c5bf.txt", filter, n = 136L
   ),
   0L
 )
