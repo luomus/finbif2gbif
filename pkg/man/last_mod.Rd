@@ -20,7 +20,7 @@ Get the last modified data for FinBIF records
 \examples{
 \dontrun{
 
-last_modified(list(collection = "HR.3991"))
+last_mod(list(collection = "HR.3991"))
 
 }
 }
