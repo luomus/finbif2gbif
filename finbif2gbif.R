@@ -118,7 +118,7 @@ res <- tryCatch(
 
         unstage_archive(staged_archive)
 
-        publish_archive(archive)
+        publish_archive(staged_archive)
 
         ingest <- need_metadata_upd || any_need_archive || is.null(registration)
 
