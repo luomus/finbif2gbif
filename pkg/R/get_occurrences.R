@@ -148,9 +148,7 @@ process_points <- function(data) {
 
     is_point <- is_point[["geometry_type"]]
 
-    is_point <- is_point == 1L
-
-    is_point <- isTRUE(is_point)
+    is_point <- !is.na(is_point) & is_point == 1L
 
     footprint <- footprint[is_point]
 
