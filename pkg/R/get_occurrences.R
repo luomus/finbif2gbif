@@ -152,11 +152,11 @@ process_points <- function(data) {
 
     is_point <- isTRUE(is_point)
 
+    footprint <- footprint[is_point]
+
     if (has_lon) {
 
       x <- wk::xy_x(footprint)
-
-      x <- x[is_point]
 
       data[is_point, "decimalLongitude"] <- x
 
@@ -165,8 +165,6 @@ process_points <- function(data) {
     if (has_lat) {
 
       y <- wk::xy_y(footprint)
-
-      y <- y[is_point]
 
       data[is_point, "decimalLatitude"] <- y
 
