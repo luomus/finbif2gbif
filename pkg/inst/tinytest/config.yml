@@ -16,6 +16,8 @@ default:
   - basisOfRecord
   - eventDate
   - country
+  - decimalLatitude
+  - decimalLongitude
   - footprintWKT
   - geodeticDatum
   - coordinateUncertaintyInMeters

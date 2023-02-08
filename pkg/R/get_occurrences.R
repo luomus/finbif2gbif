@@ -89,6 +89,8 @@ get_occurrences <- function(
     quiet = quiet
   )
 
+  data <- process_points(data)
+
   data <- process_record_bases(data)
 
   data <- process_recorded_by(data)
@@ -110,6 +112,59 @@ get_occurrences <- function(
       data[["occurrence"]][[i]] <- gsub(
         "\t|\r|\n|\r\n|\n\r"," ", data[["occurrence"]][[i]]
       )
+
+    }
+
+  }
+
+  data
+
+}
+
+#' @noRd
+#' @importFrom wk wk_meta wkt xy_x xy_y
+
+process_points <- function(data) {
+
+  nms <- names(data)
+
+  has_fp <- "footprintWKT" %in% nms
+
+  has_lon <- "decimalLongitude" %in% nms
+
+  has_lat <- "decimalLatitude" %in% nms
+
+  has_coords <- has_lon || has_lat
+
+  process <- has_fp && has_coords
+
+  if (process) {
+
+    footprint <- data[["footprintWKT"]]
+
+    footprint <- wk::wkt(footprint)
+
+    is_point <- wk::wk_meta(footprint)
+
+    is_point <- is_point[["geometry_type"]]
+
+    is_point <- !is.na(is_point) & is_point == 1L
+
+    footprint <- footprint[is_point]
+
+    if (has_lon) {
+
+      x <- wk::xy_x(footprint)
+
+      data[is_point, "decimalLongitude"] <- x
+
+    }
+
+    if (has_lat) {
+
+      y <- wk::xy_y(footprint)
+
+      data[is_point, "decimalLatitude"] <- y
 
     }
 

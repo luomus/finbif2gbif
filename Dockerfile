@@ -1,4 +1,4 @@
-FROM rocker/r-ver:4.2.1
+FROM rocker/r-ver:4.2.1@sha256:84dbe29c3218221af453eca9bf95249d605920d9aa03598fcc96767242b7ea5e
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
@@ -31,6 +31,7 @@ RUN  install2.r -e -s \
        V8 \
        webfakes \
        withr \
+       wk \
        xml2 \
        yaml
 
@@ -53,7 +54,7 @@ RUN  echo "R_ZIPCMD=${R_ZIPCMD-'/usr/bin/zip'}" >> /usr/local/lib/R/etc/Renviron
 RUN  sed -i 's/RapiDoc/FinBIF to GBIF/g' \
       /usr/local/lib/R/site-library/rapidoc/dist/index.html
 
-RUN  R -e "remotes::install_github('luomus/finbif@bbf533cf')"
+RUN  R -e "remotes::install_github('luomus/finbif@d1b7faff')"
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY combine-dwca.sh /usr/local/bin/combine-dwca.sh
