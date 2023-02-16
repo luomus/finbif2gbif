@@ -374,7 +374,7 @@ paste_type_status <- function(
     typeSpecimenStatus <- na.omit(typeSpecimenStatus)
     typeSpecimenStatus <- types[typeSpecimenStatus]
 
-    needs_auth <- !grepl(typeSpecimenAuthor, scientificName)
+    needs_auth <- !grepl(typeSpecimenAuthor, scientificName, fixed = TRUE)
 
     scientificName <- na.omit(scientificName)
 
