@@ -20,7 +20,7 @@ record_bases <- c(
   "Video recording" = "MachineObservation",
   "Living specimen" ="LivingSpecimen",
   "Geologger" = "MachineObservation",
-  "Amber inclusion" = "Fossil",
+  "Amber inclusion" = "FossilSpecimen",
   "Machine observation video" = "MachineObservation",
   "Machine observation photo" = "MachineObservation"
 )
