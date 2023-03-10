@@ -18,8 +18,9 @@ record_bases <- c(
   "Satellite positioning" = "MachineObservation",
   "Machine observation" = "MachineObservation",
   "Video recording" = "MachineObservation",
-  "Living specimen" ="LivingSpecimens",
+  "Living specimen" ="LivingSpecimen",
   "Geologger" = "MachineObservation",
   "Amber inclusion" = "Fossil",
-  "Machine observation video" = "MachineObservation"
+  "Machine observation video" = "MachineObservation",
+  "Machine observation photo" = "MachineObservation"
 )
