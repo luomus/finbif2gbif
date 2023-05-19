@@ -1,4 +1,5 @@
-Sys.setenv(FINBIF_ACCESS_TOKEN = "dummy")
+Sys.setenv(FINBIF_USE_PRIVATE_API = "true")
+Sys.setenv(FINBIF_PRIVATE_API = "dev")
 
 options(
   finbif_api_url = "https://apitest.laji.fi",
@@ -7,6 +8,3 @@ options(
   finbif_cache_path = getwd(),
   finbif_max_page_size = 250L
 )
-
-utils::assignInNamespace("var_names", finbif:::var_names_test, "finbif")
-utils::assignInNamespace("filter_names", finbif:::filter_names_test, "finbif")

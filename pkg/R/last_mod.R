@@ -35,14 +35,15 @@ last_mod.default <- function(
     filter = x, select = "load_date", order_by = "-load_date", n = 1L
   )
 
-  if (is.na(ans[["load_date"]][[1L]])) {
+  ans <- ans[["load_date"]]
+
+  if (length(ans) < 1L || is.na(ans[[1L]])) {
 
     ans <- finbif::finbif_occurrence(
       filter = c(collection = x[["collection"]]), select = "load_date",
-      order_by = "-load_date", aggregate = "document", n = 1L
+      order_by = "-load_date", aggregate = "document", aggregate_counts = FALSE,
+      n = 1L
     )
-
-    ans[["n_documents"]] <- NULL
 
   }
 
