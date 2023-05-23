@@ -12,13 +12,6 @@ options(
   finbif_retry_pause_cap = 5e3
 )
 
-if (identical(Sys.getenv("BRANCH"), "dev")) {
-
-  utils::assignInNamespace("var_names", finbif:::var_names_test, "finbif")
-  utils::assignInNamespace("filter_names", finbif:::filter_names_test, "finbif")
-
-}
-
 if (identical(getwd(), "/home/user") && !dir.exists("archives/split")) {
 
   dir.create("archives/split", recursive = TRUE)

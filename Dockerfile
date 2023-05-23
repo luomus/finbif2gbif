@@ -43,8 +43,7 @@ RUN  apt-get update -qq \
   && apt-get autoclean -y \
   && rm -rf /var/lib/apt/lists/*
 
-RUN  install2.r -e -r cran.r-project.org \
-       jqr
+RUN  install2.r -e -r cran.r-project.org jqr
 
 HEALTHCHECK --interval=1m --timeout=10s \
   CMD curl -sfI -o /dev/null 0.0.0.0:8000/healthz || exit 1
@@ -54,7 +53,7 @@ RUN  echo "R_ZIPCMD=${R_ZIPCMD-'/usr/bin/zip'}" >> /usr/local/lib/R/etc/Renviron
 RUN  sed -i 's/RapiDoc/FinBIF to GBIF/g' \
       /usr/local/lib/R/site-library/rapidoc/dist/index.html
 
-RUN  R -e "remotes::install_github('luomus/finbif@d1b7faff')"
+RUN  R -e "remotes::install_github('luomus/finbif@f2a76919')"
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY combine-dwca.sh /usr/local/bin/combine-dwca.sh
