@@ -1,3 +1,9 @@
+options(
+  finbif_rate_limit = Inf,
+  finbif_use_cache = FALSE,
+  finbif_use_cache_metadata = TRUE
+)
+
 res <- tryCatch(
 
   {
