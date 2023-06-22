@@ -1,3 +1,5 @@
+library(callr, quietly = TRUE)
+
 Sys.setenv(FINBIF_USE_PRIVATE_API = "true")
 Sys.setenv(FINBIF_PRIVATE_API = "dev")
 

@@ -4,6 +4,6 @@ services:
   sut:
     build:
       context: .
-    command: R --slave -e 'print(cv <- covr::package_coverage("f2g"), "functions"); covr::report(cv, file = "coverage/code-coverage.html", FALSE)'
+    command: R --slave -e 'print(cv <- covr::package_coverage("pkg"), "functions"); covr::report(cv, file = "coverage/code-coverage.html", FALSE)'
     volumes:
-      - ./cov:/home/user/coverage
+      - $PWD/cov:/home/user/coverage

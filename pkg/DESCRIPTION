@@ -26,7 +26,8 @@ Imports:
     rlang,
     tidyr,
     utils,
-    xml2
+    xml2,
+    wk
 Suggests: 
     tinytest,
     webfakes

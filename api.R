@@ -6,6 +6,26 @@
 #* @apiTag info Get info for an archive
 #* @apiTag status Check status of API
 
+suppressPackageStartupMessages({
+
+  library(finbif, quietly = TRUE)
+  library(f2g, quietly = TRUE)
+  library(lubridate, quietly = TRUE)
+  library(rapidoc, quietly = TRUE)
+  library(utils, quietly = TRUE)
+
+})
+
+options(
+  finbif_api_url = Sys.getenv("FINBIF_API"),
+  finbif_use_cache = FALSE,
+  finbif_max_page_size = 250L,
+  finbif_rate_limit = 10L,
+  finbif_retry_times = 10,
+  finbif_retry_pause_base = 2,
+  finbif_retry_pause_cap = 5e3
+)
+
 #* @filter cors
 cors <- function(req, res) {
 
