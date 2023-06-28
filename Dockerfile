@@ -1,4 +1,4 @@
-FROM ghcr.io/luomus/base-r-image@sha256:bfc65b835b503a235459716a9eb8afefb2bec94effdb19e69573885b898b00e8
+FROM ghcr.io/luomus/base-r-image@sha256:1284c451bd7c894bc77aa728087648562a9c10a203e688cf81a317aaa6f93de5
 
 COPY combine-dwca.sh /usr/local/bin/combine-dwca.sh
 COPY renv.lock /home/user/renv.lock
