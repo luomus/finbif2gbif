@@ -1,6 +1,6 @@
 {
   "R": {
-    "Version": "4.3.0",
+    "Version": "4.3.1",
     "Repositories": [
       {
         "Name": "CRAN",
@@ -52,7 +52,7 @@
     },
     "V8": {
       "Package": "V8",
-      "Version": "4.3.0",
+      "Version": "4.3.1",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -61,7 +61,7 @@
         "jsonlite",
         "utils"
       ],
-      "Hash": "d1fa8fae6a47e88bb46d5152312bd8bd"
+      "Hash": "c0b913c41974a38d1a6fe5ec0ee993a3"
     },
     "askpass": {
       "Package": "askpass",
@@ -290,14 +290,9 @@
     },
     "finbif": {
       "Package": "finbif",
-      "Version": "0.9.0.9001",
-      "Source": "GitHub",
-      "RemoteType": "github",
-      "RemoteHost": "api.github.com",
-      "RemoteUsername": "luomus",
-      "RemoteRepo": "finbif",
-      "RemoteRef": "dev",
-      "RemoteSha": "ab4a617a31dfe942264a4d49cf81c8fae79a6a6e",
+      "Version": "0.9.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
       "Requirements": [
         "R",
         "digest",
@@ -306,7 +301,7 @@
         "lutz",
         "utils"
       ],
-      "Hash": "bcab35ba0397d297bab8918022882e53"
+      "Hash": "c8d49c8bcf841796e238eb5eb7848149"
     },
     "fontawesome": {
       "Package": "fontawesome",
@@ -447,13 +442,13 @@
     },
     "jsonlite": {
       "Package": "jsonlite",
-      "Version": "1.8.5",
+      "Version": "1.8.7",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
         "methods"
       ],
-      "Hash": "3ee4d9899e4db3e976fc82b98d24a31a"
+      "Hash": "266a20443ca13c65688b2116d5220f76"
     },
     "knitr": {
       "Package": "knitr",
