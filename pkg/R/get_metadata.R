@@ -68,6 +68,6 @@ languages <- c(
   "estonian" = "est",
   "finnish" = "fin",
   "mixed" = "mul",
-  "russion" = "rus",
+  "russian" = "rus",
   "swedish" = "swe"
 )
