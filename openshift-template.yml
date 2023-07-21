@@ -1,5 +1,5 @@
 kind: Template
-apiVersion: v1
+apiVersion: template.openshift.io/v1
 parameters:
   - name: APP
     required: true
@@ -294,7 +294,7 @@ objects:
         - image: ${DEV}-${APP}:${TAG}
           name: ${DEV}-${APP}
           ports:
-          - containerPort: ${APP_PORT}
+          - containerPort: ${{APP_PORT}}
           volumeMounts:
           - mountPath: ${HOME}/${VAR}
             name: ${DEV}-${VAR}
@@ -355,7 +355,7 @@ objects:
         - image: ${LOG}:${TAG}
           name: ${LOG}
           ports:
-          - containerPort: ${LOG_PORT}
+          - containerPort: ${{LOG_PORT}}
           volumeMounts:
           - mountPath: ${HOME}/${VAR}
             name: ${VAR}
@@ -409,7 +409,7 @@ objects:
         - image: ${LOG}:${TAG}
           name: ${DEV}-${LOG}
           ports:
-          - containerPort: ${LOG_PORT}
+          - containerPort: ${{LOG_PORT}}
           volumeMounts:
           - mountPath: ${HOME}/${VAR}
             name: ${DEV}-${VAR}
@@ -494,8 +494,8 @@ objects:
       app: ${APP}
   spec:
     ports:
-    - name: ${APP_PORT}-tcp
-      port: ${APP_PORT}
+    - name: ${APP_PORT}
+      port: ${{APP_PORT}}
       protocol: TCP
       targetPort: ${{APP_PORT}}
     selector:
@@ -509,8 +509,8 @@ objects:
       app: ${APP}
   spec:
     ports:
-    - name: ${APP_PORT}-tcp
-      port: ${APP_PORT}
+    - name: ${APP_PORT}
+      port: ${{APP_PORT}}
       protocol: TCP
       targetPort: ${{APP_PORT}}
     selector:
@@ -524,8 +524,8 @@ objects:
       app: ${APP}
   spec:
     ports:
-    - name: ${LOG_PORT}-tcp
-      port: ${LOG_PORT}
+    - name: ${LOG_PORT}
+      port: ${{LOG_PORT}}
       protocol: TCP
       targetPort: ${{LOG_PORT}}
     selector:
@@ -539,8 +539,8 @@ objects:
       app: ${APP}
   spec:
     ports:
-    - name: ${LOG_PORT}-tcp
-      port: ${LOG_PORT}
+    - name: ${LOG_PORT}
+      port: ${{LOG_PORT}}
       protocol: TCP
       targetPort: ${{LOG_PORT}}
     selector:
@@ -555,7 +555,7 @@ objects:
   spec:
     host: ${SUBDOMAIN}.${HOST}
     port:
-      targetPort: ${APP_PORT}-tcp
+      targetPort: ${{APP_PORT}}
     tls:
       termination: edge
     to:
@@ -571,7 +571,7 @@ objects:
   spec:
     host: ${SUBDOMAIN}-${DEV}.${HOST}
     port:
-      targetPort: ${APP_PORT}-tcp
+      targetPort: ${{APP_PORT}}
     tls:
       termination: edge
     to:
@@ -587,7 +587,7 @@ objects:
   spec:
     host: ${LOG_SUBDOMAIN}.${LOG_HOST}
     port:
-      targetPort: ${LOG_PORT}-tcp
+      targetPort: ${{LOG_PORT}}
     tls:
       termination: edge
     to:
@@ -603,7 +603,7 @@ objects:
   spec:
     host: ${LOG_SUBDOMAIN}-${DEV}.${LOG_HOST}
     port:
-      targetPort: ${LOG_PORT}-tcp
+      targetPort: ${{LOG_PORT}}
     tls:
       termination: edge
     to:
