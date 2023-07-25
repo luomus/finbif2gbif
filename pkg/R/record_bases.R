@@ -22,5 +22,6 @@ record_bases <- c(
   "Geologger" = "MachineObservation",
   "Amber inclusion" = "FossilSpecimen",
   "Machine observation video" = "MachineObservation",
-  "Machine observation photo" = "MachineObservation"
+  "Machine observation photo" = "MachineObservation",
+  "Machine observation DNA" = "MachineObservation"
 )
