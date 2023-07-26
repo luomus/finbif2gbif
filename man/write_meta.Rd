@@ -9,6 +9,8 @@ write_meta(archive, filters, fields = config::get("fields"), id = 1)
 \arguments{
 \item{archive}{Character. Path to the archive.}
 
+\item{filters}{List.}
+
 \item{fields}{Character vector. The field names of the data files. Field
 names can optionally be prepended with a namespace (one of "dwc", "dwciri",
 "dc" or "dcterms") separated from the field by a ":". If no namespace is
@@ -17,8 +19,6 @@ specified, "dwc" will be assumed.}
 \item{id}{Integer. Indicates which field can be considered the record
 identifier. No ID field will be specified if \code{id} is not an integer
 between 1 and the number of fields specified.}
-
-\item{filter}{List.}
 }
 \value{
 The status value returned by the zip command, invisibly.

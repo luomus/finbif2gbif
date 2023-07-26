@@ -2,7 +2,7 @@
 #'
 #' Ingitiate GBIF ingestion of FinBIF data.
 #'
-#' @param registration Integer. GBIF registration.
+#' @param uuid Integer. GBIF registration id.
 #' @param url Character. URL of GBIF API. Defaults to system environment
 #'   variable, "GBIF_API".
 #' @param user Character. GBIF username. Defaults to system environment

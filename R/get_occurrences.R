@@ -358,6 +358,7 @@ process_media <- function(data, media_vars) {
 }
 
 #' @noRd
+#' @importFrom stats na.omit
 
 paste_type_status <- function(
   typeStatus,
@@ -376,7 +377,7 @@ paste_type_status <- function(
 
     needs_auth <- !grepl(typeSpecimenAuthor, scientificName, fixed = TRUE)
 
-    scientificName <- na.omit(scientificName)
+    scientificName <- stats::na.omit(scientificName)
 
     author <- character()
 
@@ -410,10 +411,11 @@ paste_type_status <- function(
 }
 
 #' @noRd
-
+#' @importFrom stats na.omit
+#'
 pipe_collapse <- function(x) {
 
-  x <- na.omit(x)
+  x <- stats::na.omit(x)
 
   ans <- ""
 

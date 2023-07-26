@@ -26,6 +26,7 @@
 #'
 #' }
 #' @importFrom finbif finbif_occurrence
+#' @importFrom utils capture.output
 #' @export
 
 archive_occurrences <- function(
@@ -55,7 +56,7 @@ archive_occurrences <- function(
     file_name,
     archive,
     n_out,
-    paste(trimws(capture.output(dput(as.list(filter)))), collapse = " "),
+    paste(trimws(utils::capture.output(dput(as.list(filter)))), collapse = " "),
     n_in
   )
 

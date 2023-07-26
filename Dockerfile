@@ -9,7 +9,12 @@ COPY api.R /home/user/api.R
 COPY finbif2gbif.R /home/user/finbif2gbif.R
 COPY config.yml /home/user/config.yml
 COPY favicon.ico /home/user/favicon.ico
-COPY pkg /home/user/pkg
+COPY DESCRIPTION /home/user/DESCRIPTION
+COPY inst /home/user/inst
+COPY man /home/user/man
+COPY NAMESPACE /home/user/NAMESPACE
+COPY R /home/user/R
+COPY tests /home/user/tests
 
 RUN  R -e "renv::restore()" \
   && R -e 'remotes::install_local(dependencies = FALSE, upgrade = FALSE)' \

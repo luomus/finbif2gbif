@@ -3,7 +3,7 @@
 #' Write a Darwin Core archive metadata file.
 #'
 #' @param archive Character. Path to the archive.
-#' @param filter List.
+#' @param filters List.
 #' @param fields Character vector. The field names of the data files. Field
 #'   names can optionally be prepended with a namespace (one of "dwc", "dwciri",
 #'   "dc" or "dcterms") separated from the field by a ":". If no namespace is

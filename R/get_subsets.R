@@ -3,7 +3,7 @@
 #' Get subset filters for a collection.
 #'
 #' @param collection_id Character. ID string of FinBIF collection.
-#' @param filter List.
+#' @param filters List.
 #' @param nmax Integer. Maximum allowed size of subset.
 #'
 #' @return A list.
@@ -12,6 +12,7 @@
 #' get_subsets("HR.3991")
 #'
 #' }
+#' @importFrom utils capture.output
 #' @export
 
 get_subsets <- function(
@@ -31,7 +32,7 @@ get_subsets <- function(
       "INFO [%s] Found %s occurrence records in FinBIF for filter: %s",
       Sys.time(),
       n,
-      paste(trimws(capture.output(dput(as.list(filters)))), collapse = " ")
+      paste(trimws(utils::capture.output(dput(as.list(filters)))), collapse = " ")
     )
   )
 

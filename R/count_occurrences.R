@@ -24,6 +24,7 @@ count_occurrences <- function(
 
 #' @noRd
 #' @importFrom finbif finbif_occurrence
+#' @importFrom utils capture.output
 #' @export
 
 count_occurrences.default <- function(
@@ -40,7 +41,7 @@ count_occurrences.default <- function(
       "INFO [%s] Found %s occurrence records in FinBIF for filter: %s",
       Sys.time(),
       n,
-      paste(trimws(capture.output(dput(as.list(x)))), collapse = " ")
+      paste(trimws(utils::capture.output(dput(as.list(x)))), collapse = " ")
     )
   )
 

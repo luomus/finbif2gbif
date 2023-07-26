@@ -248,27 +248,6 @@
       ],
       "Hash": "d59f3b464e8da1aef82dc04b588b8dfb"
     },
-    "f2g": {
-      "Package": "f2g",
-      "Version": "0.5.2.9000",
-      "Source": "Local",
-      "RemoteType": "local",
-      "RemoteUrl": "./pkg",
-      "Requirements": [
-        "EML",
-        "digest",
-        "emld",
-        "finbif",
-        "httr",
-        "jsonlite",
-        "rlang",
-        "tidyr",
-        "utils",
-        "wk",
-        "xml2"
-      ],
-      "Hash": "1cc12fa00f457bcfffa5bde4d5c133de"
-    },
     "fansi": {
       "Package": "fansi",
       "Version": "1.0.4",

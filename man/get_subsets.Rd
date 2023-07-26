@@ -13,9 +13,9 @@ get_subsets(
 \arguments{
 \item{collection_id}{Character. ID string of FinBIF collection.}
 
-\item{nmax}{Integer. Maximum allowed size of subset.}
+\item{filters}{List.}
 
-\item{filter}{List.}
+\item{nmax}{Integer. Maximum allowed size of subset.}
 }
 \value{
 A list.

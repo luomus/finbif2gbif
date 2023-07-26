@@ -12,6 +12,8 @@ initiate_gbif_ingestion(
 )
 }
 \arguments{
+\item{uuid}{Integer. GBIF registration id.}
+
 \item{url}{Character. URL of GBIF API. Defaults to system environment
 variable, "GBIF_API".}
 
@@ -20,8 +22,6 @@ variable, "GBIF_USER".}
 
 \item{pass}{Character. GBIF password. Defaults to system environment
 variable, "GBIF_PASS".}
-
-\item{registration}{Integer. GBIF registration.}
 }
 \value{
 NULL.

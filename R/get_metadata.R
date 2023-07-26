@@ -25,9 +25,11 @@ get_metadata <- function(
   installation = Sys.getenv("GBIF_INSTALLATION")
 ) {
 
-  m <- finbif::finbif_collections(
-    supercollections = TRUE, select = TRUE, filter = id == collection_id
-  )
+  m <- finbif::finbif_collections(supercollections = TRUE, select = TRUE)
+
+  ind <- m[["id"]] == collection_id
+
+  m <- m[ind, ]
 
   m[["type"]] <- "OCCURRENCE"
 
