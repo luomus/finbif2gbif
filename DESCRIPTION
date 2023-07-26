@@ -1,6 +1,6 @@
 Package: f2g
 Title: FinBIF to GBIF
-Version: 0.5.2.9000
+Version: 0.5.2.9001
 Authors@R: c(
     person(given = "Finnish Museum of Natural History - Luomus",
            role = "cph"),
@@ -11,11 +11,7 @@ Authors@R: c(
            comment = c(ORCID = "0000-0002-8686-4154"))
     )
 Description: Tools for publishing FinBIF data to GBIF.
-License: MIT + file LICENSE
-Encoding: UTF-8
-LazyData: true
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+Depends: R (>= 3.5.0)
 Imports:
     config,
     digest,
@@ -33,3 +29,7 @@ Imports:
 Suggests: 
     tinytest,
     webfakes
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
