@@ -42,12 +42,15 @@ parameters:
   - name: CRON
     required: true
     value: job
+  - name: CRON_IMAGE
+    required: true
+    value: docker.io/redhat/ubi8:8.8-854
   - name: CRON_SCHEDULE
     required: true
     value: "0 20 * * *"
   - name: CRON_CMD
     required: true
-    value: '["Rscript", "finbif2gbif.R"]'
+    value: '["sh", "-c", "curl $APP_HOSTNAME:$APP_PORT/job?secret=$JOB_SECRET"]'
   - name: CRON_LIMIT
     required: true
     value: "7"
@@ -74,6 +77,10 @@ parameters:
     required: true
     generate: expression
     from: "[a-zA-Z0-9]{20}"
+  - name: JOB_SECRET
+    required: true
+    generate: expression
+    from: "[a-zA-Z0-9]{64}"
 metadata:
   name: ${APP}
 objects:
@@ -83,7 +90,7 @@ objects:
     name: ${VAR}-${BRANCH}
   spec:
     accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
     persistentVolumeReclaimPolicy: Retain
     resources:
       requests:
@@ -94,7 +101,7 @@ objects:
     name: ${ARCHIVE}-${BRANCH}
   spec:
     accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
     persistentVolumeReclaimPolicy: Retain
     resources:
       requests:
@@ -142,6 +149,8 @@ objects:
     selector:
       app: ${APP}
       deploymentconfig: ${APP}-${BRANCH}
+    strategy:
+      type: Recreate
     template:
       metadata:
         labels:
@@ -173,6 +182,24 @@ objects:
           env:
           - name: PAGE_TITLE
             value: ${PAGE_TITLE}
+          - name: ENDPOINTS
+            value: https://${HOST}
+          - name: FINBIF_ACCESS_TOKEN
+            value: ${FINBIF_ACCESS_TOKEN}
+          - name: FINBIF_API
+            value: ${FINBIF_API}
+          - name: GBIF_USER
+            value: ${GBIF_USER}
+          - name: GBIF_ORG
+            value: ${GBIF_ORG}
+          - name: GBIF_INSTALLATION
+            value: ${GBIF_INSTALLATION}
+          - name: GBIF_PASS
+            value: ${GBIF_PASS}
+          - name: GBIF_API
+            value: ${GBIF_API}
+          - name: JOB_SECRET
+            value: ${JOB_SECRET}
         volumes:
         - name: ${VAR}-${BRANCH}
           persistentVolumeClaim:
@@ -238,35 +265,13 @@ objects:
           spec:
             containers:
             - name: ${APP}-${BRANCH}-${CRON}
-              image: ${APP}-${BRANCH}:latest
+              image: ${CRON_IMAGE}
               command: ${{CRON_CMD}}
-              volumeMounts:
-              - mountPath: ${HOME}/${ARCHIVE}
-                name: ${ARCHIVE}-${BRANCH}
-              - mountPath: ${HOME}/${VAR}
-                name: ${VAR}-${BRANCH}
               env:
-              - name: ENDPOINTS
-                value: https://${HOST}
-              - name: FINBIF_ACCESS_TOKEN
-                value: ${FINBIF_ACCESS_TOKEN}
-              - name: FINBIF_API
-                value: ${FINBIF_API}
-              - name: GBIF_USER
-                value: ${GBIF_USER}
-              - name: GBIF_ORG
-                value: ${GBIF_ORG}
-              - name: GBIF_INSTALLATION
-                value: ${GBIF_INSTALLATION}
-              - name: GBIF_PASS
-                value: ${GBIF_PASS}
-              - name: GBIF_API
-                value: ${GBIF_API}
-            volumes:
-            - name: ${ARCHIVE}-${BRANCH}
-              persistentVolumeClaim:
-                claimName: ${ARCHIVE}-${BRANCH}
-            - name: ${VAR}-${BRANCH}
-              persistentVolumeClaim:
-                claimName: ${VAR}-${BRANCH}
+              - name: JOB_SECRET
+                value: ${JOB_SECRET}
+              - name: APP_HOSTNAME
+                value: ${BRANCH}-${APP}.${APP}.svc
+              - name: APP_PORT
+                value: ${APP_PORT}
             restartPolicy: Never

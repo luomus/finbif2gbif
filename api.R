@@ -51,6 +51,52 @@ cors <- function(req, res) {
 
 }
 
+#* @filter secret
+function(req, res) {
+
+  secret <- identical(req[["argsQuery"]][["secret"]], Sys.getenv("JOB_SECRET"))
+
+  if (grepl("job", req[["PATH_INFO"]]) && !secret) {
+
+    res[["status"]] <- 401
+    list(error = "Access token required")
+
+  } else {
+
+    forward()
+
+  }
+
+}
+
+#* @get /job
+#* @serializer unboxedJSON
+function() {
+
+  on.exit({
+
+    sink(type = "message")
+
+    sink()
+
+  })
+
+  log_file_name <- sprintf("var/logs/job-%s.txt", Sys.Date())
+
+  log_file <- file(log_file_name, open = "wt")
+
+  sink(log_file)
+
+  sink(log_file, type = "message")
+
+  promises::future_promise(
+    source("finbif2gbif.R")
+  )
+
+  "success"
+
+}
+
 #* Check the liveness of the API
 #* @head /healthz
 #* @get /healthz
@@ -135,6 +181,9 @@ function(archive, res) {
 
 }
 
+#* @assets ./var/logs /logs
+list()
+
 #* @assets ./var/status /status
 list()
 
@@ -179,6 +228,7 @@ function(pr) {
 
       spec$info$version <- version
 
+      spec$paths$`/job` <- NULL
       spec$paths$`/healthz` <- NULL
       spec$paths$`/favicon.ico` <- NULL
       spec$paths$`/robots.txt` <- NULL
