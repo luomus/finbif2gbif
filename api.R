@@ -13,6 +13,7 @@ suppressPackageStartupMessages({
   library(lubridate, quietly = TRUE)
   library(rapidoc, quietly = TRUE)
   library(utils, quietly = TRUE)
+  library(future, quietly = TRUE)
 
 })
 
