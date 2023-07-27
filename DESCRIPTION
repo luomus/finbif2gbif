@@ -28,7 +28,8 @@ Imports:
     wk
 Suggests: 
     tinytest,
-    webfakes
+    webfakes,
+    callr
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
