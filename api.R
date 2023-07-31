@@ -90,9 +90,7 @@ function() {
 
   sink(log_file, type = "message")
 
-  promises::future_promise(
-    source("finbif2gbif.R")
-  )
+  promises::future_promise(source("finbif2gbif.R"), seed = TRUE)
 
   "success"
 
