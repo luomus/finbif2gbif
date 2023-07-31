@@ -72,7 +72,7 @@ get_collection_ids <- function(
 
     ans[[i]] <- structure(
       ans[[i]], class = "col_id",
-      last_mod = as.Date(to_gbif_cols[i, "date_edited"])
+      last_mod = max(as.Date(unlist(cols[["date_edited"]][[i]])), na.rm = TRUE)
     )
 
   }
