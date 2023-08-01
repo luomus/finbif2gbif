@@ -23,6 +23,12 @@ if (!file.exists("var/config.yml")) {
 
 }
 
+if (!dir.exists("stage")) {
+
+  dir.create("stage")
+
+}
+
 res <- tryCatch(
 
   {
