@@ -16,6 +16,6 @@ COPY NAMESPACE /home/user/NAMESPACE
 COPY R /home/user/R
 COPY tests /home/user/tests
 
-RUN  R -e "renv::restore()" \
-  && R -e 'remotes::install_local(dependencies = FALSE, upgrade = FALSE)' \
+RUN  R -e "renv::restore()"
+RUN  R -e 'remotes::install_local(dependencies = FALSE, upgrade = FALSE)' \
   && permissions.sh
