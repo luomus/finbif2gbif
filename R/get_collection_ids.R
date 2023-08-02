@@ -70,9 +70,13 @@ get_collection_ids <- function(
 
   for (i in seq_along(ans)) {
 
+    last_mod <- as.Date(unlist(cols[["date_edited"]][[i]]))
+
+    last_mod <- sort(last_mod, TRUE, TRUE)[[1L]]
+
     ans[[i]] <- structure(
       ans[[i]], class = "col_id",
-      last_mod = max(as.Date(unlist(cols[["date_edited"]][[i]])), na.rm = TRUE)
+      last_mod = last_mod
     )
 
   }
