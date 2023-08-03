@@ -131,7 +131,7 @@ res <- tryCatch(
 
           } else {
 
-            if (need_metadata_upd) {
+            if (isTRUE(need_metadata_upd)) {
 
               update_gbif_dataset_metadata(md, registration)
 
