@@ -1,3 +1,11 @@
+log_file_name <- sprintf("var/logs/job-%s.txt", Sys.Date())
+
+log_file <- file(log_file_name, open = "wt")
+
+sink(log_file)
+
+sink(log_file, type = "message")
+
 suppressPackageStartupMessages({
 
   library(f2g, quietly = TRUE)
@@ -190,3 +198,7 @@ res <- tryCatch(
 cat(res, file = "var/status/success.txt")
 
 cat(format(Sys.time(), usetz = TRUE), file = "var/status/last-update.txt")
+
+sink(type = "message")
+
+sink()

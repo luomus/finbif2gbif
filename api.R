@@ -13,7 +13,7 @@ suppressPackageStartupMessages({
   library(lubridate, quietly = TRUE)
   library(rapidoc, quietly = TRUE)
   library(utils, quietly = TRUE)
-  library(future, quietly = TRUE)
+  library(callr, quietly = TRUE)
 
 })
 
@@ -74,23 +74,7 @@ function(req, res) {
 #* @serializer unboxedJSON
 function() {
 
-  on.exit({
-
-    sink(type = "message")
-
-    sink()
-
-  })
-
-  log_file_name <- sprintf("var/logs/job-%s.txt", Sys.Date())
-
-  log_file <- file(log_file_name, open = "wt")
-
-  sink(log_file)
-
-  sink(log_file, type = "message")
-
-  promises::future_promise(source("finbif2gbif.R"), seed = TRUE)
+  callr::r_bg(source, args = list(file = "finbif2gbif.R"))
 
   "success"
 
