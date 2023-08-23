@@ -74,7 +74,12 @@ function(req, res) {
 #* @serializer unboxedJSON
 function() {
 
-  callr::r_bg(source, args = list(file = "finbif2gbif.R"))
+  callr::r_bg(
+    source,
+    args = list(file = "finbif2gbif.R"),
+    poll_connection = FALSE,
+    cleanup = FALSE
+  )
 
   "success"
 
