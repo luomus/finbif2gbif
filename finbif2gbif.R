@@ -25,12 +25,6 @@ options(
   finbif_retry_pause_cap = 5e3
 )
 
-if (!file.exists("var/config.yml")) {
-
-  invisible(file.copy("config.yml", "var"))
-
-}
-
 if (!dir.exists("stage")) {
 
   dir.create("stage")
@@ -42,8 +36,6 @@ res <- tryCatch(
   {
 
     start_timer <- tic()
-
-    file.copy("var/config.yml", "config.yml", TRUE)
 
     gbif_datasets <- get_gbif_datasets()
 
