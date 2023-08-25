@@ -1,4 +1,4 @@
-log_file_name <- sprintf("var/logs/job-%s.txt", Sys.Date())
+log_file_name <- sprintf("var/logs/update-%s.txt", Sys.Date())
 
 log_file <- file(log_file_name, open = "wt")
 
