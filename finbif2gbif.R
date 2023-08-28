@@ -56,7 +56,21 @@ res <- tryCatch(
 
           unequal <- count_occurrences(staged_archive, file) != subset_n
 
-          outdated <- last_mod(subset) > mod_time
+          trigger <- Sys.getenv("TRIGGER")
+
+          last_mod_subset <- last_mod(subset)
+
+          use_trigger <- trigger > last_mod_subset
+
+          use_trigger <- isTRUE(use_trigger)
+
+          if (use_trigger) {
+
+            last_mod_subset <- trigger
+
+          }
+
+          outdated <- last_mod_subset > mod_time
 
           needs_archiving <- any(unequal, outdated)
 
