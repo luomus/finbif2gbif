@@ -272,14 +272,9 @@
     },
     "finbif": {
       "Package": "finbif",
-      "Version": "0.9.1.9000",
-      "Source": "GitHub",
-      "RemoteType": "github",
-      "RemoteHost": "api.github.com",
-      "RemoteUsername": "luomus",
-      "RemoteRepo": "finbif",
-      "RemoteRef": "dev",
-      "RemoteSha": "b6ce9f8c7958197309bf4d0559fed8de268934c0",
+      "Version": "0.9.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
       "Requirements": [
         "R",
         "digest",
@@ -288,7 +283,7 @@
         "lutz",
         "utils"
       ],
-      "Hash": "ce1a9c63029f28dd0cca647f62368c80"
+      "Hash": "6dd86b33fb872bfdb5076296d23b3ae2"
     },
     "fontawesome": {
       "Package": "fontawesome",
@@ -965,13 +960,13 @@
     },
     "wk": {
       "Package": "wk",
-      "Version": "0.7.3",
+      "Version": "0.8.0",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
         "R"
       ],
-      "Hash": "68a7ab6ec1afb5f076172b983c069313"
+      "Hash": "aaf7e20556e3125a09d53453814ad339"
     },
     "xfun": {
       "Package": "xfun",
