@@ -18,6 +18,8 @@ default:
   fields:
   - occurrenceID
   - catalogNumber
+  - institutionCode
+  - collectionCode
   - basisOfRecord
   - taxonID
   - taxonConceptID
