@@ -45,9 +45,8 @@ get_occurrences <- function(
     type_vars <- c(
       "typeStatus",
       "typeSpecimenStatus",
-      "scientificName",
-      "typeSpecimenAuthor",
-      "typeSpecimenBasionymePublication"
+      "typeSpecimenScientificName",
+      "typeSpecimenAuthor"
     )
 
   }
@@ -358,41 +357,28 @@ process_media <- function(data, media_vars) {
 }
 
 #' @noRd
+#' @importFrom stats na.omit
 
 paste_type_status <- function(
   typeStatus,
   typeSpecimenStatus,
-  scientificName,
-  typeSpecimenAuthor,
-  typeSpecimenBasionymePublication
+  typeSpecimenScientificName,
+  typeSpecimenAuthor
 ) {
 
   ans <- ""
 
   if (typeStatus) {
 
-    typeSpecimenStatus <- na.omit(typeSpecimenStatus)
+    typeSpecimenStatus <- stats::na.omit(typeSpecimenStatus)
     typeSpecimenStatus <- types[typeSpecimenStatus]
 
-    needs_auth <- !grepl(typeSpecimenAuthor, scientificName, fixed = TRUE)
+    typeSpecimenScientificName <- stats::na.omit(typeSpecimenScientificName)
 
-    scientificName <- na.omit(scientificName)
-
-    author <- character()
-
-    if (is.na(needs_auth) || needs_auth) {
-
-      author <- na.omit(typeSpecimenAuthor)
-
-    }
-
-    typeSpecimenBasionymePublication <- na.omit(
-      typeSpecimenBasionymePublication
-    )
+    typeSpecimenAuthor <- stats::na.omit(typeSpecimenAuthor)
 
     ans <- paste(
-      typeSpecimenStatus, scientificName, author, "-",
-      typeSpecimenBasionymePublication
+      typeSpecimenStatus, typeSpecimenScientificName, typeSpecimenAuthor
     )
 
     ans <- paste(ans, collapse = " | ")
@@ -410,10 +396,11 @@ paste_type_status <- function(
 }
 
 #' @noRd
-
+#' @importFrom stats na.omit
+#'
 pipe_collapse <- function(x) {
 
-  x <- na.omit(x)
+  x <- stats::na.omit(x)
 
   ans <- ""
 
