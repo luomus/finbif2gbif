@@ -56,7 +56,7 @@ res <- tryCatch(
 
           unequal <- count_occurrences(staged_archive, file) != subset_n
 
-          trigger <- "2023-08-28"
+          trigger <- "2023-09-22"
 
           last_mod_subset <- last_mod(subset)
 
