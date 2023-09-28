@@ -45,7 +45,7 @@ get_occurrences <- function(
     type_vars <- c(
       "typeStatus",
       "typeSpecimenStatus",
-      "typeSpecimenScientificName",
+      "typeSpecimenTaxon",
       "typeSpecimenAuthor"
     )
 
@@ -362,7 +362,7 @@ process_media <- function(data, media_vars) {
 paste_type_status <- function(
   typeStatus,
   typeSpecimenStatus,
-  typeSpecimenScientificName,
+  typeSpecimenTaxon,
   typeSpecimenAuthor
 ) {
 
@@ -373,12 +373,12 @@ paste_type_status <- function(
     typeSpecimenStatus <- stats::na.omit(typeSpecimenStatus)
     typeSpecimenStatus <- types[typeSpecimenStatus]
 
-    typeSpecimenScientificName <- stats::na.omit(typeSpecimenScientificName)
+    typeSpecimenTaxon <- stats::na.omit(typeSpecimenTaxon)
 
     typeSpecimenAuthor <- stats::na.omit(typeSpecimenAuthor)
 
     ans <- paste(
-      typeSpecimenStatus, typeSpecimenScientificName, typeSpecimenAuthor
+      typeSpecimenStatus, typeSpecimenTaxon, typeSpecimenAuthor
     )
 
     ans <- paste(ans, collapse = " | ")
