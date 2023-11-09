@@ -7,6 +7,9 @@ record_bases <- c(
   "Heard" = "HumanObservation",
   "Seen" = "HumanObservation",
   "Material sample" = "MaterialSample",
+  "Material sample, air" = "MaterialSample",
+  "Material sample, soil" = "MaterialSample",
+  "Material sample, water" = "MaterialSample",
   "Photographed" = "MachineObservation",
   "Indirect observation (footprints, feces, etc)" = "HumanObservation",
   "Fossil" = "FossilSpecimen",
@@ -22,6 +25,5 @@ record_bases <- c(
   "Geologger" = "MachineObservation",
   "Amber inclusion" = "FossilSpecimen",
   "Machine observation video" = "MachineObservation",
-  "Machine observation photo" = "MachineObservation",
-  "Machine observation DNA" = "MachineObservation"
+  "Machine observation photo" = "MachineObservation"
 )
