@@ -229,9 +229,9 @@ function(pr) {
 
   pr$setDocs(
     "rapidoc",
-    bg_color = "#2691d9",
-    text_color = "#ffffff",
-    primary_color = "#2c3e50",
+    bg_color ="#141B15",
+    text_color = "#FFFFFF",
+    primary_color = "#55AAE2",
     render_style = "read",
     slots = paste0(
       '<img ',
