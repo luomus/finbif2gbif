@@ -19,7 +19,7 @@
 #' @importFrom EML set_coverage write_eml
 #' @importFrom emld as_emld
 #' @importFrom finbif finbif_occurrence scientific_name
-#' @importFrom utils as.personList person zip
+#' @importFrom utils as.person person zip
 #' @importFrom xml2 as_list as_xml_document read_xml write_xml
 #' @export
 
@@ -209,11 +209,17 @@ get_persons <- function(persons, emails) {
 
   for (i in seq_len(pmin(length(persons), length(emails)))) {
 
-    persons[[i]] <- sprintf("%s <%s>", persons[[i]], emails[[i]])
+    persons[[i]] <- as.person(persons[[i]])
+
+    persons[[i]] <- format(
+      persons[[i]], include = c("given", "family", "email")
+    )
+
+    persons[[i]] <- as.person(persons[[i]])
 
   }
 
-  persons <- utils::as.personList(persons)
+  persons <- do.call(c, persons)
 
   emld::as_emld(persons)
 
