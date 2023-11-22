@@ -37,13 +37,7 @@ write_eml <- function(
 
   contact <- c(
     list(get_persons(eml[["contact"]], eml[["email"]])),
-    list(
-      emld::as_emld(
-        utils::as.personList(
-          utils::person("FinBIF", email = "helpdesk@laji.fi")
-        )
-      )
-    )
+    list(emld::as_emld(utils::person("FinBIF", email = "helpdesk@laji.fi")))
   )
 
   eml <- list(
@@ -210,6 +204,10 @@ get_persons <- function(persons, emails) {
   for (i in seq_len(pmin(length(persons), length(emails)))) {
 
     persons[[i]] <- sprintf("%s <%s>", persons[[i]], emails[[i]])
+
+  }
+
+  for (i in seq_along(persons)) {
 
     persons[[i]] <- as.person(persons[[i]])
 
