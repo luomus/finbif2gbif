@@ -31,10 +31,14 @@ get_occurrences <- function(
 ) {
 
   oq <- NULL
+  dk <- NULL
+  rk <- NULL
 
   if ("occurrenceRemarks" %in% select) {
 
     oq <- "occurrenceQuality"
+    dk <- "documentKeywords"
+    rk <- "occurrenceKeywords"
 
   }
 
@@ -75,7 +79,7 @@ get_occurrences <- function(
   }
 
   select_vars <- unname(verbatim_loc)
-  select_vars <- c(select, oq, select_vars, type_vars)
+  select_vars <- c(select, oq, dk, rk, select_vars, type_vars)
   select_vars <- unique(select_vars)
   select_vars <- setdiff(select_vars, "associatedMedia")
   select_vars <- c(select_vars, media_vars)
@@ -96,7 +100,7 @@ get_occurrences <- function(
 
   data <- process_taxon_concept(data)
 
-  data <- process_occurrence_remarks(data, oq)
+  data <- process_occurrence_remarks(data, oq, dk, rk)
 
   data <- process_location(data, verbatim_loc)
 
@@ -229,7 +233,7 @@ process_taxon_concept <- function(data) {
 
 #' @noRd
 
-process_occurrence_remarks <- function(data, oq) {
+process_occurrence_remarks <- function(data, oq, dk, rk) {
 
   if (!is.null(oq)) {
 
@@ -237,13 +241,23 @@ process_occurrence_remarks <- function(data, oq) {
 
     data[[or]] <- ifelse(is.na(data[[or]]), "", paste0("\n", data[[or]]))
 
+    kw <- mapply(c, data[[dk]], data[[rk]], SIMPLIFY = FALSE)
+
+    kw <- vapply(kw, pipe_collapse, "")
+
+    kw <- ifelse(kw == "", kw, paste0("\nKeywords: { ", kw, " }"))
+
+    data[[or]] <- paste0(kw, data[[or]])
+
     data[[or]] <- paste0(
       "Quality assessment: ",
-      ifelse(data[[oq]] == "NEUTRAL", "UNASSESSED", data[[oq]]),
+      ifelse(is.na(data[[oq]]), "Unassessed", data[[oq]]),
       data[[or]]
     )
 
     data[[oq]] <- NULL
+    data[[dk]] <- NULL
+    data[[rk]] <- NULL
 
   }
 
