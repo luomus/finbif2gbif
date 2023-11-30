@@ -85,7 +85,7 @@
     },
     "bslib": {
       "Package": "bslib",
-      "Version": "0.6.0",
+      "Version": "0.6.1",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -102,7 +102,7 @@
         "rlang",
         "sass"
       ],
-      "Hash": "fac047b773ad75cea6e2a25214b09ca0"
+      "Hash": "c0d8599494bc7fb408cd206bbdd9cab0"
     },
     "cachem": {
       "Package": "cachem",
@@ -280,7 +280,7 @@
       "RemoteUsername": "luomus",
       "RemoteRepo": "finbif",
       "RemoteRef": "dev",
-      "RemoteSha": "570bbf496303b83877c1bef6f66d213d18e6563d",
+      "RemoteSha": "761231c3345ba414e0addb83e5f74547b0f84e4e",
       "Requirements": [
         "R",
         "digest",
@@ -289,7 +289,7 @@
         "lutz",
         "utils"
       ],
-      "Hash": "3bcce1656bd510c2fb907b2e2f5a3984"
+      "Hash": "b964e0762e3dddb336805a292345997b"
     },
     "fontawesome": {
       "Package": "fontawesome",
@@ -963,13 +963,13 @@
     },
     "wk": {
       "Package": "wk",
-      "Version": "0.9.0",
+      "Version": "0.9.1",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
         "R"
       ],
-      "Hash": "f58cfa8d9c3a78a309d455a647dee853"
+      "Hash": "5d4545e140e36476f35f20d0ca87963e"
     },
     "xfun": {
       "Package": "xfun",
