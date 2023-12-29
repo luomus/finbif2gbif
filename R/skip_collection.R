@@ -4,6 +4,7 @@
 #'
 #' @param collection_id Character. Collection id.
 #' @param enabled Logical.
+#' @param whitelist Character. Path to white-list file.
 #'
 #' @return Logical.
 #' @examples \dontrun{
@@ -15,14 +16,17 @@
 
 skip_collection <- function(
   collection_id,
-  enabled = config::get("enabled")
+  enabled = config::get("enabled"),
+  whitelist = "whitelist.txt"
 ) {
 
   id <- as.character(collection_id)
 
-  zero_records <- count_occurrences(list(collection = as.character(id))) < 1L
+  whitelist <- readLines(whitelist)
 
-  ans <- !enabled || zero_records
+  in_wl <- id %in% whitelist
+
+  ans <- !enabled || !in_wl || count_occurrences(list(collection = id)) < 1L
 
   if (ans) {
 

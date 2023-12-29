@@ -55,7 +55,7 @@ res <- tryCatch(
 
       timeout <- 3600 * config::get("timeout")
 
-      if (skip_collection(collection)) next
+      if (skip_collection(collection, whitelist = "var/whitelist.txt")) next
 
       archive <- get_archive_path(collection)
 

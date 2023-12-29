@@ -4,12 +4,18 @@
 \alias{skip_collection}
 \title{Skip collection}
 \usage{
-skip_collection(collection_id, enabled = config::get("enabled"))
+skip_collection(
+  collection_id,
+  enabled = config::get("enabled"),
+  whitelist = "whitelist.txt"
+)
 }
 \arguments{
 \item{collection_id}{Character. Collection id.}
 
 \item{enabled}{Logical.}
+
+\item{whitelist}{Character. Path to white-list file.}
 }
 \value{
 Logical.
