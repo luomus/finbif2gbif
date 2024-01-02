@@ -1,0 +1,281 @@
+kind: Template
+apiVersion: template.openshift.io/v1
+parameters:
+  - name: BRANCH
+    required: true
+  - name: APP
+    required: true
+    value: finbif2gbif
+  - name: PAGE_TITLE
+    required: true
+    value: "FinBIF to GBIF"
+  - name: APP_PORT
+    required: true
+    value: "8000"
+  - name: HOME
+    required: true
+    value: /home/user
+  - name: ARCHIVE
+    required: true
+    value: archives
+  - name: HEALTH
+    required: true
+    value: healthz
+  - name: LIVENESS_PERIOD
+    required: true
+    value: "30"
+  - name: FAILURE_THRESHOLD
+    required: true
+    value: "5"
+  - name: READINESS_PERIOD
+    required: true
+    value: "5"
+  - name: VAR
+    required: true
+    value: var
+  - name: STORAGE
+    required: true
+    value: "40Gi"
+  - name: SMALL_STORAGE
+    required: true
+    value: "3Gi"
+  - name: CRON
+    required: true
+    value: job
+  - name: CRON_IMAGE
+    required: true
+    value: docker.io/redhat/ubi8:8.8-854
+  - name: CRON_SCHEDULE
+    required: true
+    value: "0 20 * * *"
+  - name: CRON_CMD
+    required: true
+    value: '[
+      "sh",
+      "-c",
+      "curl --no-progress-meter $APP_HOSTNAME:$APP_PORT/job?secret=$JOB_SECRET"
+    ]'
+  - name: CRON_LIMIT
+    required: true
+    value: "7"
+  - name: CRON_CONCURRENCY
+    required: true
+    value: "Forbid"
+  - name: HOST
+    required: true
+  - name: FINBIF_ACCESS_TOKEN
+    required: true
+  - name: FINBIF_API
+    required: true
+  - name: GBIF_USER
+    required: true
+  - name: GBIF_ORG
+    required: true
+  - name: GBIF_INSTALLATION
+    required: true
+  - name: GBIF_PASS
+    required: true
+  - name: GBIF_API
+    required: true
+  - name: GITHUB_SECRET
+    required: true
+    generate: expression
+    from: "[a-zA-Z0-9]{20}"
+  - name: JOB_SECRET
+    required: true
+    generate: expression
+    from: "[a-zA-Z0-9]{64}"
+metadata:
+  name: ${APP}
+objects:
+- kind: PersistentVolumeClaim
+  apiVersion: v1
+  metadata:
+    name: ${VAR}-${BRANCH}
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    persistentVolumeReclaimPolicy: Retain
+    resources:
+      requests:
+        storage: ${SMALL_STORAGE}
+- kind: PersistentVolumeClaim
+  apiVersion: v1
+  metadata:
+    name: ${ARCHIVE}-${BRANCH}
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    persistentVolumeReclaimPolicy: Retain
+    resources:
+      requests:
+        storage: ${STORAGE}
+- kind: ImageStream
+  apiVersion: v1
+  metadata:
+    name: ${APP}-${BRANCH}
+    labels:
+      app: ${APP}
+  spec:
+    lookupPolicy:
+      local: true
+- kind: BuildConfig
+  apiVersion: v1
+  metadata:
+    name: ${APP}-${BRANCH}
+    labels:
+      app: ${APP}
+  spec:
+    output:
+      to:
+        kind: ImageStreamTag
+        name: ${APP}-${BRANCH}:latest
+    source:
+      type: Git
+      git:
+        uri: https://github.com/luomus/${APP}.git
+        ref: ${BRANCH}
+    strategy:
+      type: Docker
+    triggers:
+    - type: ConfigChange
+    - type: GitHub
+      github:
+        secret: ${GITHUB_SECRET}
+- kind: DeploymentConfig
+  apiVersion: v1
+  metadata:
+    name: ${APP}-${BRANCH}
+    labels:
+      app: ${APP}
+  spec:
+    replicas: 1
+    selector:
+      app: ${APP}
+      deploymentconfig: ${APP}-${BRANCH}
+    strategy:
+      type: Recreate
+    template:
+      metadata:
+        labels:
+          app: ${APP}
+          deploymentconfig: ${APP}-${BRANCH}
+      spec:
+        containers:
+        - image: ${APP}-${BRANCH}:latest
+          name: ${APP}-${BRANCH}
+          ports:
+          - containerPort: ${{APP_PORT}}
+          volumeMounts:
+          - mountPath: ${HOME}/${VAR}
+            name: ${VAR}-${BRANCH}
+          - mountPath: ${HOME}/${ARCHIVE}
+            name: ${ARCHIVE}-${BRANCH}
+          livenessProbe:
+            httpGet:
+              path: /${HEALTH}
+              port: ${{APP_PORT}}
+            failureThreshold: ${{FAILURE_THRESHOLD}}
+            periodSeconds: ${{LIVENESS_PERIOD}}
+          readinessProbe:
+            httpGet:
+              path: /${HEALTH}
+              port: ${{APP_PORT}}
+            initialDelaySeconds: ${{READINESS_PERIOD}}
+            periodSeconds: ${{READINESS_PERIOD}}
+          env:
+          - name: PAGE_TITLE
+            value: ${PAGE_TITLE}
+          - name: ENDPOINTS
+            value: https://${HOST}
+          - name: FINBIF_ACCESS_TOKEN
+            value: ${FINBIF_ACCESS_TOKEN}
+          - name: FINBIF_API
+            value: ${FINBIF_API}
+          - name: GBIF_USER
+            value: ${GBIF_USER}
+          - name: GBIF_ORG
+            value: ${GBIF_ORG}
+          - name: GBIF_INSTALLATION
+            value: ${GBIF_INSTALLATION}
+          - name: GBIF_PASS
+            value: ${GBIF_PASS}
+          - name: GBIF_API
+            value: ${GBIF_API}
+          - name: JOB_SECRET
+            value: ${JOB_SECRET}
+        volumes:
+        - name: ${VAR}-${BRANCH}
+          persistentVolumeClaim:
+            claimName: ${VAR}-${BRANCH}
+        - name: ${ARCHIVE}-${BRANCH}
+          persistentVolumeClaim:
+            claimName: ${ARCHIVE}-${BRANCH}
+    triggers:
+    - type: ConfigChange
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+        - ${APP}-${BRANCH}
+        from:
+          kind: ImageStreamTag
+          name: ${APP}-${BRANCH}:latest
+- kind: Service
+  apiVersion: v1
+  metadata:
+    name: ${APP}-${BRANCH}
+    labels:
+      app: ${APP}
+  spec:
+    ports:
+    - name: ${APP_PORT}
+      port: ${{APP_PORT}}
+      targetPort: ${{APP_PORT}}
+    selector:
+      app: ${APP}
+      deploymentconfig: ${APP}-${BRANCH}
+- kind: Route
+  apiVersion: v1
+  metadata:
+    name: ${APP}-${BRANCH}
+    labels:
+      app: ${APP}
+  spec:
+    host: ${HOST}
+    port:
+      targetPort: ${{APP_PORT}}
+    tls:
+      termination: edge
+    to:
+      kind: Service
+      name: ${APP}-${BRANCH}
+    wildcardPolicy: None
+- kind: CronJob
+  apiVersion: batch/v1beta1
+  metadata:
+    name: ${APP}-${BRANCH}
+  spec:
+    schedule: ${CRON_SCHEDULE}
+    concurrencyPolicy: ${CRON_CONCURRENCY}
+    successfulJobsHistoryLimit: ${{CRON_LIMIT}}
+    failedJobsHistoryLimit: ${{CRON_LIMIT}}
+    jobTemplate:
+      spec:
+        template:
+          metadata:
+            labels:
+              app: ${APP}
+          spec:
+            containers:
+            - name: ${APP}-${BRANCH}-${CRON}
+              image: ${CRON_IMAGE}
+              command: ${{CRON_CMD}}
+              env:
+              - name: JOB_SECRET
+                value: ${JOB_SECRET}
+              - name: APP_HOSTNAME
+                value: ${BRANCH}-${APP}.${APP}.svc
+              - name: APP_PORT
+                value: ${APP_PORT}
+            restartPolicy: Never

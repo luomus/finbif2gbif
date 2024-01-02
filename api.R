@@ -6,6 +6,27 @@
 #* @apiTag info Get info for an archive
 #* @apiTag status Check status of API
 
+suppressPackageStartupMessages({
+
+  library(finbif, quietly = TRUE)
+  library(f2g, quietly = TRUE)
+  library(lubridate, quietly = TRUE)
+  library(rapidoc, quietly = TRUE)
+  library(utils, quietly = TRUE)
+  library(callr, quietly = TRUE)
+
+})
+
+options(
+  finbif_api_url = Sys.getenv("FINBIF_API"),
+  finbif_use_cache = FALSE,
+  finbif_max_page_size = 250L,
+  finbif_rate_limit = 10L,
+  finbif_retry_times = 10,
+  finbif_retry_pause_base = 2,
+  finbif_retry_pause_cap = 5e3
+)
+
 #* @filter cors
 cors <- function(req, res) {
 
@@ -28,6 +49,39 @@ cors <- function(req, res) {
     plumber::forward()
 
   }
+
+}
+
+#* @filter secret
+function(req, res) {
+
+  secret <- identical(req[["argsQuery"]][["secret"]], Sys.getenv("JOB_SECRET"))
+
+  if (grepl("job", req[["PATH_INFO"]]) && !secret) {
+
+    res[["status"]] <- 401
+    list(error = "Access token required")
+
+  } else {
+
+    forward()
+
+  }
+
+}
+
+#* @get /job
+#* @serializer unboxedJSON
+function() {
+
+  callr::r_bg(
+    source,
+    args = list(file = "finbif2gbif.R"),
+    poll_connection = FALSE,
+    cleanup = FALSE
+  )
+
+  "success"
 
 }
 
@@ -115,6 +169,9 @@ function(archive, res) {
 
 }
 
+#* @assets ./var/logs /logs
+list()
+
 #* @assets ./var/status /status
 list()
 
@@ -159,6 +216,7 @@ function(pr) {
 
       spec$info$version <- version
 
+      spec$paths$`/job` <- NULL
       spec$paths$`/healthz` <- NULL
       spec$paths$`/favicon.ico` <- NULL
       spec$paths$`/robots.txt` <- NULL
@@ -171,9 +229,9 @@ function(pr) {
 
   pr$setDocs(
     "rapidoc",
-    bg_color = "#2691d9",
-    text_color = "#ffffff",
-    primary_color = "#2c3e50",
+    bg_color ="#141B15",
+    text_color = "#FFFFFF",
+    primary_color = "#55AAE2",
     render_style = "read",
     slots = paste0(
       '<img ',

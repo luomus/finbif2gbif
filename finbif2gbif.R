@@ -1,8 +1,41 @@
+log_file_name <- sprintf("var/logs/update-%s.txt", Sys.Date())
+
+log_file <- file(log_file_name, open = "wt")
+
+sink(log_file)
+
+sink(log_file, type = "message")
+
+suppressPackageStartupMessages({
+
+  library(f2g, quietly = TRUE)
+  library(finbif, quietly = TRUE)
+  library(tictoc, quietly = TRUE)
+
+})
+
 options(
-  finbif_rate_limit = Inf,
+  finbif_api_url = Sys.getenv("FINBIF_API"),
   finbif_use_cache = FALSE,
-  finbif_use_cache_metadata = TRUE
+  finbif_use_cache_metadata = TRUE,
+  finbif_max_page_size = 250L,
+  finbif_rate_limit = Inf,
+  finbif_retry_times = 10,
+  finbif_retry_pause_base = 2,
+  finbif_retry_pause_cap = 5e3
 )
+
+if (!file.exists("var/config.yml")) {
+
+  invisible(file.copy("config.yml", "var"))
+
+}
+
+if (!dir.exists("stage")) {
+
+  dir.create("stage")
+
+}
 
 res <- tryCatch(
 
@@ -22,7 +55,7 @@ res <- tryCatch(
 
       timeout <- 3600 * config::get("timeout")
 
-      if (skip_collection(collection)) next
+      if (skip_collection(collection, whitelist = "var/whitelist.txt")) next
 
       archive <- get_archive_path(collection)
 
@@ -56,7 +89,7 @@ res <- tryCatch(
 
           unequal <- count_occurrences(staged_archive, file) != subset_n
 
-          trigger <- "2023-12-02"
+          trigger <- Sys.getenv("TRIGGER")
 
           last_mod_subset <- last_mod(subset)
 
@@ -120,7 +153,7 @@ res <- tryCatch(
 
           } else {
 
-            if (need_metadata_upd) {
+            if (isTRUE(need_metadata_upd)) {
 
               update_gbif_dataset_metadata(md, registration)
 
@@ -179,3 +212,9 @@ res <- tryCatch(
 cat(res, file = "var/status/success.txt")
 
 cat(format(Sys.time(), usetz = TRUE), file = "var/status/last-update.txt")
+
+sink(type = "message")
+
+sink()
+
+file.copy(log_file_name, "var/logs/update-latest.txt", TRUE)

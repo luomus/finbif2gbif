@@ -2,25 +2,16 @@ version: "3.7"
 
 services:
   f2g:
-    image: ghcr.io/luomus/finbif2gbif
+    build:
+      context: .
+      dockerfile: Dockerfile
     restart: unless-stopped
     ports:
       - "8000:8000"
     volumes:
-      - logs:/home/user/logs
+      - var:/home/user/logs
       - archives:/home/user/archives
-  monitor:
-    image: ghcr.io/luomus/log-monitor
-    restart: unless-stopped
-    environment:
-      - "PAGE_TITLE='finbif2gbif'"
-    ports:
-      - "3838:3838"
-    volumes:
-      - logs:/home/user/logs
-    depends_on:
-      - f2g
 
 volumes:
-  logs:
+  var:
   archives:

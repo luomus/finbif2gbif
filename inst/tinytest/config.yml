@@ -1,0 +1,34 @@
+default:
+  enabled: true
+  collections:
+  - HR.48
+  - HR.139
+  - HR.61
+  - HR.769
+  - HR.447
+  metadata:
+    title: long_name
+    description: description
+    dataLanguage: language
+    license: intellectual_rights
+  fields:
+  - occurrenceID
+  - basisOfRecord
+  - institutionCode
+  - eventDate
+  - country
+  - decimalLatitude
+  - decimalLongitude
+  - footprintWKT
+  - geodeticDatum
+  - coordinateUncertaintyInMeters
+  - kingdom
+  - scientificName
+  - taxonRank
+  - associatedMedia
+  nmax: 2.5e4
+  filters:
+
+test:
+  filters:
+    date_range_ymd: ["2000-01-01", ""]
