@@ -44,7 +44,7 @@ parameters:
     value: job
   - name: CRON_IMAGE
     required: true
-    value: docker.io/redhat/ubi8:8.8-854
+    value: docker.io/redhat/ubi9:9.3-1476
   - name: CRON_SCHEDULE
     required: true
     value: "0 20 * * *"
