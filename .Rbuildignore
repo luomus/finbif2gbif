@@ -23,3 +23,8 @@
 ^stage$
 ^template\.yml$
 ^var$
+^coverage$
+^data$
+^logs$
+^stage$
+^tmp$
