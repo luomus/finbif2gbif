@@ -48,7 +48,7 @@ get_metadata <- function(
   message(
     sprintf(
       "INFO [%s] Metadata for collection %s retrieved from FinBIF",
-      Sys.time(),
+      format(Sys.time()),
       collection_id
     )
   )

@@ -39,7 +39,7 @@ clean_occurrences <- function(
     message(
       sprintf(
         "INFO [%s] Removing obsolete occurrence files %s from %s",
-        Sys.time(),
+        format(Sys.time()),
         paste(obsolete_files, collapse = " "),
         archive
       )

@@ -23,7 +23,7 @@ get_archive_path <- function(
   message(
     sprintf(
       "INFO [%s] Collection %s will be archived in %s",
-      Sys.time(),
+      format(Sys.time()),
       collection_id,
       archive_path
     )

@@ -25,14 +25,18 @@ skip_gbif<- function(
   if (ans) {
 
     message(
-      sprintf("INFO [%s] GBIF sync for %s will be skipped", Sys.time(), id)
+      sprintf(
+        "INFO [%s] GBIF sync for %s will be skipped", format(Sys.time()), id
+      )
     )
 
   } else {
 
     message(
       sprintf(
-        "INFO [%s] FinBIF collection %s ready for GBIF sync", Sys.time(), id
+        "INFO [%s] FinBIF collection %s ready for GBIF sync",
+        format(Sys.time()),
+        id
       )
     )
 

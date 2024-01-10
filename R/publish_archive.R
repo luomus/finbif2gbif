@@ -30,7 +30,7 @@ publish_archive <- function(
   message(
     sprintf(
       "INFO [%s] Found %s records in archive, %s; file, occurrence.txt",
-      Sys.time(),
+      format(Sys.time()),
       n_out,
       staged_archive
     )
@@ -42,7 +42,9 @@ publish_archive <- function(
 
   message(
     sprintf(
-      "INFO [%s] %s published to %s", Sys.time(), staged_archive,
+      "INFO [%s] %s published to %s",
+      format(Sys.time()),
+      staged_archive,
       combined_archive
     )
   )

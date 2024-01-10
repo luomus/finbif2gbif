@@ -31,7 +31,9 @@ skip_collection <- function(
   if (ans) {
 
     message(
-      sprintf("INFO [%s] FinBIF collection %s will be skipped", Sys.time(), id)
+      sprintf(
+        "INFO [%s] FinBIF collection %s will be skipped", format(Sys.time()), id
+      )
     )
 
   } else {
@@ -39,7 +41,7 @@ skip_collection <- function(
     message(
       sprintf(
         "INFO [%s] FinBIF collection %s ready for archiving",
-        Sys.time(),
+        format(Sys.time()),
         id
       )
     )

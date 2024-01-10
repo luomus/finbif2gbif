@@ -59,7 +59,7 @@ get_gbif_datasets <- function(
   message(
     sprintf(
       "INFO [%s] %s FinBIF collections have been already published",
-      Sys.time(),
+      format(Sys.time()),
       length(datasets[["results"]])
     )
   )

@@ -39,7 +39,7 @@ count_occurrences.default <- function(
   message(
     sprintf(
       "INFO [%s] Found %s occurrence records in FinBIF for filter: %s",
-      Sys.time(),
+      format(Sys.time()),
       n,
       paste(trimws(utils::capture.output(dput(as.list(x)))), collapse = " ")
     )
@@ -86,7 +86,7 @@ count_occurrences.archive_file <- function(
   message(
     sprintf(
       "INFO [%s] Found %s records in archive, %s; file, %s",
-      Sys.time(),
+      format(Sys.time()),
       n,
       x,
       file

@@ -23,7 +23,7 @@ n_archived_subsets <- function(archive) {
   message(
     sprintf(
       "INFO [%s] The file, %s, has had %s of its subsets archived",
-      Sys.time(),
+      format(Sys.time()),
       archive,
       ans
     )

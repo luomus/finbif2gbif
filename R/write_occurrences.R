@@ -47,7 +47,7 @@ write_occurrences <- function(
     message(
       sprintf(
         "INFO [%s] Writing media records to %s in archive %s",
-        Sys.time(),
+        format(Sys.time()),
         basename(media_file_name),
         archive
       )
@@ -72,7 +72,7 @@ write_occurrences <- function(
   message(
     sprintf(
       "INFO [%s] Writing occurrence records to %s in archive %s",
-      Sys.time(),
+      format(Sys.time()),
       basename(file_name),
       archive
     )

@@ -61,7 +61,7 @@ update_gbif_dataset_metadata <- function(
   message(
     sprintf(
       "INFO [%s] Collection metadata pushed to GBIF for dataset: %s",
-      Sys.time(),
+      format(Sys.time()),
       uuid
     )
   )

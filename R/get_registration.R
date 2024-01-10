@@ -41,7 +41,7 @@ get_registration <- function(
       message(
         sprintf(
           "INFO [%s] Collection %s registered as %s on %s and last modified %s",
-          Sys.time(),
+          format(Sys.time()),
           collection_id,
           attr(ans, "key"),
           attr(ans, "created"),
@@ -58,7 +58,7 @@ get_registration <- function(
       message(
         sprintf(
           "INFO [%s] Collection %s has not been registered",
-          Sys.time(),
+          format(Sys.time()),
           collection_id
         )
       )

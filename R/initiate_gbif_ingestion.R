@@ -45,7 +45,7 @@ initiate_gbif_ingestion <- function(
   message(
     sprintf(
       "INFO [%s] GBIF ingestion intitiated for dataset: %s",
-      Sys.time(),
+      format(Sys.time()),
       uuid
     )
   )

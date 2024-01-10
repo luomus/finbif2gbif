@@ -28,7 +28,10 @@ stage_archive <- function(
 
   message(
     sprintf(
-      "INFO [%s] %s will be staged at %s", Sys.time(), archive, staged_archive
+      "INFO [%s] %s will be staged at %s",
+      format(Sys.time()),
+      archive,
+      staged_archive
     )
   )
 

@@ -132,7 +132,11 @@ write_meta <- function(
 
   xml2::write_xml(meta, file_name)
 
-  message(sprintf("INFO [%s] Writing meta.xml file to %s", Sys.time(), archive))
+  message(
+    sprintf(
+      "INFO [%s] Writing meta.xml file to %s", format(Sys.time()), archive
+    )
+  )
 
   utils::zip(archive, file_name, "-jqr9X")
 

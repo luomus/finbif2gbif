@@ -50,7 +50,9 @@ last_mod.default <- function(
   ans <- unlist(ans)
 
   message(
-    sprintf("INFO [%s] FinBIF records last modified on %s", Sys.time(), ans)
+    sprintf(
+      "INFO [%s] FinBIF records last modified on %s", format(Sys.time()), ans
+    )
   )
 
   as.Date(ans)
@@ -80,7 +82,7 @@ last_mod.archive_file <- function(
   message(
     sprintf(
       "INFO [%s] Archive, %s; file, %s last modified on %s",
-      Sys.time(),
+      format(Sys.time()),
       x,
       file_name,
       format(ans)
@@ -104,7 +106,7 @@ last_mod.col_id <- function(
   message(
     sprintf(
       "INFO [%s] Collection %s metadata last modified on %s",
-      Sys.time(),
+      format(Sys.time()),
       x,
       format(ans)
     )
@@ -127,7 +129,7 @@ last_mod.registration <- function(
   message(
     sprintf(
       "INFO [%s] GBIF dataset %s metadata last modified on %s",
-      Sys.time(),
+      format(Sys.time()),
       attr(x, "key"),
       format(ans)
     )

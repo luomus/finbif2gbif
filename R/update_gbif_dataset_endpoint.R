@@ -78,7 +78,7 @@ update_gbif_dataset_endpoint <- function(
     message(
       sprintf(
         "INFO [%s] Deleted endpoint %s from GBIF dataset %s",
-        Sys.time(),
+        format(Sys.time()),
         wrong_ep[[i, "url"]],
         uuid
       )

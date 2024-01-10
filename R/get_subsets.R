@@ -30,7 +30,7 @@ get_subsets <- function(
   message(
     sprintf(
       "INFO [%s] Found %s occurrence records in FinBIF for filter: %s",
-      Sys.time(),
+      format(Sys.time()),
       n,
       paste(trimws(utils::capture.output(dput(as.list(filters)))), collapse = " ")
     )
@@ -60,7 +60,7 @@ get_subsets <- function(
   message(
     sprintf(
       "INFO [%s] Collection %s to be partitioned into %s %s",
-      Sys.time(),
+      format(Sys.time()),
       collection_id,
       n_subsets,
       txt

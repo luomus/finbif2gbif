@@ -102,7 +102,9 @@ write_eml <- function(
 
   xml2::write_xml(eml, file_name)
 
-  message(sprintf("INFO [%s] Writing eml.xml file to %s", Sys.time(), archive))
+  message(
+    sprintf("INFO [%s] Writing eml.xml file to %s", format(Sys.time()), archive)
+  )
 
   utils::zip(archive, file_name, "-jqr9X")
 
