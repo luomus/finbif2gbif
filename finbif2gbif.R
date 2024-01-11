@@ -213,6 +213,8 @@ res <- tryCatch(
   }
 )
 
+dir.create("var/status", showWarnings = FALSE)
+
 cat(res, file = "var/status/success.txt")
 
 cat(format(Sys.time(), usetz = TRUE), file = "var/status/last-update.txt")
