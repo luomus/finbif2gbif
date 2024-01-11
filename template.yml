@@ -54,7 +54,7 @@ parameters:
       "sh",
       "-c",
       "curl -s -w \"%{stderr} Code: %{response_code} URL: %{url_effective}\n\
-        $APP_HOSTNAME/job?secret=$JOB_SECRET"
+        $APP_HOSTNAME:$APP_PORT/job?secret=$JOB_SECRET"
     ]'
   - name: CRON_LIMIT
     required: true
@@ -276,5 +276,7 @@ objects:
               - name: JOB_SECRET
                 value: ${JOB_SECRET}
               - name: APP_HOSTNAME
-                value: ${APP}-${BRANCH}
+                value: ${APP}-${BRANCH}.${APP}.svc
+              - name: APP_PORT
+                value: ${APP_PORT}
             restartPolicy: Never
