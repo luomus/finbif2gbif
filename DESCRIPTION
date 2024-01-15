@@ -25,7 +25,7 @@ Imports:
     utils,
     xml2,
     wk
-Suggests: 
+Suggests:
     tinytest,
     webfakes,
     callr
