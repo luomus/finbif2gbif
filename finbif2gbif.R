@@ -105,7 +105,7 @@ res <- tryCatch(
 
           }
 
-          outdated <- last_mod_subset > mod_time
+          outdated <- as.POSIXct(last_mod_subset) > mod_time
 
           needs_archiving <- any(unequal, outdated)
 
