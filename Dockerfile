@@ -1,4 +1,4 @@
-FROM ghcr.io/luomus/base-r-image@sha256:0f9cc984724cfc5a268ecc9bfea057fc8f6ef2251f7dcf96baa173de4579e711
+FROM ghcr.io/luomus/base-r-image@sha256:9dccb9fc43680470dd4ed0b262d460e7fb34412dd66fa69ecac0a0fb2ec7ff59
 
 ENV FINBIF_USER_AGENT=https://github.com/luomus/finbif2gbif
 ENV STATUS_DIR="var/status"
