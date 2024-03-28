@@ -1,4 +1,5 @@
-FROM ghcr.io/luomus/base-r-image@sha256:b274fdd5ea06de31652330f805ea75e4ecdfb054399a2da812088fde11e3e309
+# docker manifest inspect ghcr.io/luomus/base-r-image:main -v | jq '.Descriptor.digest'
+FROM ghcr.io/luomus/base-r-image@sha256:df3ff7d3ba88bfde5e1537602d257647430b0e5ae735dcb23f606123970bdc5e
 
 ENV FINBIF_USER_AGENT=https://github.com/luomus/finbif2gbif
 ENV STATUS_DIR="var/status"
