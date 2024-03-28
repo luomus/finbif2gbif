@@ -78,6 +78,14 @@ parameters:
     required: true
   - name: GBIF_API
     required: true
+  - name: SMTP_SERVER
+    required: true
+  - name: SMTP_PORT
+    required: true
+  - name: ERROR_EMAIL_TO
+    required: true
+  - name: ERROR_EMAIL_FROM
+    required: true
   - name: GITHUB_SECRET
     required: true
     generate: expression
@@ -205,6 +213,14 @@ objects:
             value: ${GBIF_API}
           - name: JOB_SECRET
             value: ${JOB_SECRET}
+          - name: SMTP_SERVER
+            value: ${SMTP_SERVER}
+          - name: SMTP_PORT
+            value: ${SMTP_PORT}
+          - name: ERROR_EMAIL_TO
+            value: ${ERROR_EMAIL_TO}
+          - name: ERROR_EMAIL_FROM
+            value: ${ERROR_EMAIL_FROM}
         volumes:
         - name: ${VAR}-${BRANCH}
           persistentVolumeClaim:
