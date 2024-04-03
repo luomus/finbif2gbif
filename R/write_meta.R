@@ -8,6 +8,8 @@
 #'   names can optionally be prepended with a namespace (one of "dwc", "dwciri",
 #'   "dc" or "dcterms") separated from the field by a ":". If no namespace is
 #'   specified, "dwc" will be assumed.
+#' @param facts List of extra variables to be extracted from record,
+#'   event and document "facts".
 #' @param id Integer. Indicates which field can be considered the record
 #'   identifier. No ID field will be specified if \code{id} is not an integer
 #'   between 1 and the number of fields specified.
@@ -28,10 +30,15 @@ write_meta <- function(
   archive,
   filters,
   fields = config::get("fields"),
+  facts = config::get("facts"),
   id = 1
 ) {
 
+  facts <- names(facts)
+
   fields <- setdiff(fields, "associatedMedia")
+
+  fields <- c(fields, facts)
 
   n_fields <- length(fields)
 

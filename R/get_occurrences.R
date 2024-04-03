@@ -8,6 +8,8 @@
 #'   as a shortcut for this set. Variables can be deselected by prepending a `-`
 #'   to the variable name. If only deselects are specified the default set of
 #'   variables without the deselection will be returned.
+#' @param facts List of extra variables to be extracted from record,
+#'   event and document "facts".
 #' @param n Integer. How many records to download/import.
 #' @param quiet Logical. Suppress the progress indicator for multipage
 #'   downloads.
@@ -26,6 +28,7 @@
 get_occurrences <- function(
   filter,
   select,
+  facts,
   n,
   quiet = TRUE
 ) {
@@ -87,6 +90,7 @@ get_occurrences <- function(
   data <- finbif::finbif_occurrence(
     filter = filter,
     select = select_vars,
+    facts = unlist(facts),
     n = n,
     dwc = TRUE,
     quiet = quiet
@@ -106,7 +110,17 @@ get_occurrences <- function(
 
   data <- process_type_status(data, type_vars, select)
 
-  data <- process_media(data, media_vars)
+  media <- process_media(data, media_vars)
+
+  data[names(media_vars)] <- NULL
+
+  data <- list(occurrence = data, media = NULL)
+
+  if (nrow(media) > 0L) {
+
+    data[["media"]] <- media
+
+  }
 
   for (i in names(data[["occurrence"]])) {
 
@@ -317,15 +331,13 @@ process_type_status <- function(data, type_vars, select) {
 
 process_media <- function(data, media_vars) {
 
-  media_data <- NULL
+  media_data <- data.frame()
 
   has_media <- all(names(media_vars) %in% names(data))
 
   if (has_media) {
 
     media_data <- data[names(media_vars)]
-
-    data[names(media_vars)] <- NULL
 
     media_data[["type"]] <- lapply(
       media_data[["type"]],
@@ -358,15 +370,9 @@ process_media <- function(data, media_vars) {
 
     media_data <- media_data[!is.na(media_data[["license"]]), , drop = FALSE]
 
-    if (nrow(media_data) < 1L) {
-
-      media_data <- NULL
-
-    }
-
   }
 
-  list(occurrence = data, media = media_data)
+  media_data
 
 }
 

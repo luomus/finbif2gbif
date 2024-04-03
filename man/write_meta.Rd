@@ -4,7 +4,13 @@
 \alias{write_meta}
 \title{Write metafile}
 \usage{
-write_meta(archive, filters, fields = config::get("fields"), id = 1)
+write_meta(
+  archive,
+  filters,
+  fields = config::get("fields"),
+  facts = config::get("facts"),
+  id = 1
+)
 }
 \arguments{
 \item{archive}{Character. Path to the archive.}
@@ -15,6 +21,9 @@ write_meta(archive, filters, fields = config::get("fields"), id = 1)
 names can optionally be prepended with a namespace (one of "dwc", "dwciri",
 "dc" or "dcterms") separated from the field by a ":". If no namespace is
 specified, "dwc" will be assumed.}
+
+\item{facts}{List of extra variables to be extracted from record,
+event and document "facts".}
 
 \item{id}{Integer. Indicates which field can be considered the record
 identifier. No ID field will be specified if \code{id} is not an integer

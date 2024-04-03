@@ -2,13 +2,16 @@ source("setup.R")
 
 archive <- structure("archive.zip", class = "archive_file")
 
-expect_equal(write_meta(archive, list(), "occurrenceID"), 0L)
+expect_equal(
+  write_meta(archive, list(), "occurrenceID", list(recordNumber = "MY.legID")),
+  0L
+)
 
-filter <- list(collection = "HR.139")
+filter <- list(collection = "HR.22", has_media = TRUE)
 
 attr(filter, "n") <- 10L
 
-attr(filter, "collection_id") <- "HR.139"
+attr(filter, "collection_id") <- "HR.22"
 
 expect_equal(
   archive_occurrences(
@@ -20,6 +23,7 @@ expect_equal(
       "occurrenceID", "basisOfRecord", "associatedMedia",
       "recordedBy", "occurrenceRemarks", "typeStatus", "country"
     ),
+    list(recordNumber = "MY.legID"),
     10L,
   ),
   0L
@@ -45,7 +49,7 @@ expect_true(unstage_archive("stage/archive.zip", "."))
 
 expect_true(publish_archive("split/archive.zip", "."))
 
-expect_equal(clean_occurrences(archive, get_subsets("HR.139", NULL)), 0L)
+expect_equal(clean_occurrences(archive, get_subsets("HR.22", NULL)), 0L)
 
 expect_equal(count_occurrences(archive, "occurrence_test.txt"), 0L)
 
@@ -53,13 +57,13 @@ expect_inherits(last_mod(archive, "occurrence_test.txt"), "POSIXct")
 
 unlink("archive.zip")
 
-filter <- list(list(collection = "HR.85", has_record_media = TRUE))
+filter <- list(list(collection = "HR.22", has_record_media = TRUE))
 
 write_meta(archive, filter)
 
 expect_equal(
   archive_occurrences(
-    archive, "occurrence_16d6d944.txt", "media_16d6d944.txt", filter, n = 136L
+    archive, "occurrence_c651e8eb.txt", "media_c651e8eb.txt", filter, n = 101L
   ),
   0L
 )

@@ -10,6 +10,7 @@ archive_occurrences(
   media_file_name,
   filter,
   select = sub("^.*:", "", config::get("fields")),
+  facts = config::get("facts"),
   n = config::get("nmax"),
   quiet = TRUE
 )
@@ -29,6 +30,9 @@ default set of commonly used variables will be used. Use \code{"default_vars"}
 as a shortcut for this set. Variables can be deselected by prepending a \code{-}
 to the variable name. If only deselects are specified the default set of
 variables without the deselection will be returned.}
+
+\item{facts}{List of extra variables to be extracted from record,
+event and document "facts".}
 
 \item{n}{Integer. How many records to download/import.}
 

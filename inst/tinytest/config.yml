@@ -28,6 +28,10 @@ default:
   - associatedMedia
   nmax: 2.5e4
   filters:
+  facts:
+    recordNumber: MY.legID
+    verbatimElevation: MY.alt
+    habitat: MY.habitatDescription
 
 test:
   filters:

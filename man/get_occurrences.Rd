@@ -4,7 +4,7 @@
 \alias{get_occurrences}
 \title{Get occurrences}
 \usage{
-get_occurrences(filter, select, n, quiet = TRUE)
+get_occurrences(filter, select, facts, n, quiet = TRUE)
 }
 \arguments{
 \item{filter}{List of named character vectors. Filters to apply to records.}
@@ -14,6 +14,9 @@ default set of commonly used variables will be used. Use \code{"default_vars"}
 as a shortcut for this set. Variables can be deselected by prepending a \code{-}
 to the variable name. If only deselects are specified the default set of
 variables without the deselection will be returned.}
+
+\item{facts}{List of extra variables to be extracted from record,
+event and document "facts".}
 
 \item{n}{Integer. How many records to download/import.}
 

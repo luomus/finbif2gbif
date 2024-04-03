@@ -12,6 +12,8 @@
 #'   as a shortcut for this set. Variables can be deselected by prepending a `-`
 #'   to the variable name. If only deselects are specified the default set of
 #'   variables without the deselection will be returned.
+#' @param facts List of extra variables to be extracted from record,
+#'   event and document "facts".
 #' @param n Integer. How many records to download/import.
 #' @param quiet Logical. Suppress the progress indicator for multipage
 #'   downloads.
@@ -35,6 +37,7 @@ archive_occurrences <- function(
   media_file_name,
   filter,
   select = sub("^.*:", "", config::get("fields")),
+  facts = config::get("facts"),
   n = config::get("nmax"),
   quiet = TRUE
 ) {
@@ -43,7 +46,9 @@ archive_occurrences <- function(
 
   select <- unique(c("occurrenceID", select))
 
-  occ <- get_occurrences(filter, select, n_in, quiet = quiet)
+  names(facts) <- sub("^.*:", "", names(facts))
+
+  occ <- get_occurrences(filter, select, facts, n_in, quiet = quiet)
 
   ans <- write_occurrences(occ, archive, file_name, media_file_name)
 
