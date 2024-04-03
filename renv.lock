@@ -85,13 +85,14 @@
     },
     "bslib": {
       "Package": "bslib",
-      "Version": "0.6.2",
+      "Version": "0.7.0",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
         "R",
         "base64enc",
         "cachem",
+        "fastmap",
         "grDevices",
         "htmltools",
         "jquerylib",
@@ -102,7 +103,7 @@
         "rlang",
         "sass"
       ],
-      "Hash": "7fb73102553e0c8e478bfaa0ccebe479"
+      "Hash": "8644cc53f43828f19133548195d7e59e"
     },
     "cachem": {
       "Package": "cachem",
@@ -273,9 +274,14 @@
     },
     "finbif": {
       "Package": "finbif",
-      "Version": "0.9.5",
-      "Source": "Repository",
-      "Repository": "CRAN",
+      "Version": "0.9.5.9000",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteUsername": "luomus",
+      "RemoteRepo": "finbif",
+      "RemoteRef": "dev",
+      "RemoteSha": "f75bc8427c8e58bf299b5186ed9b2fa97a6a08c5",
       "Requirements": [
         "R",
         "digest",
@@ -283,7 +289,7 @@
         "lutz",
         "utils"
       ],
-      "Hash": "53d844d384d8d32c13352a35457653d2"
+      "Hash": "eb40595c2df73bf4aa550c6cfcc6b328"
     },
     "fontawesome": {
       "Package": "fontawesome",
