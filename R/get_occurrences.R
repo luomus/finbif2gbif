@@ -102,6 +102,8 @@ get_occurrences <- function(
 
   data <- process_recorded_by(data)
 
+  data <- process_facts(data, facts)
+
   data <- process_taxon_concept(data)
 
   data <- process_occurrence_remarks(data, oq, dk, rk)
@@ -220,6 +222,20 @@ process_recorded_by <- function(data) {
   if (has_rb) {
 
     data[[rb]] <- vapply(data[[rb]], pipe_collapse, character(1L))
+
+  }
+
+  data
+
+}
+
+#' @noRd
+
+process_facts <- function(data, facts) {
+
+  for (i in names(facts)) {
+
+    data[[i]] <- vapply(data[[i]], pipe_collapse, "")
 
   }
 
