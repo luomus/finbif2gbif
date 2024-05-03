@@ -32,6 +32,9 @@ default:
     recordNumber: MY.legID
     verbatimElevation: MY.alt
     habitat: MY.habitatDescription
+  combine:
+    habitat:
+    - habitat
 
 test:
   filters:

@@ -10,6 +10,7 @@
 #'   variables without the deselection will be returned.
 #' @param facts List of extra variables to be extracted from record,
 #'   event and document "facts".
+#' @param combine List of fields to combine.
 #' @param n Integer. How many records to download/import.
 #' @param quiet Logical. Suppress the progress indicator for multipage
 #'   downloads.
@@ -29,6 +30,7 @@ get_occurrences <- function(
   filter,
   select,
   facts,
+  combine,
   n,
   quiet = TRUE
 ) {
@@ -111,6 +113,8 @@ get_occurrences <- function(
   data <- process_location(data, verbatim_loc)
 
   data <- process_type_status(data, type_vars, select)
+
+  data <- combine_fields(data, combine)
 
   media <- process_media(data, media_vars)
 
@@ -334,6 +338,24 @@ process_type_status <- function(data, type_vars, select) {
     )
 
     data[setdiff(type_vars, select)] <- NULL
+
+  }
+
+  data
+
+}
+
+#' @noRd
+
+combine_fields <- function(data, combine) {
+
+  for (i in names(combine)) {
+
+    cols <- data[combine[[i]], drop = FALSE]
+
+    data[combine[[i]]] <- NULL
+
+    data[[i]] <- apply(cols, 1L, pipe_collapse)
 
   }
 

@@ -11,6 +11,7 @@ archive_occurrences(
   filter,
   select = sub("^.*:", "", config::get("fields")),
   facts = config::get("facts"),
+  combine = config::get("combine"),
   n = config::get("nmax"),
   quiet = TRUE
 )
@@ -33,6 +34,8 @@ variables without the deselection will be returned.}
 
 \item{facts}{List of extra variables to be extracted from record,
 event and document "facts".}
+
+\item{combine}{List of fields to combine.}
 
 \item{n}{Integer. How many records to download/import.}
 

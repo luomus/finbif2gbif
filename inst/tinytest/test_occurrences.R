@@ -24,6 +24,7 @@ expect_equal(
       "recordedBy", "occurrenceRemarks", "typeStatus", "country"
     ),
     list(recordNumber = "MY.legID"),
+    list(recordNumber = "recordNumber"),
     10L,
   ),
   0L

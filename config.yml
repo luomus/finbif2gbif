@@ -63,3 +63,8 @@ default:
     recordNumber: MY.legID
     verbatimElevation: MY.alt
     habitat: MY.habitatDescription
+    substrate: MY.substrate
+  combine:
+    habitat:
+    - habitat
+    - substrate
