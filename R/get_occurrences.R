@@ -454,11 +454,10 @@ paste_type_status <- function(
 }
 
 #' @noRd
-#' @importFrom stats na.omit
-#'
+
 pipe_collapse <- function(x) {
 
-  x <- stats::na.omit(x)
+  x <- x[!is.na(x) | nchar(x) < 1L]
 
   ans <- ""
 
