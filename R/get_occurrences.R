@@ -457,13 +457,13 @@ paste_type_status <- function(
 
 pipe_collapse <- function(x) {
 
-  x <- x[!is.na(x) | nchar(x) < 1L]
+  omit <- is.na(x) | nchar(x) < 1L
 
   ans <- ""
 
-  if (length(x) > 0L) {
+  if (any(!omit)) {
 
-    ans <- paste(x, collapse = " | ")
+    ans <- paste(x[!omit], collapse = " | ")
 
   }
 
