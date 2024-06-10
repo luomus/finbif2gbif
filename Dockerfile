@@ -1,9 +1,5 @@
 # docker manifest inspect ghcr.io/luomus/base-r-image:main -v | jq '.Descriptor.digest'
-FROM ghcr.io/luomus/base-r-image@sha256:19a4ab18e6d63f9cf4051bfb7c1f770fbf3878ba4b32fa7d52ef885d9f53809b
-
-ENV FINBIF_USER_AGENT=https://github.com/luomus/finbif2gbif
-ENV STATUS_DIR="var/status"
-ENV LOG_DIR="var/logs"
+FROM ghcr.io/luomus/base-r-image@sha256:abaa81498fccb1974918402ccdfcb6c86f1d62c6792abd5d6790b029123bd265
 
 COPY renv.lock /home/user/renv.lock
 
