@@ -45,7 +45,7 @@ jobs:
         with:
           image: ${{ env.IMAGE_NAME }}
           tags: ${{ steps.meta.outputs.tags }}
-          oci: false
+          oci: true
           containerfiles: |
             ./Dockerfile
 
