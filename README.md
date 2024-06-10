@@ -32,7 +32,7 @@ deployment (see also section "Testing").
 Use the following to deploy to an OpenShift instance.
 
 ```sh
-oc process -f openshift-template.yml --param-file=.env | oc create -f -
+./oc-process.sh -f template.yml -e .env  | oc create -f -
 ```
 
 Note the empty required parameters in the template file to infer the variables
@@ -78,7 +78,7 @@ HR.447:
 ## Testing
 
 A second docker-compose file is included for running unit tests. It is run on
-each commit to this repository via GitHub actions.
+each push to this repository via GitHub actions.
 
 ```sh
 docker-compose --file docker-compose.test.yml build
