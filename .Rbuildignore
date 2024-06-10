@@ -9,7 +9,6 @@
 ^\.env$
 ^Dockerfile$
 ^api\.R$
-^archives$
 ^combine-dwca\.sh$
 ^config\.yml$
 ^cov$
@@ -20,11 +19,9 @@
 ^logs$
 ^oc-process\.sh$
 ^sandbox$
-^stage$
 ^template\.yml$
 ^var$
 ^coverage$
 ^data$
 ^logs$
-^stage$
 ^tmp$
