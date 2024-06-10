@@ -5,8 +5,6 @@
 .Renviron
 .env
 cov/
-archives/
-stage/
 logs/
 var/
 sandbox/
