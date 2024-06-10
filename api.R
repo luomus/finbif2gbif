@@ -78,7 +78,8 @@ function() {
     source,
     args = list(file = "finbif2gbif.R"),
     poll_connection = FALSE,
-    cleanup = FALSE
+    cleanup = FALSE,
+    wd = "var"
   )
 
   "success"
@@ -175,7 +176,7 @@ list()
 #* @assets ./var/status /status
 list()
 
-#* @assets ./archives/combined /archives
+#* @assets ./var/archives/combined /archives
 list()
 
 #* @assets /usr/local/lib/R/site-library/finbif/help/figures

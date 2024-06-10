@@ -1,6 +1,6 @@
-dir.create("var/logs", showWarnings = FALSE)
+dir.create("logs", showWarnings = FALSE)
 
-log_file_name <- sprintf("var/logs/update-%s.txt", Sys.Date())
+log_file_name <- sprintf("logs/update-%s.txt", Sys.Date())
 
 log_file <- file(log_file_name, open = "wt")
 
@@ -27,9 +27,9 @@ options(
   finbif_retry_pause_cap = 5e3
 )
 
-if (!file.exists("var/config.yml")) {
+if (!file.exists("config.yml")) {
 
-  invisible(file.copy("config.yml", "var"))
+  invisible(file.copy("../config.yml", "."))
 
 }
 
@@ -45,8 +45,6 @@ res <- tryCatch(
 
     start_timer <- tic()
 
-    file.copy("var/config.yml", "config.yml", TRUE)
-
     gbif_datasets <- get_gbif_datasets()
 
     finbif_collections <- get_collection_ids(gbif_datasets)
@@ -57,7 +55,7 @@ res <- tryCatch(
 
       timeout <- 3600 * config::get("timeout")
 
-      if (skip_collection(collection, whitelist = "var/whitelist.txt")) next
+      if (skip_collection(collection)) next
 
       archive <- get_archive_path(collection)
 
@@ -213,14 +211,14 @@ res <- tryCatch(
   }
 )
 
-dir.create("var/status", showWarnings = FALSE)
+dir.create("status", showWarnings = FALSE)
 
-cat(res, file = "var/status/success.txt")
+cat(res, file = "status/success.txt")
 
-cat(format(Sys.time(), usetz = TRUE), file = "var/status/last-update.txt")
+cat(format(Sys.time(), usetz = TRUE), file = "status/last-update.txt")
 
 sink(type = "message")
 
 sink()
 
-file.copy(log_file_name, "var/logs/update-latest.txt", TRUE)
+file.copy(log_file_name, "logs/update-latest.txt", TRUE)
