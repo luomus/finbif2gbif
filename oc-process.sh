@@ -21,45 +21,39 @@ BRANCH=$(git symbolic-ref --short -q HEAD)
 if [ "$BRANCH" != "main" ]; then
 
 HOST=$HOST_DEV
-FINBIF_ACCESS_TOKEN=$DEV_FINBIF_ACCESS_TOKEN
-FINBIF_API=$DEV_FINBIF_API
-GBIF_INSTALLATION=$DEV_GBIF_INSTALLATION
-GBIF_PASS=$DEV_GBIF_PASS
-GBIF_API=$DEV_GBIF_API
+STORAGE=$STORAGE_DEV
+FINBIF_ACCESS_TOKEN=$FINBIF_ACCESS_TOKEN_DEV
+FINBIF_API=$FINBIF_API_DEV
+GBIF_INSTALLATION=$GBIF_INSTALLATION_DEV
+GBIF_PASS=$GBIF_PASS_DEV
+GBIF_API=$GBIF_API_DEV
+JOB_SECRET=$JOB_SECRET_DEV
 
 fi
 
-if [ $i = "volume-var" ]; then
+if [ $i = "volume" ]; then
 
 ITEM=".items[0]"
 
-elif [ $i = "volume-archive" ]; then
+elif [ $i = "config" ]; then
 
 ITEM=".items[1]"
 
-elif [ $i = "image" ]; then
+elif [ $i = "deploy" ]; then
 
 ITEM=".items[2]"
 
-elif [ $i = "build" ]; then
+elif [ $i = "service" ]; then
 
 ITEM=".items[3]"
 
-elif [ $i = "deploy" ]; then
+elif [ $i = "route" ]; then
 
 ITEM=".items[4]"
 
-elif [ $i = "service" ]; then
-
-ITEM=".items[5]"
-
-elif [ $i = "route" ]; then
-
-ITEM=".items[6]"
-
 elif [ $i = "job" ]; then
 
-ITEM=".items[7]"
+ITEM=".items[5]"
 
 else
 
@@ -77,8 +71,10 @@ oc process -f $f \
 -p GBIF_INSTALLATION=$GBIF_INSTALLATION \
 -p GBIF_PASS=$GBIF_PASS \
 -p GBIF_API=$GBIF_API \
+-p STORAGE=$STORAGE \
+-p JOB_SECRET=$JOB_SECRET \
 -p SMTP_SERVER=$SMTP_SERVER \
 -p SMTP_PORT=$SMTP_PORT \
--p ERROR_EMAIL_TO=$ERROR_EMAIL \
+-p ERROR_EMAIL_TO=$ERROR_EMAIL_TO \
 -p ERROR_EMAIL_FROM=$ERROR_EMAIL_FROM \
 | jq $ITEM
