@@ -12,15 +12,15 @@ parameters:
   - name: APP_PORT
     required: true
     value: "8000"
-  - name: HOME
+  - name: STORAGE_CLASS
     required: true
-    value: /home/user
-  - name: ARCHIVE
+    value: standard-csi
+  - name: ACCESS_MODE
     required: true
-    value: archives
+    value: ReadWriteOnce
   - name: HEALTH
     required: true
-    value: healthz
+    value: /healthz
   - name: LIVENESS_PERIOD
     required: true
     value: "30"
@@ -30,43 +30,11 @@ parameters:
   - name: READINESS_PERIOD
     required: true
     value: "5"
-  - name: VAR
-    required: true
-    value: var
-  - name: STORAGE
-    required: true
-    value: "40Gi"
-  - name: SMALL_STORAGE
-    required: true
-    value: "3Gi"
-  - name: CRON
-    required: true
-    value: job
-  - name: CRON_IMAGE
-    required: true
-    value: docker.io/redhat/ubi9:9.3-1476
-  - name: CRON_SCHEDULE
-    required: true
-    value: "0 20 * * *"
-  - name: CRON_CMD
-    required: true
-    value: '[
-      "sh",
-      "-c",
-      "curl -s -w \"%{stderr} Code: %{response_code} URL: %{url_effective}\n\
-        $APP_HOSTNAME:$APP_PORT/job?secret=$JOB_SECRET"
-    ]'
-  - name: CRON_LIMIT
-    required: true
-    value: "7"
-  - name: CRON_CONCURRENCY
-    required: true
-    value: "Forbid"
   - name: HOST
     required: true
-  - name: FINBIF_ACCESS_TOKEN
-    required: true
   - name: FINBIF_API
+    required: true
+  - name: FINBIF_ACCESS_TOKEN
     required: true
   - name: GBIF_USER
     required: true
@@ -86,73 +54,40 @@ parameters:
     required: true
   - name: ERROR_EMAIL_FROM
     required: true
-  - name: GITHUB_SECRET
+  - name: STORAGE
     required: true
-    generate: expression
-    from: "[a-zA-Z0-9]{20}"
   - name: JOB_SECRET
     required: true
-    generate: expression
-    from: "[a-zA-Z0-9]{64}"
 metadata:
   name: ${APP}
 objects:
 - kind: PersistentVolumeClaim
   apiVersion: v1
   metadata:
-    name: ${VAR}-${BRANCH}
+    name: ${APP}-${BRANCH}
   spec:
+    storageClassName: ${STORAGE_CLASS}
     accessModes:
-    - ReadWriteOnce
-    persistentVolumeReclaimPolicy: Retain
-    resources:
-      requests:
-        storage: ${SMALL_STORAGE}
-- kind: PersistentVolumeClaim
-  apiVersion: v1
-  metadata:
-    name: ${ARCHIVE}-${BRANCH}
-  spec:
-    accessModes:
-    - ReadWriteOnce
-    persistentVolumeReclaimPolicy: Retain
+    - ${ACCESS_MODE}
     resources:
       requests:
         storage: ${STORAGE}
-- kind: ImageStream
+- kind: Secret
   apiVersion: v1
   metadata:
     name: ${APP}-${BRANCH}
-    labels:
-      app: ${APP}
-  spec:
-    lookupPolicy:
-      local: true
-- kind: BuildConfig
-  apiVersion: v1
-  metadata:
-    name: ${APP}-${BRANCH}
-    labels:
-      app: ${APP}
-  spec:
-    output:
-      to:
-        kind: ImageStreamTag
-        name: ${APP}-${BRANCH}:latest
-    source:
-      type: Git
-      git:
-        uri: https://github.com/luomus/${APP}.git
-        ref: ${BRANCH}
-    strategy:
-      type: Docker
-    triggers:
-    - type: ConfigChange
-    - type: GitHub
-      github:
-        secret: ${GITHUB_SECRET}
-- kind: DeploymentConfig
-  apiVersion: v1
+  type: Opaque
+  data:
+    finbif_api: ${FINBIF_API}
+    finbif_access_token: ${FINBIF_ACCESS_TOKEN}
+    gbif_api: ${GBIF_API}
+    gbif_user: ${GBIF_USER}
+    gbif_org: ${GBIF_ORG}
+    gbif_installation: ${GBIF_INSTALLATION}
+    gbif_pass: ${GBIF_PASS}
+    job_secret: ${JOB_SECRET}
+- kind: Deployment
+  apiVersion: apps/v1
   metadata:
     name: ${APP}-${BRANCH}
     labels:
@@ -160,59 +95,92 @@ objects:
   spec:
     replicas: 1
     selector:
-      app: ${APP}
-      deploymentconfig: ${APP}-${BRANCH}
+      matchLabels:
+        app: ${APP}
     strategy:
       type: Recreate
     template:
       metadata:
         labels:
           app: ${APP}
-          deploymentconfig: ${APP}-${BRANCH}
+          branch: ${BRANCH}
       spec:
         containers:
-        - image: ${APP}-${BRANCH}:latest
+        - image: ghcr.io/luomus/${APP}:${BRANCH}
           name: ${APP}-${BRANCH}
           ports:
           - containerPort: ${{APP_PORT}}
           volumeMounts:
-          - mountPath: ${HOME}/${VAR}
-            name: ${VAR}-${BRANCH}
-          - mountPath: ${HOME}/${ARCHIVE}
-            name: ${ARCHIVE}-${BRANCH}
+          - mountPath: /home/user/var
+            name: ${APP}-${BRANCH}
+          startupProbe:
+            httpGet:
+              path: ${HEALTH}
+              port: ${{APP_PORT}}
+            failureThreshold: ${{FAILURE_THRESHOLD}}
+            periodSeconds: ${{LIVENESS_PERIOD}}
           livenessProbe:
             httpGet:
-              path: /${HEALTH}
+              path: ${HEALTH}
               port: ${{APP_PORT}}
             failureThreshold: ${{FAILURE_THRESHOLD}}
             periodSeconds: ${{LIVENESS_PERIOD}}
           readinessProbe:
             httpGet:
-              path: /${HEALTH}
+              path: ${HEALTH}
               port: ${{APP_PORT}}
-            initialDelaySeconds: ${{READINESS_PERIOD}}
             periodSeconds: ${{READINESS_PERIOD}}
           env:
           - name: PAGE_TITLE
             value: ${PAGE_TITLE}
           - name: ENDPOINTS
             value: https://${HOST}
+          - name: FINBIF_USER_AGENT
+            value: https://github.com/luomus/${APP}.git
+          - name: STATUS_DIR
+            value: var/status
+          - name: LOG_DIR
+            value: var/logs
           - name: FINBIF_ACCESS_TOKEN
-            value: ${FINBIF_ACCESS_TOKEN}
+            valueFrom:
+              secretKeyRef:
+                name: ${APP}-${BRANCH}
+                key: finbif_access_token
           - name: FINBIF_API
-            value: ${FINBIF_API}
+            valueFrom:
+              secretKeyRef:
+                name: ${APP}-${BRANCH}
+                key: finbif_api
           - name: GBIF_USER
-            value: ${GBIF_USER}
+            valueFrom:
+              secretKeyRef:
+                name: ${APP}-${BRANCH}
+                key: gbif_user
           - name: GBIF_ORG
-            value: ${GBIF_ORG}
+            valueFrom:
+              secretKeyRef:
+                name: ${APP}-${BRANCH}
+                key: gbif_org
           - name: GBIF_INSTALLATION
-            value: ${GBIF_INSTALLATION}
+            valueFrom:
+              secretKeyRef:
+                name: ${APP}-${BRANCH}
+                key: gbif_installation
           - name: GBIF_PASS
-            value: ${GBIF_PASS}
+            valueFrom:
+              secretKeyRef:
+                name: ${APP}-${BRANCH}
+                key: gbif_pass
           - name: GBIF_API
-            value: ${GBIF_API}
+            valueFrom:
+              secretKeyRef:
+                name: ${APP}-${BRANCH}
+                key: gbif_api
           - name: JOB_SECRET
-            value: ${JOB_SECRET}
+            valueFrom:
+              secretKeyRef:
+                name: ${APP}-${BRANCH}
+                key: job_secret
           - name: BRANCH
             value: ${BRANCH}
           - name: SMTP_SERVER
@@ -224,22 +192,9 @@ objects:
           - name: ERROR_EMAIL_FROM
             value: ${ERROR_EMAIL_FROM}
         volumes:
-        - name: ${VAR}-${BRANCH}
+        - name: ${APP}-${BRANCH}
           persistentVolumeClaim:
-            claimName: ${VAR}-${BRANCH}
-        - name: ${ARCHIVE}-${BRANCH}
-          persistentVolumeClaim:
-            claimName: ${ARCHIVE}-${BRANCH}
-    triggers:
-    - type: ConfigChange
-    - type: ImageChange
-      imageChangeParams:
-        automatic: true
-        containerNames:
-        - ${APP}-${BRANCH}
-        from:
-          kind: ImageStreamTag
-          name: ${APP}-${BRANCH}:latest
+            claimName: ${APP}-${BRANCH}
 - kind: Service
   apiVersion: v1
   metadata:
@@ -253,7 +208,7 @@ objects:
       targetPort: ${{APP_PORT}}
     selector:
       app: ${APP}
-      deploymentconfig: ${APP}-${BRANCH}
+      branch: ${BRANCH}
 - kind: Route
   apiVersion: v1
   metadata:
@@ -265,20 +220,20 @@ objects:
     port:
       targetPort: ${{APP_PORT}}
     tls:
-      termination: edge
+      insecureEdgeTerminationPolicy: Redirect
     to:
       kind: Service
       name: ${APP}-${BRANCH}
     wildcardPolicy: None
 - kind: CronJob
-  apiVersion: batch/v1beta1
+  apiVersion: batch/v1
   metadata:
     name: ${APP}-${BRANCH}
   spec:
-    schedule: ${CRON_SCHEDULE}
-    concurrencyPolicy: ${CRON_CONCURRENCY}
-    successfulJobsHistoryLimit: ${{CRON_LIMIT}}
-    failedJobsHistoryLimit: ${{CRON_LIMIT}}
+    schedule:  "0 20 * * *"
+    concurrencyPolicy: "Forbid"
+    successfulJobsHistoryLimit: 7
+    failedJobsHistoryLimit: 7
     jobTemplate:
       spec:
         template:
@@ -287,14 +242,23 @@ objects:
               app: ${APP}
           spec:
             containers:
-            - name: ${APP}-${BRANCH}-${CRON}
-              image: ${CRON_IMAGE}
-              command: ${{CRON_CMD}}
+            - name: ${APP}-${BRANCH}
+              # docker manifest inspect docker.io/redhat/ubi9:9.4 -v | jq '.[0].Descriptor.digest'
+              image: docker.io/redhat/ubi9:9.4@sha256:b8a991d0c5d0184d76196caf11ddc0605714c65f7a06ad23ad72e3d0a723eee1
+              command: '[
+                          "sh",
+                          "-c",
+                          "curl -s -w \"%{stderr} Code: %{response_code} URL: %{url_effective}\n\
+                            $APP_HOSTNAME:$APP_PORT/job?secret=$JOB_SECRET"
+                        ]'
               env:
               - name: JOB_SECRET
-                value: ${JOB_SECRET}
+                valueFrom:
+                  secretKeyRef:
+                    name: ${APP}-${BRANCH}
+                    key: job_secret
               - name: APP_HOSTNAME
-                value: ${APP}-${BRANCH}.${APP}.svc
+                value: ${APP}-${BRANCH}
               - name: APP_PORT
                 value: ${APP_PORT}
             restartPolicy: Never
