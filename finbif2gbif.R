@@ -211,6 +211,10 @@ res <- tryCatch(
   }
 )
 
+system2(
+  "rclone", c("sync", "\"archives/split\"", "\"default:hy-7088-finbif2gbif\"")
+)
+
 dir.create("status", showWarnings = FALSE)
 
 cat(res, file = "status/success.txt")

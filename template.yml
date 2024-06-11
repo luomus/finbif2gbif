@@ -58,6 +58,10 @@ parameters:
     required: true
   - name: JOB_SECRET
     required: true
+  - name: RCLONE_ACCESS_KEY_ID
+    required: true
+  - name: RCLONE_SECRET_ACCESS_KEY
+    required: true
 metadata:
   name: ${APP}
 objects:
@@ -86,6 +90,8 @@ objects:
     gbif_installation: ${GBIF_INSTALLATION}
     gbif_pass: ${GBIF_PASS}
     job_secret: ${JOB_SECRET}
+    rclone_access_key_id: ${RCLONE_ACCESS_KEY_ID}
+    rclone_secret_access_key: ${RCLONE_SECRET_ACCESS_KEY}
 - kind: Deployment
   apiVersion: apps/v1
   metadata:
@@ -181,6 +187,16 @@ objects:
               secretKeyRef:
                 name: ${APP}-${BRANCH}
                 key: job_secret
+          - name: RCLONE_CONFIG_DEFAULT_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                name: ${APP}-${BRANCH}
+                key: rclone_access_key_id
+          - name: RCLONE_CONFIG_DEFAULT_SECRET_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: ${APP}-${BRANCH}
+                key: rclone_secret_access_key
           - name: BRANCH
             value: ${BRANCH}
           - name: SMTP_SERVER

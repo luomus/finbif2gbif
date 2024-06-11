@@ -35,7 +35,7 @@ if [ $i = "volume" ]; then
 
 ITEM=".items[0]"
 
-elif [ $i = "config" ]; then
+elif [ $i = "secrets" ]; then
 
 ITEM=".items[1]"
 
@@ -69,6 +69,8 @@ GBIF_INSTALLATION=$(echo -n $GBIF_INSTALLATION | base64)
 GBIF_PASS=$(echo -n $GBIF_PASS | base64)
 GBIF_API=$(echo -n $GBIF_API | base64)
 JOB_SECRET=$(echo -n $JOB_SECRET | base64)
+RCLONE_ACCESS_KEY_ID=$(echo -n $RCLONE_ACCESS_KEY_ID | base64)
+RCLONE_SECRET_ACCESS_KEY=$(echo -n $RCLONE_SECRET_ACCESS_KEY | base64)
 
 oc process -f $f \
 -p BRANCH="$BRANCH" \
@@ -82,6 +84,8 @@ oc process -f $f \
 -p GBIF_API="$GBIF_API" \
 -p STORAGE="$STORAGE" \
 -p JOB_SECRET="$JOB_SECRET" \
+-p RCLONE_ACCESS_KEY_ID="$RCLONE_ACCESS_KEY_ID" \
+-p RCLONE_SECRET_ACCESS_KEY="$RCLONE_SECRET_ACCESS_KEY" \
 -p SMTP_SERVER="$SMTP_SERVER" \
 -p SMTP_PORT="$SMTP_PORT" \
 -p ERROR_EMAIL_TO="$ERROR_EMAIL_TO" \
