@@ -207,6 +207,10 @@ objects:
             value: ${ERROR_EMAIL_TO}
           - name: ERROR_EMAIL_FROM
             value: ${ERROR_EMAIL_FROM}
+          resources:
+            limits:
+              cpu: "1000m"
+              memory: "5Gi"
         volumes:
         - name: ${APP}-${BRANCH}
           persistentVolumeClaim:
