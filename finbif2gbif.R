@@ -212,7 +212,12 @@ res <- tryCatch(
 )
 
 system2(
-  "rclone", c("sync", "\"archives/split\"", "\"default:hy-7088-finbif2gbif\"")
+  "rclone",
+  c(
+    "sync",
+    "\"archives/split\"",
+    sprintf("\"default:hy-7088-finbif2gbif-%s\"", Sys.getenv("BRANCH"))
+  )
 )
 
 dir.create("status", showWarnings = FALSE)
