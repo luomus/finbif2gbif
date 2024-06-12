@@ -265,12 +265,12 @@ objects:
             - name: ${APP}-${BRANCH}
               # docker manifest inspect docker.io/redhat/ubi9:9.4 -v | jq '.[0].Descriptor.digest'
               image: docker.io/redhat/ubi9:9.4@sha256:b8a991d0c5d0184d76196caf11ddc0605714c65f7a06ad23ad72e3d0a723eee1
-              command: '[
-                          "sh",
-                          "-c",
-                          "curl -s -w \"%{stderr} Code: %{response_code} URL: %{url_effective}\n\
-                            $APP_HOSTNAME:$APP_PORT/job?secret=$JOB_SECRET"
-                        ]'
+              command:
+                - 'sh'
+                - '-c'
+                - >-
+                  curl -s -w '%{stderr} Code: %{response_code} URL: %{url_effective}\n'
+                  $APP_HOSTNAME:$APP_PORT/job?secret=$JOB_SECRET
               env:
               - name: JOB_SECRET
                 valueFrom:
