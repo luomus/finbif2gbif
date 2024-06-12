@@ -1,6 +1,8 @@
 #!/bin/bash
 
 i="all"
+f="template.yml"
+e=".env"
 
 while getopts ":f:e:i::" flag; do
 case $flag in
@@ -77,7 +79,7 @@ JOB_SECRET=$(echo -n $JOB_SECRET | base64)
 RCLONE_ACCESS_KEY_ID=$(echo -n $RCLONE_ACCESS_KEY_ID | base64)
 RCLONE_SECRET_ACCESS_KEY=$(echo -n $RCLONE_SECRET_ACCESS_KEY | base64)
 
-oc project finbif2gbif
+echo "# $(oc project finbif2gbif)"
 
 oc process -f $f \
 -p BRANCH="$BRANCH" \
