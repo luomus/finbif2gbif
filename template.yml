@@ -253,8 +253,8 @@ objects:
   spec:
     schedule:  "0 20 * * *"
     concurrencyPolicy: "Forbid"
-    successfulJobsHistoryLimit: 7
-    failedJobsHistoryLimit: 7
+    successfulJobsHistoryLimit: 1
+    failedJobsHistoryLimit: 3
     jobTemplate:
       spec:
         template:
@@ -282,4 +282,8 @@ objects:
                 value: ${APP}-${BRANCH}
               - name: APP_PORT
                 value: ${APP_PORT}
+              resources:
+                limits:
+                  cpu: "100m"
+                  memory: "100Mi"
             restartPolicy: Never
