@@ -55,9 +55,14 @@ elif [ $i = "job" ]; then
 
 ITEM=".items[5]"
 
+elif [ $i = "all" ]; then
+
+ITEM=""
+
 else
 
-  ITEM=""
+echo "Object not found"
+exit 1
 
 fi
 
@@ -71,6 +76,8 @@ GBIF_API=$(echo -n $GBIF_API | base64)
 JOB_SECRET=$(echo -n $JOB_SECRET | base64)
 RCLONE_ACCESS_KEY_ID=$(echo -n $RCLONE_ACCESS_KEY_ID | base64)
 RCLONE_SECRET_ACCESS_KEY=$(echo -n $RCLONE_SECRET_ACCESS_KEY | base64)
+
+oc project finbif2gbif
 
 oc process -f $f \
 -p BRANCH="$BRANCH" \
