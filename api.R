@@ -76,7 +76,7 @@ function() {
 
   callr::r_bg(
     source,
-    args = list(file = "finbif2gbif.R"),
+    args = list(file = "../finbif2gbif.R"),
     poll_connection = FALSE,
     cleanup = FALSE,
     wd = "var"
