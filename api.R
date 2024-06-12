@@ -103,7 +103,7 @@ function() {
 #* @serializer unboxedJSON
 function() {
 
- list.files("archives/combined", pattern = "\\.zip$")
+ list.files("var/archives/combined", pattern = "\\.zip$")
 
 }
 
@@ -115,7 +115,7 @@ function() {
 #* @serializer unboxedJSON
 function(archive, res) {
 
-  path <- sprintf("archives/combined/%s", archive)
+  path <- sprintf("var/archives/combined/%s", archive)
 
   if (!file.exists(path)) {
 
@@ -139,7 +139,7 @@ function(archive, res) {
 #* @serializer contentType list(type="application/xml")
 function(archive, res) {
 
-  archive <- paste0("archives/combined/", archive)
+  archive <- paste0("var/archives/combined/", archive)
 
   if (!file.exists(archive)) {
 
