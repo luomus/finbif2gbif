@@ -139,9 +139,23 @@ res <- tryCatch(
 
         md <- get_metadata(collection)
 
+        arr <- identical(md[["intellectual_rights"]], "All Rights Reserved")
+
+        if (arr) {
+
+          message(
+            sprintf(
+              "WARNING [%s] Collection %s does not have an open license",
+              format(Sys.time()),
+              collection
+            )
+          )
+
+        }
+
         need_metadata_upd <- last_mod(collection) > last_mod(registration)
 
-        if (!skip_gbif(collection)) {
+        if (!skip_gbif(collection) && !arr) {
 
           if (is.null(registration)) {
 
