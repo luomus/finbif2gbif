@@ -132,6 +132,7 @@ function(archive, res) {
 
 #* Get the EML file from a Darwin Core archive
 #* @get /eml/<archive:str>
+#* @head /eml/<archive:str>
 #* @param archive:str Archive file.
 #* @tag info
 #* @response 200 An xml file attachment
