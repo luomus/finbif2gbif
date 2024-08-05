@@ -21,9 +21,9 @@ jobs:
 
       - name: Run tests
         run: |
-          docker-compose --file docker-compose.test.yml build
+          docker compose --file docker-compose.test.yml build
           mkdir -p cov
-          docker-compose --file docker-compose.test.yml run -u $(id -u) sut
+          docker compose --file docker-compose.test.yml run -u $(id -u) sut
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v4
