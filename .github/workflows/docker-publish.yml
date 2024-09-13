@@ -14,6 +14,8 @@ jobs:
     permissions:
       contents: read
       packages: write
+      attestations: write
+      id-token: write
 
     steps:
       - name: Checkout repository
@@ -33,25 +35,31 @@ jobs:
             cov/code-coverage.html
             cov/lib
 
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: Buildah Action
-        id: build_image
-        uses: redhat-actions/buildah-build@v2
+      - name: Build and push Docker image
+        id: push
+        uses: docker/build-push-action@v6
         with:
-          image: ${{ env.IMAGE_NAME }}
+          context: .
+          push: true
           tags: ${{ steps.meta.outputs.tags }}
-          oci: true
-          containerfiles: |
-            ./Dockerfile
+          labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Push To GHCR
-        uses: redhat-actions/push-to-registry@v2
+      - name: Generate artifact attestation
+        uses: actions/attest-build-provenance@v1
         with:
-          tags: ${{ steps.build_image.outputs.tags }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
+          subject-digest: ${{ steps.push.outputs.digest }}
+          push-to-registry: true
