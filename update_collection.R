@@ -1,6 +1,6 @@
 options(
   finbif_api_url = Sys.getenv("FINBIF_API"),
-  finbif_use_cache = c(FALSE, TRUE),
+  finbif_use_cache = FALSE,
   finbif_use_cache_metadata = TRUE,
   finbif_max_page_size = 250L,
   finbif_rate_limit = Inf,
