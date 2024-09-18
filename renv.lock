@@ -244,14 +244,13 @@
     },
     "evaluate": {
       "Package": "evaluate",
-      "Version": "0.24.0",
+      "Version": "1.0.0",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
-        "R",
-        "methods"
+        "R"
       ],
-      "Hash": "a1066cbc05caee9a4bf6d90f194ff4da"
+      "Hash": "6b567375113ceb7d9f800de4dd42218e"
     },
     "fansi": {
       "Package": "fansi",
@@ -274,9 +273,14 @@
     },
     "finbif": {
       "Package": "finbif",
-      "Version": "0.9.8",
-      "Source": "Repository",
-      "Repository": "CRAN",
+      "Version": "0.9.8.9000",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteUsername": "luomus",
+      "RemoteRepo": "finbif",
+      "RemoteRef": "dev",
+      "RemoteSha": "b7e6e6ce6f9d5594b6d683786904f8cc4de8fb99",
       "Requirements": [
         "R",
         "digest",
@@ -284,7 +288,7 @@
         "lutz",
         "utils"
       ],
-      "Hash": "abab2fb74ad205389de2a749618166f5"
+      "Hash": "e3893930fc1aaa3baf68ca29c8df8e8b"
     },
     "fontawesome": {
       "Package": "fontawesome",
@@ -631,14 +635,14 @@
     },
     "ps": {
       "Package": "ps",
-      "Version": "1.7.7",
+      "Version": "1.8.0",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
         "R",
         "utils"
       ],
-      "Hash": "878b467580097e9c383acbb16adab57a"
+      "Hash": "4b9c8485b0c7eecdf0a9ba5132a45576"
     },
     "purrr": {
       "Package": "purrr",
@@ -875,13 +879,13 @@
     },
     "tinytex": {
       "Package": "tinytex",
-      "Version": "0.52",
+      "Version": "0.53",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
         "xfun"
       ],
-      "Hash": "cfbad971a71f0e27cec22e544a08bc3b"
+      "Hash": "9db859e8aabbb474293dde3097839420"
     },
     "utf8": {
       "Package": "utf8",
@@ -955,13 +959,13 @@
     },
     "wk": {
       "Package": "wk",
-      "Version": "0.9.2",
+      "Version": "0.9.3",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
         "R"
       ],
-      "Hash": "877644b9b942d429f3708e12c98d1a22"
+      "Hash": "9ca478d7cb1450b42dcb8af2ea5681cc"
     },
     "xfun": {
       "Package": "xfun",
