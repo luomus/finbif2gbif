@@ -1,4 +1,8 @@
-update_collection <- function(collection, start_timer = tictoc::tic()) {
+update_collection <- function(
+  collection,
+  start_timer = tictoc::tic(),
+  gbif_datasets = f2g::get_gbif_datasets()
+) {
 
   archive <- f2g::get_archive_path(collection)
 
