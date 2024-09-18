@@ -64,7 +64,11 @@ default:
     verbatimElevation: MY.alt
     habitat: MY.habitatDescription
     substrate: MY.substrate
+    localityDescription: MY.localityDescription
   combine:
     habitat:
     - habitat
     - substrate
+    locality:
+    - locality
+    - localityDescription
