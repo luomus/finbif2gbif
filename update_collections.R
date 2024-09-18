@@ -6,7 +6,7 @@ suppressPackageStartupMessages({
 
 })
 
-source("update_collection.R")
+source("../update_collection.R")
 
 gbif_datasets <- get_gbif_datasets()
 

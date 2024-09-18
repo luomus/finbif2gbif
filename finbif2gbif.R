@@ -26,7 +26,7 @@ res <- tryCatch(
 
     start_timer <- tic()
 
-    source("update_collections.R")
+    source("../update_collections.R")
 
     "true"
 
