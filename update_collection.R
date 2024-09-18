@@ -1,3 +1,14 @@
+options(
+  finbif_api_url = Sys.getenv("FINBIF_API"),
+  finbif_use_cache = c(FALSE, TRUE),
+  finbif_use_cache_metadata = TRUE,
+  finbif_max_page_size = 250L,
+  finbif_rate_limit = Inf,
+  finbif_retry_times = 10,
+  finbif_retry_pause_base = 2,
+  finbif_retry_pause_cap = 5e3
+)
+
 update_collection <- function(
   collection,
   start_timer = tictoc::tic(),
