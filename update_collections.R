@@ -20,7 +20,7 @@ for (collection in sample(finbif_collections)) {
 
   if (skip_collection(collection)) next
 
-  update_collection(collection, start_timer, gbif_datasets)
+  update_collection(collection, timeout, start_timer, gbif_datasets)
 
   stop_timer <- toc(quiet = TRUE)
 

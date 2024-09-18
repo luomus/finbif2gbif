@@ -11,6 +11,7 @@ options(
 
 update_collection <- function(
   collection,
+  timeout = 1,
   start_timer = tictoc::tic(),
   gbif_datasets = f2g::get_gbif_datasets()
 ) {
