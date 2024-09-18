@@ -16,6 +16,8 @@ update_collection <- function(
   gbif_datasets = f2g::get_gbif_datasets()
 ) {
 
+  force(start_timer)
+
   archive <- f2g::get_archive_path(collection)
 
   staged_archive <- f2g::stage_archive(archive)
