@@ -32,7 +32,7 @@ deployment (see also section "Testing").
 Use the following to deploy to an OpenShift instance.
 
 ```sh
-./oc-process.sh -f template.yml -e .env  | oc create -f -
+./oc-process.sh -i all  | oc create -f -
 ```
 
 Note the empty required parameters in the template file to infer the variables
@@ -46,7 +46,7 @@ enables all collections and will share title, description, language and license
 metadata with the GBIF data registry. It also specifies the default set of
 fields to include in all Darwin Core Archives and sets the maximum number of
 rows per occurrence record text file inside the archive files. For the
-collection _HR.447_ the records have been filter so that only records from the
+collection _HR.447_ the records have been filtered so that only records from the
 year 2015 onwards are included.
 
 ```yaml
