@@ -223,6 +223,7 @@ function(pr) {
       spec$paths$`/favicon.ico` <- NULL
       spec$paths$`/robots.txt` <- NULL
       spec$paths$`/` <- NULL
+      spec$paths$`/eml/{archive}`$head <- NULL
 
       spec
 
