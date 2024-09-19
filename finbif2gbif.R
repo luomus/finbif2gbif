@@ -24,8 +24,6 @@ res <- tryCatch(
 
   {
 
-    start_timer <- tic()
-
     source("../update_collections.R")
 
     "true"

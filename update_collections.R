@@ -1,16 +1,10 @@
-suppressPackageStartupMessages({
-
-  library(f2g, quietly = TRUE)
-  library(finbif, quietly = TRUE)
-  library(tictoc, quietly = TRUE)
-
-})
-
 source("../update_collection.R")
 
-gbif_datasets <- get_gbif_datasets()
+gbif_datasets <- f2g::get_gbif_datasets()
 
-finbif_collections <- get_collection_ids(gbif_datasets)
+finbif_collections <- f2g::get_collection_ids(gbif_datasets)
+
+start_timer <- tictoc::tic()
 
 for (collection in sample(finbif_collections)) {
 
@@ -18,13 +12,13 @@ for (collection in sample(finbif_collections)) {
 
   timeout <- 3600 * config::get("timeout")
 
-  if (skip_collection(collection)) next
+  if (f2g::skip_collection(collection)) next
 
   update_collection(collection, timeout, start_timer, gbif_datasets)
 
-  stop_timer <- toc(quiet = TRUE)
+  stop_timer <- tictoc::toc(quiet = TRUE)
 
-  tic()
+  tictoc::tic()
 
   if (stop_timer$toc - start_timer > timeout) {
 
