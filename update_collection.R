@@ -118,7 +118,7 @@ update_collection <- function(
 
     need_metadata_upd <- f2g::last_mod(collection) > f2g::last_mod(registration)
 
-    if (!skip_gbif(collection) && !arr) {
+    if (!f2g::skip_gbif(collection) && !arr) {
 
       if (is.null(registration)) {
 
@@ -152,7 +152,11 @@ update_collection <- function(
 
     ingest <- need_metadata_upd || any_need_archive || is.null(registration)
 
-    if (!skip_gbif(collection) && ingest) f2g::initiate_gbif_ingestion(uuid)
+    if (!f2g::skip_gbif(collection) && ingest) {
+
+      f2g::initiate_gbif_ingestion(uuid)
+
+    }
 
   }
 
