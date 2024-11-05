@@ -41,10 +41,12 @@ default:
   - footprintWKT
   - footprintSRS
   - locality
+  - municipality
   - county
   - stateProvince
   - higherGeography
   - country
+  - countryCode
   - recordedBy
   - identifiedBy
   - associatedMedia
