@@ -28,6 +28,7 @@ default:
   - associatedMedia
   nmax: 2.5e4
   filters:
+    date_range_ymd: ["2000-01-01", ""]
   facts:
     recordNumber: MY.legID
     verbatimElevation: MY.alt
@@ -35,7 +36,3 @@ default:
   combine:
     habitat:
     - habitat
-
-test:
-  filters:
-    date_range_ymd: ["2000-01-01", ""]

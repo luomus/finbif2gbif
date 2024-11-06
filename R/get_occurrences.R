@@ -60,14 +60,6 @@ get_occurrences <- function(
 
   }
 
-  verbatim_loc <- c(
-    "county" = "verbatimCounty",
-    "stateProvince" = "verbatimStateProvince",
-    "country"= "verbatimCountry"
-  )
-
-  verbatim_loc <- verbatim_loc[intersect(select, names(verbatim_loc))]
-
   media_vars <- NULL
 
   if ("associatedMedia" %in% select) {
@@ -83,8 +75,7 @@ get_occurrences <- function(
 
   }
 
-  select_vars <- unname(verbatim_loc)
-  select_vars <- c(select, oq, dk, rk, select_vars, type_vars)
+  select_vars <- c(select, oq, dk, rk, type_vars)
   select_vars <- unique(select_vars)
   select_vars <- setdiff(select_vars, "associatedMedia")
   select_vars <- c(select_vars, media_vars)
@@ -109,8 +100,6 @@ get_occurrences <- function(
   data <- process_taxon_concept(data)
 
   data <- process_occurrence_remarks(data, oq, dk, rk)
-
-  data <- process_location(data, verbatim_loc)
 
   data <- process_type_status(data, type_vars, select)
 
@@ -292,34 +281,6 @@ process_occurrence_remarks <- function(data, oq, dk, rk) {
     data[[oq]] <- NULL
     data[[dk]] <- NULL
     data[[rk]] <- NULL
-
-  }
-
-  data
-
-}
-
-#' @noRd
-
-process_location <- function(data, verbatim_loc) {
-
-  for (i in seq_along(verbatim_loc)) {
-
-    var_name <- names(verbatim_loc)[[i]]
-
-    var <- verbatim_loc[[i]]
-
-    has_var <- var_name %in% names(data)
-
-    if (has_var) {
-
-      data[[var_name]] <- ifelse(
-        is.na(data[[var_name]]), data[[var]], data[[var_name]]
-      )
-
-    }
-
-    data[[var]] <- NULL
 
   }
 
