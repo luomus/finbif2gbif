@@ -9,6 +9,7 @@ write_meta(
   filters,
   fields = config::get("fields"),
   facts = config::get("facts"),
+  combine = config::get("combine"),
   id = 1
 )
 }
@@ -24,6 +25,8 @@ specified, "dwc" will be assumed.}
 
 \item{facts}{List of extra variables to be extracted from record,
 event and document "facts".}
+
+\item{combine}{Named list of variables to combine.}
 
 \item{id}{Integer. Indicates which field can be considered the record
 identifier. No ID field will be specified if \code{id} is not an integer

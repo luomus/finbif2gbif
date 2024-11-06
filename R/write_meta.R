@@ -10,6 +10,7 @@
 #'   specified, "dwc" will be assumed.
 #' @param facts List of extra variables to be extracted from record,
 #'   event and document "facts".
+#' @param combine Named list of variables to combine.
 #' @param id Integer. Indicates which field can be considered the record
 #'   identifier. No ID field will be specified if \code{id} is not an integer
 #'   between 1 and the number of fields specified.
@@ -31,6 +32,7 @@ write_meta <- function(
   filters,
   fields = config::get("fields"),
   facts = config::get("facts"),
+  combine = config::get("combine"),
   id = 1
 ) {
 
@@ -39,6 +41,10 @@ write_meta <- function(
   fields <- setdiff(fields, "associatedMedia")
 
   fields <- c(fields, facts)
+
+  fields <- setdiff(fields, unlist(combine))
+
+  fields <- c(fields, names(combine))
 
   n_fields <- length(fields)
 
