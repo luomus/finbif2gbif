@@ -312,7 +312,7 @@ combine_fields <- function(data, combine) {
 
   for (i in names(combine)) {
 
-    cols <- data[combine[[i]], drop = FALSE]
+    cols <- data[, combine[[i]], drop = FALSE]
 
     data[combine[[i]]] <- NULL
 
