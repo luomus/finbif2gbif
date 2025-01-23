@@ -1,6 +1,6 @@
 Package: f2g
 Title: FinBIF to GBIF
-Version: 0.6.14
+Version: 0.6.14.9000
 Authors@R: c(
     person(given = "Finnish Museum of Natural History - Luomus",
            role = "cph"),
