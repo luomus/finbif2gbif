@@ -23,7 +23,9 @@ get_subsets <- function(
 
   filters <- c(collection = collection_id, filters)
 
-  n <- finbif::finbif_occurrence(filter = filters, select = "record_id", n = 1L)
+  n <- finbif::finbif_occurrence(
+    filter = filters, select = "record_id", order_by = "record_id", n = 1L
+  )
 
   n <- attr(n, "nrec_avl")
 
@@ -32,7 +34,9 @@ get_subsets <- function(
       "INFO [%s] Found %s occurrence records in FinBIF for filter: %s",
       format(Sys.time()),
       n,
-      paste(trimws(utils::capture.output(dput(as.list(filters)))), collapse = " ")
+      paste(
+        trimws(utils::capture.output(dput(as.list(filters)))), collapse = " "
+      )
     )
   )
 

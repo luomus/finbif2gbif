@@ -83,6 +83,7 @@ get_occurrences <- function(
   data <- finbif::finbif_occurrence(
     filter = filter,
     select = select_vars,
+    order_by = "occurrenceID",
     facts = unlist(facts),
     n = n,
     dwc = TRUE,
