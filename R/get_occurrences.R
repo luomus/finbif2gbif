@@ -98,8 +98,6 @@ get_occurrences <- function(
 
   data <- process_facts(data, facts)
 
-  data <- process_taxon_concept(data)
-
   data <- process_occurrence_remarks(data, oq, dk, rk)
 
   data <- process_type_status(data, type_vars, select)
@@ -230,24 +228,6 @@ process_facts <- function(data, facts) {
   for (i in names(facts)) {
 
     data[[i]] <- vapply(data[[i]], pipe_collapse, "")
-
-  }
-
-  data
-
-}
-
-#' @noRd
-
-process_taxon_concept <- function(data) {
-
-  tc <- "taxonConceptID"
-
-  has_tc <- tc %in% names(data)
-
-  if (has_tc) {
-
-    data[[tc]] <- vapply(data[[tc]], pipe_collapse, character(1L))
 
   }
 

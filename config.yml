@@ -21,7 +21,6 @@ default:
   - institutionCode
   - collectionCode
   - basisOfRecord
-  - taxonID
   - taxonConceptID
   - scientificName
   - taxonRank
