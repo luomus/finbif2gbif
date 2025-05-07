@@ -216,8 +216,18 @@ function(collectionID, res) {
 #* @serializer contentType list(type="application/zip")
 function(collectionID, res) {
 
-  res$status <- 303L
-  res$setHeader("Location", paste0("/archives/", collectionID, ".zip"))
+  archive <- paste0("var/archives/combined/", collectionID, ".zip")
+
+  if (!file.exists(archive)) {
+
+    res$serializer <- plumber::serializer_unboxed_json()
+    res$status <- 404L
+    return("Archive not found")
+
+  }
+
+  readBin(archive, "raw", n = file.info(archive)$size)
+
 }
 
 #* @assets ./var/logs /logs
