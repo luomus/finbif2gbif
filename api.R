@@ -274,6 +274,8 @@ function(pr) {
       spec$paths$`/` <- NULL
       spec$paths$`/eml/{archive}`$head <- NULL
       spec$paths$`/eml/{archive}`$get <- NULL
+      spec$paths$`/metadata/{collectionID}`$head <- NULL
+      spec$paths$`/archive/{collectionID}`$head <- NULL
 
       spec
 
