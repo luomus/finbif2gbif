@@ -211,9 +211,8 @@ function(collectionID, res) {
 #* @get /archive/<collectionID:str>
 #* @head /archive/<collectionID:str>
 #* @param collectionID:str Archive file.
-#* @response 200 A zip archive
+#* @response 303 A json object
 #* @response 404 File not found
-#* @serializer contentType list(type="application/zip")
 function(collectionID, res) {
 
   archive <- paste0("var/archives/combined/", collectionID, ".zip")
@@ -226,7 +225,8 @@ function(collectionID, res) {
 
   }
 
-  readBin(archive, "raw", n = file.info(archive)$size)
+  res$status <- 303L
+  res$setHeader("Location", paste0("/archives/", collectionID, ".zip"))
 
 }
 
