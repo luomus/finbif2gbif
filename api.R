@@ -134,7 +134,6 @@ function(archive, res) {
 #* @get /eml/<archive:str>
 #* @head /eml/<archive:str>
 #* @param archive:str Archive file.
-#* @tag info
 #* @response 200 An xml file attachment
 #* @response 404 File not found
 #* @serializer contentType list(type="application/xml")
@@ -169,6 +168,56 @@ function(archive, res) {
 
   plumber::as_attachment(eml, file)
 
+}
+
+#* Get the EML for dataset
+#* @get /metadata/<collectionID:str>
+#* @head /metadata/<collectionID:str>
+#* @param collectionID:str Archive file.
+#* @response 200 An xml file
+#* @response 404 File not found
+#* @serializer contentType list(type="application/xml")
+function(collectionID, res) {
+
+  archive <- paste0("var/archives/combined/", collectionID, ".zip")
+
+  if (!file.exists(archive)) {
+
+    res$serializer <- plumber::serializer_unboxed_json()
+    res$status <- 404L
+    return("Archive not found")
+
+  }
+
+  files <- utils::unzip(archive, list = TRUE)
+
+  file <- "eml.xml"
+
+  if (!any(grepl(file, files[["Name"]]))) {
+
+    res$serializer <- plumber::serializer_unboxed_json()
+    res$status <- 404L
+    return("EML file not found")
+
+  }
+
+  con <- unz(archive, file, "rb")
+  on.exit(close(con))
+
+  readBin(con, "raw", n = files[files[["Name"]] == file, "Length"])
+}
+
+#* Get the DwCA for dataset
+#* @get /archive/<collectionID:str>
+#* @head /archive/<collectionID:str>
+#* @param collectionID:str Archive file.
+#* @response 200 A zip archive
+#* @response 404 File not found
+#* @serializer contentType list(type="application/zip")
+function(collectionID, res) {
+
+  res$status <- 303L
+  res$setHeader("Location", paste0("/archives/", collectionID, ".zip"))
 }
 
 #* @assets ./var/logs /logs
@@ -224,6 +273,7 @@ function(pr) {
       spec$paths$`/robots.txt` <- NULL
       spec$paths$`/` <- NULL
       spec$paths$`/eml/{archive}`$head <- NULL
+      spec$paths$`/eml/{archive}`$get <- NULL
 
       spec
 
