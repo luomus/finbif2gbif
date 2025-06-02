@@ -18,10 +18,23 @@
 get_subsets <- function(
   collection_id,
   filters = config::get("filters"),
-  nmax = config::get("nmax")
+  nmax = config::get("nmax"),
+  update_freq = config::get("update_freq")
 ) {
 
-  filters <- c(collection = collection_id, filters)
+  update_freq <- update_freq %||% "day"
+
+  import_date <- switch(
+    update_freq,
+    month = trunc(Sys.Date() - 1, "months"),
+    Sys.Date() - 1
+  )
+
+  import_date <- as.character(import_date)
+
+  filters <- c(
+    last_import_date_max = import_date, collection = collection_id, filters
+  )
 
   n <- finbif::finbif_occurrence(
     filter = filters, select = "record_id", order_by = "record_id", n = 1L
