@@ -5,6 +5,9 @@
 #' @param collection_id Character. ID string of FinBIF collection.
 #' @param filters List.
 #' @param nmax Integer. Maximum allowed size of subset.
+#' @param update_freq Character. Either "month" or "day".
+#' @param facts List.
+#' @param combine List.
 #'
 #' @return A list.
 #' @examples \dontrun{
@@ -19,7 +22,9 @@ get_subsets <- function(
   collection_id,
   filters = config::get("filters"),
   nmax = config::get("nmax"),
-  update_freq = config::get("update_freq")
+  update_freq = config::get("update_freq"),
+  facts = config::get("facts"),
+  combine = config::get("combine")
 ) {
 
   update_freq <- update_freq %||% "day"
@@ -71,6 +76,12 @@ get_subsets <- function(
     }
 
     subsets[[subset]] <- c(filters, partition)
+
+    attr(subsets[[subset]], "update_freq") <- update_freq
+
+    attr(subsets[[subset]], "facts") <- facts
+
+    attr(subsets[[subset]], "combine") <- combine
 
   }
 
