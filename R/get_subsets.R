@@ -38,7 +38,7 @@ get_subsets <- function(
   import_date <- as.character(import_date)
 
   filters <- c(
-    last_import_date_max = import_date, collection = collection_id, filters
+    first_import_date_max = import_date, collection = collection_id, filters
   )
 
   n <- finbif::finbif_occurrence(
