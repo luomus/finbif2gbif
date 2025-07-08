@@ -102,7 +102,7 @@ update_collection <- function(
 
     md <- f2g::get_metadata(collection)
 
-    arr <- identical(md[["intellectual_rights"]], "All Rights Reserved")
+    arr <- identical(md[["license"]], "All Rights Reserved")
 
     if (arr) {
 
@@ -152,7 +152,7 @@ update_collection <- function(
 
     ingest <- need_metadata_upd || any_need_archive || is.null(registration)
 
-    if (!f2g::skip_gbif(collection) && ingest) {
+    if (!f2g::skip_gbif(collection) && ingest && !arr) {
 
       f2g::initiate_gbif_ingestion(uuid)
 
