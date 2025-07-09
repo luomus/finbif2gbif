@@ -25,6 +25,12 @@ get_metadata <- function(
   installation = Sys.getenv("GBIF_INSTALLATION")
 ) {
 
+  published_key <- attr(collection_id, "gbif_org_id")
+
+  key_ok <- is.null(published_key) || identical(published_key, org)
+
+  stopifnot("Publishing organization key has changed" = key_ok)
+
   m <- finbif::finbif_collections(supercollections = TRUE, select = TRUE)
 
   ind <- m[["id"]] == collection_id

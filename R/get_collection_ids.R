@@ -72,9 +72,17 @@ get_collection_ids <- function(
 
     last_mod <- as.Date(unlist(to_gbif_cols[["date_edited"]][[i]]))
 
-    last_mod <- sort(last_mod, TRUE, TRUE)[[1L]]
+    publisher <-
+      config::get("publisher", ans[[i]]) %||%
+      to_gbif_cols[["publisher_shortname"]][[i]]
 
-    ans[[i]] <- structure(ans[[i]], class = "col_id", last_mod = last_mod)
+    ans[[i]] <- structure(
+      ans[[i]],
+      class = "col_id",
+      last_mod = sort(last_mod, TRUE, TRUE)[[1L]],
+      publisher = publisher,
+      gbif_org_id = attr(get_registration(datasets, ans[[i]], TRUE), "key")
+    )
 
   }
 

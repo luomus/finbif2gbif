@@ -4,17 +4,28 @@ gbif_datasets <- f2g::get_gbif_datasets()
 
 finbif_collections <- f2g::get_collection_ids(gbif_datasets)
 
+publishers <- read.delim("publishers.txt", row.names = "publisher_shortname")
+
 start_timer <- tictoc::tic()
 
 for (collection in sample(finbif_collections)) {
 
   Sys.setenv(R_CONFIG_ACTIVE = collection)
 
+  default_publisher <- Sys.getenv("GBIF_ORG")
+
+  Sys.setenv(
+    GBIF_ORG = publishers["org_key"][[attr(collection, "publisher")]] %||%
+      default_publisher
+  )
+
   timeout <- 3600 * config::get("timeout")
 
   if (f2g::skip_collection(collection)) next
 
   update_collection(collection, timeout, start_timer, gbif_datasets)
+
+  Sys.setenv(GBIF_ORG = default_publisher)
 
   stop_timer <- tictoc::toc(quiet = TRUE)
 
