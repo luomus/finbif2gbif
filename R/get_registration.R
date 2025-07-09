@@ -32,6 +32,7 @@ get_registration <- function(
       ans,
       class = "registration",
       key = datasets[[ans]][["key"]],
+      publisher_key = datasets[[ans]][["publishingOrganizationKey"]],
       created = datasets[[ans]][["created"]],
       last_mod = as.Date(datasets[[ans]][["modified"]])
     )
@@ -40,10 +41,11 @@ get_registration <- function(
 
       message(
         sprintf(
-          "INFO [%s] Collection %s registered as %s on %s and last modified %s",
+          "INFO [%s] Dataset %s reg as %s by %s on %s and last mod %s",
           format(Sys.time()),
           collection_id,
           attr(ans, "key"),
+          attr(ans, "publisher_key"),
           attr(ans, "created"),
           attr(ans, "last_mod")
         )
