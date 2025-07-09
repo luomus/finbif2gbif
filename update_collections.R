@@ -12,12 +12,11 @@ for (collection in sample(finbif_collections)) {
 
   Sys.setenv(R_CONFIG_ACTIVE = collection)
 
+  org <- publishers[attr(collection, "publisher"), , drop = FALSE][["org_key"]]
+
   default_publisher <- Sys.getenv("GBIF_ORG")
 
-  Sys.setenv(
-    GBIF_ORG = publishers["org_key"][[attr(collection, "publisher")]] %||%
-      default_publisher
-  )
+  Sys.setenv(GBIF_ORG = if (is.na(org)) default_publisher else org)
 
   timeout <- 3600 * config::get("timeout")
 
