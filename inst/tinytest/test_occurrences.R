@@ -3,7 +3,12 @@ source("setup.R")
 archive <- structure("archive.zip", class = "archive_file")
 
 expect_equal(
-  write_meta(archive, list(), "occurrenceID", list(recordNumber = "MY.legID")),
+  write_meta(
+    archive,
+    structure(list(collection = "HR.22"), collection_id = "HR.22"),
+    "occurrenceID",
+    list(recordNumber = "MY.legID")
+  ),
   0L
 )
 
@@ -59,6 +64,8 @@ expect_inherits(last_mod(archive, "occurrence_test.txt"), "POSIXct")
 unlink("archive.zip")
 
 filter <- list(list(collection = "HR.22", has_record_media = TRUE))
+
+attr(filter, "collection_id") <- "HR.22"
 
 write_meta(archive, filter)
 

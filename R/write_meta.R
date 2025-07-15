@@ -46,13 +46,13 @@ write_meta <- function(
 
   fields <- c(fields, names(combine))
 
-  n_fields <- length(fields)
+  n_fields <- length(fields) + 1L
 
   core <- replicate(n_fields, structure(list()), FALSE)
 
   names(core) <- rep_len("field", n_fields)
 
-  s <- seq_len(n_fields)
+  s <- seq_len(n_fields - 1L)
 
   for (i in s) {
 
@@ -81,6 +81,12 @@ write_meta <- function(
   }
 
   iri <- "http://rs.tdwg.org/dwc"
+
+  m <- get_metadata(attr(filters, "collection_id"), list(title = "long_name"))
+
+  attr(core[[i + 1L]], "default") <- m[["title"]]
+
+  attr(core[[i + 1L]], "term") <- sprintf("%s/terms/%s", iri, "datasetName")
 
   files <- lapply(filters, get_file_name)
 
