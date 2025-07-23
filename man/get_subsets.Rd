@@ -8,7 +8,6 @@ get_subsets(
   collection_id,
   filters = config::get("filters"),
   nmax = config::get("nmax"),
-  update_freq = config::get("update_freq"),
   facts = config::get("facts"),
   combine = config::get("combine")
 )
@@ -19,8 +18,6 @@ get_subsets(
 \item{filters}{List.}
 
 \item{nmax}{Integer. Maximum allowed size of subset.}
-
-\item{update_freq}{Character. Either "month" or "day".}
 
 \item{facts}{List.}
 

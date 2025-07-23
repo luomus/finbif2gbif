@@ -5,7 +5,6 @@
 #' @param collection_id Character. ID string of FinBIF collection.
 #' @param filters List.
 #' @param nmax Integer. Maximum allowed size of subset.
-#' @param update_freq Character. Either "month" or "day".
 #' @param facts List.
 #' @param combine List.
 #'
@@ -22,24 +21,11 @@ get_subsets <- function(
   collection_id,
   filters = config::get("filters"),
   nmax = config::get("nmax"),
-  update_freq = config::get("update_freq"),
   facts = config::get("facts"),
   combine = config::get("combine")
 ) {
 
-  update_freq <- update_freq %||% "day"
-
-  import_date <- switch(
-    update_freq,
-    month = trunc(Sys.Date() - 1, "months"),
-    Sys.Date() - 1
-  )
-
-  import_date <- as.character(import_date)
-
-  filters <- c(
-    first_import_date_max = import_date, collection = collection_id, filters
-  )
+  filters <- c(collection = collection_id, filters)
 
   n <- finbif::finbif_occurrence(
     filter = filters, select = "record_id", order_by = "record_id", n = 1L
@@ -76,8 +62,6 @@ get_subsets <- function(
     }
 
     subsets[[subset]] <- c(filters, partition)
-
-    attr(subsets[[subset]], "update_freq") <- update_freq
 
     attr(subsets[[subset]], "facts") <- facts
 
