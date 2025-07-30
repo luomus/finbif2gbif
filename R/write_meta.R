@@ -11,6 +11,7 @@
 #' @param facts List of extra variables to be extracted from record,
 #'   event and document "facts".
 #' @param combine Named list of variables to combine.
+#' @param collections Character. Path to collections.json file.
 #' @param id Integer. Indicates which field can be considered the record
 #'   identifier. No ID field will be specified if \code{id} is not an integer
 #'   between 1 and the number of fields specified.
@@ -23,6 +24,7 @@
 #' )
 #'
 #' }
+#' @importFrom jsonlite read_json
 #' @importFrom utils unzip zip
 #' @importFrom xml2 as_xml_document write_xml
 #' @export
@@ -33,6 +35,7 @@ write_meta <- function(
   fields = config::get("fields"),
   facts = config::get("facts"),
   combine = config::get("combine"),
+  collections = "collections.json",
   id = 1
 ) {
 
@@ -46,13 +49,21 @@ write_meta <- function(
 
   fields <- c(fields, names(combine))
 
-  n_fields <- length(fields) + 1L
+  collection_id <- attr(filters, "collection_id")
+
+  collections <- jsonlite::read_json(collections, simplifyVector = FALSE)
+
+  collection_ids <- vapply(collections, getElement, "", "id")
+
+  collection <- collections[[collection_ids == collection_id]]
+
+  n_fields <- length(fields) + length(collection)
 
   core <- replicate(n_fields, structure(list()), FALSE)
 
   names(core) <- rep_len("field", n_fields)
 
-  s <- seq_len(n_fields - 1L)
+  s <- seq_len(n_fields - length(collection))
 
   for (i in s) {
 
@@ -82,11 +93,33 @@ write_meta <- function(
 
   iri <- "http://rs.tdwg.org/dwc"
 
-  m <- get_metadata(attr(filters, "collection_id"), list(title = "long_name"))
+  m <- get_metadata(collection_id, list(title = "long_name"))
 
   attr(core[[i + 1L]], "default") <- m[["title"]]
 
   attr(core[[i + 1L]], "term") <- sprintf("%s/terms/%s", iri, "datasetName")
+
+  if (!is.null(collection[["institutionID"]])) {
+
+    attr(core[[i + 2L]], "default") <- paste0(
+      "https://scientific-collections.gbif.org/institution/",
+      collection[["institutionID"]]
+    )
+
+    attr(core[[i + 2L]], "term") <- sprintf("%s/terms/%s", iri, "institutionID")
+
+  }
+
+  if (!is.null(collection[["collectionID"]])) {
+
+    attr(core[[i + 3L]], "default") <- paste0(
+      "https://scientific-collections.gbif.org/collection/",
+      collection[["collectionID"]]
+    )
+
+    attr(core[[i + 3L]], "term") <- sprintf("%s/terms/%s", iri, "collectionID")
+
+  }
 
   files <- lapply(filters, get_file_name)
 

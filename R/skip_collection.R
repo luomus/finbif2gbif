@@ -4,7 +4,7 @@
 #'
 #' @param collection_id Character. Collection id.
 #' @param enabled Logical.
-#' @param whitelist Character. Path to white-list file.
+#' @param collections Character. Path to collections.json file.
 #'
 #' @return Logical.
 #' @examples \dontrun{
@@ -12,17 +12,20 @@
 #' skip_collection("HR.139")
 #'
 #' }
+#' @importFrom jsonlite read_json
 #' @export
 
 skip_collection <- function(
   collection_id,
   enabled = config::get("enabled"),
-  whitelist = "whitelist.txt"
+  collections = "collections.json"
 ) {
 
   id <- as.character(collection_id)
 
-  whitelist <- readLines(whitelist)
+  whitelist <- jsonlite::read_json(collections, simplifyVector = FALSE)
+
+  whitelist <- vapply(whitelist, getElement, "", "id")
 
   in_wl <- id %in% whitelist
 

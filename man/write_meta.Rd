@@ -10,6 +10,7 @@ write_meta(
   fields = config::get("fields"),
   facts = config::get("facts"),
   combine = config::get("combine"),
+  collections = "collections.json",
   id = 1
 )
 }
@@ -27,6 +28,8 @@ specified, "dwc" will be assumed.}
 event and document "facts".}
 
 \item{combine}{Named list of variables to combine.}
+
+\item{collections}{Character. Path to collections.json file.}
 
 \item{id}{Integer. Indicates which field can be considered the record
 identifier. No ID field will be specified if \code{id} is not an integer

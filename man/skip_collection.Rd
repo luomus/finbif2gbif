@@ -7,7 +7,7 @@
 skip_collection(
   collection_id,
   enabled = config::get("enabled"),
-  whitelist = "whitelist.txt"
+  collections = "collections.json"
 )
 }
 \arguments{
@@ -15,7 +15,7 @@ skip_collection(
 
 \item{enabled}{Logical.}
 
-\item{whitelist}{Character. Path to white-list file.}
+\item{collections}{Character. Path to collections.json file.}
 }
 \value{
 Logical.
