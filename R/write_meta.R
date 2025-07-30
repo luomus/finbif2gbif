@@ -55,7 +55,7 @@ write_meta <- function(
 
   collection_ids <- vapply(collections, getElement, "", "id")
 
-  collection <- collections[[collection_ids == collection_id]]
+  collection <- collections[[which(collection_ids == collection_id)]]
 
   n_fields <- length(fields) + length(collection)
 
