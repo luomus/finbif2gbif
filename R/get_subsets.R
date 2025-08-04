@@ -7,6 +7,7 @@
 #' @param nmax Integer. Maximum allowed size of subset.
 #' @param facts List.
 #' @param combine List.
+#' @param update_freq Character. Either "month" or "day".
 #'
 #' @return A list.
 #' @examples \dontrun{
@@ -22,8 +23,26 @@ get_subsets <- function(
   filters = config::get("filters"),
   nmax = config::get("nmax"),
   facts = config::get("facts"),
-  combine = config::get("combine")
+  combine = config::get("combine"),
+  update_freq = config::get("update_freq")
 ) {
+
+  update_freq <- update_freq %||% "day"
+
+  import_date <- switch(
+    update_freq,
+    month = trunc(Sys.Date() - 1, "months"),
+    Sys.Date() - 1
+  )
+
+  import_date <- as.character(import_date)
+
+  filters <- c(
+    first_import_date_max = import_date,
+    include_null_import_dates = TRUE,
+    collection = collection_id,
+    filters
+  )
 
   filters <- c(collection = collection_id, filters)
 
@@ -62,6 +81,8 @@ get_subsets <- function(
     }
 
     subsets[[subset]] <- c(filters, partition)
+
+    attr(subsets[[subset]], "update_freq") <- update_freq
 
     attr(subsets[[subset]], "facts") <- facts
 

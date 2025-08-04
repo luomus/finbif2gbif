@@ -21,6 +21,10 @@ get_file_name <- function(
   prefix = "occurrence"
 ) {
 
+  filter$first_import_date_max <- NULL
+
+  filter$include_null_import_dates <- NULL
+
   suffix <- paste0("_", digest::digest(list(filter, select), "xxhash32"))
 
   paste0(prefix, suffix, ".txt")

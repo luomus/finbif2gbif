@@ -9,7 +9,8 @@ get_subsets(
   filters = config::get("filters"),
   nmax = config::get("nmax"),
   facts = config::get("facts"),
-  combine = config::get("combine")
+  combine = config::get("combine"),
+  update_freq = config::get("update_freq")
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ get_subsets(
 \item{facts}{List.}
 
 \item{combine}{List.}
+
+\item{update_freq}{Character. Either "month" or "day".}
 }
 \value{
 A list.
