@@ -4,6 +4,8 @@ gbif_datasets <- f2g::get_gbif_datasets()
 
 finbif_collections <- f2g::get_collection_ids(gbif_datasets)
 
+default_publisher <- Sys.getenv("GBIF_ORG")
+
 publishers <- read.delim("publishers.txt", row.names = "publisher_shortname")
 
 start_timer <- tictoc::tic()
@@ -13,8 +15,6 @@ for (collection in sample(finbif_collections)) {
   Sys.setenv(R_CONFIG_ACTIVE = collection)
 
   org <- publishers[attr(collection, "publisher"), , drop = FALSE][["org_key"]]
-
-  default_publisher <- Sys.getenv("GBIF_ORG")
 
   Sys.setenv(GBIF_ORG = if (is.na(org)) default_publisher else org)
 

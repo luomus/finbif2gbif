@@ -29,7 +29,15 @@ get_metadata <- function(
 
   key_ok <- is.null(published_key) || identical(published_key, org)
 
-  stopifnot("Publishing organization key has changed" = key_ok)
+  msg <- sprintf(
+    "Publishing organization key has changed from %s to %s",
+    published_key,
+    org
+  )
+
+  names(key_ok) <- msg
+
+  do.call(stopifnot, as.list(key_ok))
 
   m <- finbif::finbif_collections(supercollections = TRUE, select = TRUE)
 
