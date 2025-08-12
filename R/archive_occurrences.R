@@ -48,7 +48,11 @@ archive_occurrences <- function(
 
   select <- unique(c("occurrenceID", select))
 
-  names(facts) <- sub("^.*:", "", names(facts))
+  if (!is.null(facts)) {
+
+    names(facts) <- sub("^.*:", "", names(facts))
+
+  }
 
   occ <- get_occurrences(filter, select, facts, combine, n_in, quiet = quiet)
 
