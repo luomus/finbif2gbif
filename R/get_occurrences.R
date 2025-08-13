@@ -41,7 +41,7 @@ get_occurrences <- function(
 
   if ("occurrenceRemarks" %in% select) {
 
-    oq <- "occurrenceQuality"
+    oq <- "identificationVerificationStatus"
     dk <- "documentKeywords"
     rk <- "occurrenceKeywords"
 
