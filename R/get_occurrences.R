@@ -70,7 +70,7 @@ get_occurrences <- function(
       format = "associatedMedia",
       identifier = "associatedMedia",
       creator = "associatedMediaBy",
-      license = "license"
+      license = "associatedMediaLicense"
     )
 
   }
