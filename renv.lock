@@ -695,7 +695,7 @@
     },
     "finbif": {
       "Package": "finbif",
-      "Version": "0.9.10.9000",
+      "Version": "0.9.10.9001",
       "Source": "GitHub",
       "Title": "Interface for the 'Finnish Biodiversity Information Facility' API",
       "Authors@R": "c( person(given = \"Finnish Museum of Natural History - Luomus\", role = \"cph\", comment = c(ROR = \"03tcx6c30\")), person(given = \"Finnish Biodiversity Information Facility\", role = \"cph\", comment = c(ROR = \"01c0yey93\")), person(given = \"William K.\", family = \"Morris\", role = c(\"aut\", \"cre\"), email = \"willi@mmorris.email\", comment = c(ORCID = \"0000-0002-8686-4154\")) )",
@@ -742,7 +742,7 @@
       "RemoteUsername": "luomus",
       "RemoteRepo": "finbif",
       "RemoteRef": "dev",
-      "RemoteSha": "6bfd7112e7637cdd630e8118b5f14ca9aadad1d0"
+      "RemoteSha": "b047f5605e99015b97833835646f17518eeace3e"
     },
     "fontawesome": {
       "Package": "fontawesome",
