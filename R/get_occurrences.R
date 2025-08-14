@@ -313,9 +313,7 @@ process_media <- function(data, media_vars) {
 
   media_data <- data.frame()
 
-  has_media <- all(names(media_vars) %in% names(data))
-
-  if (has_media) {
+  if (!is.null(media_vars) && all(names(media_vars) %in% names(data))) {
 
     media_data <- data[names(media_vars)]
 
