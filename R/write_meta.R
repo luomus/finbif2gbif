@@ -84,6 +84,8 @@ write_meta <- function(
       dwciri = "http://rs.tdwg.org/dwc/iri",
       dc = "http://purl.org/dc/elements/1.1",
       dcterms = "http://purl.org/dc/terms",
+      eco = "http://rs.tdwg.org/eco/terms",
+      ecoiri = "http://rs.tdwg.org/eco/iri",
       "http://rs.tdwg.org/dwc/terms"
     )
 
