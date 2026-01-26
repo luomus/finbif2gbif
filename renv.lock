@@ -1,6 +1,6 @@
 {
   "R": {
-    "Version": "4.5.1",
+    "Version": "4.5.2",
     "Repositories": [
       {
         "Name": "CRAN",
@@ -695,7 +695,7 @@
     },
     "finbif": {
       "Package": "finbif",
-      "Version": "0.9.10.9001",
+      "Version": "0.9.11.9000",
       "Source": "GitHub",
       "Title": "Interface for the 'Finnish Biodiversity Information Facility' API",
       "Authors@R": "c( person(given = \"Finnish Museum of Natural History - Luomus\", role = \"cph\", comment = c(ROR = \"03tcx6c30\")), person(given = \"Finnish Biodiversity Information Facility\", role = \"cph\", comment = c(ROR = \"01c0yey93\")), person(given = \"William K.\", family = \"Morris\", role = c(\"aut\", \"cre\"), email = \"willi@mmorris.email\", comment = c(ORCID = \"0000-0002-8686-4154\")) )",
@@ -718,7 +718,7 @@
         "utils"
       ],
       "Roxygen": "list(markdown = TRUE)",
-      "RoxygenNote": "7.3.2",
+      "RoxygenNote": "7.3.3",
       "Suggests": [
         "callr",
         "data.table",
@@ -742,7 +742,7 @@
       "RemoteUsername": "luomus",
       "RemoteRepo": "finbif",
       "RemoteRef": "dev",
-      "RemoteSha": "d60336f07adb75bac516667b1ca26d8d0dab584a"
+      "RemoteSha": "ece6052896fd6b4d57282ed25b3cbd9ccae162b1"
     },
     "fontawesome": {
       "Package": "fontawesome",
