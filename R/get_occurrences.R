@@ -307,7 +307,7 @@ combine_fields <- function(data, combine) {
 
 #' @noRd
 #' @importFrom tidyr unnest
-#' @importFrom rlang .data
+#' @importFrom tidyselect all_of
 
 process_media <- function(data, media_vars) {
 
@@ -344,7 +344,7 @@ process_media <- function(data, media_vars) {
       function(x) ifelse(x == "All Rights Reserved", NA_character_, x)
     )
 
-    media_data <- tidyr::unnest(media_data, -.data[["id"]])
+    media_data <- tidyr::unnest(media_data, -tidyselect::all_of("id"))
 
     media_data <- media_data[!is.na(media_data[["license"]]), , drop = FALSE]
 

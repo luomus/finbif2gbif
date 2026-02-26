@@ -24,8 +24,8 @@ Imports:
     finbif,
     httr,
     jsonlite,
-    rlang,
     tidyr,
+    tidyselect,
     utils,
     xml2,
     wk
