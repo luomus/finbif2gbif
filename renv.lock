@@ -746,7 +746,7 @@
       "RemoteUsername": "luomus",
       "RemoteRepo": "finbif",
       "RemoteRef": "dev",
-      "RemoteSha": "8b533b16770b083caace7f5df6b111017b6332ca"
+      "RemoteSha": "097aa5a31a4ec9c873c99560174e38c37067d6f4"
     },
     "fontawesome": {
       "Package": "fontawesome",
