@@ -14,7 +14,7 @@ if [ "$?" == "0" ]
 
 then
 
-  unzip -p $1 media_*.txt | awk -F'\t' '!seen[$1]++' > media.txt
+  unzip -p $1 media_*.txt | awk -F'\t' '!seen[$0]++' > media.txt
 
   zip -jqr9X $1 media.txt
 
