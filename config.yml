@@ -28,6 +28,8 @@ default:
   - verbatimIdentification
   - occurrenceStatus
   - individualCount
+  - organismQuantity
+  - organismQuantityType
   - lifeStage
   - sex
   - typeStatus
@@ -52,6 +54,8 @@ default:
   - dcterms:bibliographicCitation
   - occurrenceRemarks
   - eventRemarks
+  - informationWithheld
+  - dataGeneralizations
   nmax: 2.5e4
   filters:
     abundance_min: 0
