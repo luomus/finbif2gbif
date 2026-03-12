@@ -63,15 +63,15 @@ expect_inherits(last_mod(archive, "occurrence_test.txt"), "POSIXct")
 
 unlink("archive.zip")
 
-filter <- list(list(collection = "HR.22", has_record_media = TRUE))
+filter <- list(list(collection = "HR.203", has_record_images = TRUE))
 
-attr(filter, "collection_id") <- "HR.22"
+attr(filter, "collection_id") <- "HR.203"
 
 write_meta(archive, filter)
 
 expect_equal(
   archive_occurrences(
-    archive, "occurrence_c651e8eb.txt", "media_c651e8eb.txt", filter, n = 101L
+    archive, "occurrence_553732d5.txt", "media_553732d5.txt", filter, n = 21L
   ),
   0L
 )
