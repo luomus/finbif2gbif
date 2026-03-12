@@ -108,6 +108,18 @@ get_occurrences <- function(
 
   data[names(media_vars)] <- NULL
 
+  for (col in names(data)) {
+
+    df_col <- data[[col]]
+
+    if (is.list(df_col)) {
+
+      data[[col]] <- vapply(df_col, concat_string, "")
+
+    }
+
+  }
+
   data <- list(occurrence = data, media = NULL)
 
   if (nrow(media) > 0L) {
@@ -404,6 +416,24 @@ pipe_collapse <- function(x) {
   if (any(!omit)) {
 
     ans <- paste(x[!omit], collapse = " | ")
+
+  }
+
+  ans
+
+}
+
+#' @noRd
+
+concat_string <- function(x) {
+
+  ans <- NA_character_
+
+  not_na <- !is.na(x)
+
+  if (any(not_na)) {
+
+    ans <- paste(x[not_na], collapse = " | ")
 
   }
 
