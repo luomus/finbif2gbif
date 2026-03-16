@@ -1,6 +1,6 @@
 {
   "R": {
-    "Version": "4.5.2",
+    "Version": "4.5.3",
     "Repositories": [
       {
         "Name": "CRAN",
@@ -746,7 +746,7 @@
       "RemoteUsername": "luomus",
       "RemoteRepo": "finbif",
       "RemoteRef": "dev",
-      "RemoteSha": "ae96048e2be5b1f00477e825a159caad665f297a"
+      "RemoteSha": "10a0ffe854e39b71fc4f10de224325d8049cd277"
     },
     "fontawesome": {
       "Package": "fontawesome",
