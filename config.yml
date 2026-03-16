@@ -21,7 +21,6 @@ default:
   - institutionCode
   - collectionCode
   - basisOfRecord
-  - taxonConceptID
   - scientificName
   - taxonRank
   - kingdom
@@ -56,6 +55,7 @@ default:
   - eventRemarks
   - informationWithheld
   - dataGeneralizations
+  - dcterms:modified
   nmax: 2.5e4
   filters:
     abundance_min: 0
