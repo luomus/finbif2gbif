@@ -8,6 +8,7 @@
 #' @param facts List.
 #' @param combine List.
 #' @param update_freq Character. Either "month" or "day".
+#' @param archive Character. Path to the archive.
 #'
 #' @return A list.
 #' @examples \dontrun{
@@ -24,7 +25,8 @@ get_subsets <- function(
   nmax = config::get("nmax"),
   facts = config::get("facts"),
   combine = config::get("combine"),
-  update_freq = config::get("update_freq")
+  update_freq = config::get("update_freq"),
+  archive = get_archive_path(collection_id, quiet = TRUE)
 ) {
 
   update_freq <- update_freq %||% "day"
@@ -34,6 +36,12 @@ get_subsets <- function(
     month = trunc(Sys.Date() - 1, "months"),
     Sys.Date() - 1
   )
+
+  combined_archive <- sub("split", "combined", archive)
+
+  if (file.exists(combined_archive)) {
+    import_date <- min(file.mtime(combined_archive), import_date)
+  }
 
   import_date <- as.character(import_date)
 

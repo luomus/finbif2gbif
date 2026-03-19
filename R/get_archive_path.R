@@ -4,6 +4,7 @@
 #'
 #' @param collection_id Character. Collection id.
 #' @param dir Character. Path to the archive directory.
+#' @param quiet Logical. Suppress messages.
 #'
 #' @return Character. The file path of the archive.
 #' @examples \dontrun{
@@ -15,19 +16,22 @@
 
 get_archive_path <- function(
   collection_id,
-  dir = "archives/split"
+  dir = "archives/split",
+  quiet = FALSE
 ) {
 
   archive_path <- sprintf("%s/%s.zip", dir, collection_id)
 
-  message(
-    sprintf(
-      "INFO [%s] Collection %s will be archived in %s",
-      format(Sys.time()),
-      collection_id,
-      archive_path
+  if (!quiet) {
+    message(
+      sprintf(
+        "INFO [%s] Collection %s will be archived in %s",
+        format(Sys.time()),
+        collection_id,
+        archive_path
+      )
     )
-  )
+  }
 
   structure(archive_path, class = "archive_file")
 

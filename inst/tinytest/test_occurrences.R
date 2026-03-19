@@ -55,7 +55,12 @@ expect_true(unstage_archive("stage/archive.zip", "."))
 
 expect_true(publish_archive("split/archive.zip", "."))
 
-expect_equal(clean_occurrences(archive, get_subsets("HR.22", NULL)), 0L)
+expect_equal(
+  clean_occurrences(
+    archive, get_subsets("HR.22", NULL, archive = "archive.zip")
+  ),
+  0L
+)
 
 expect_equal(count_occurrences(archive, "occurrence_test.txt"), 0L)
 
