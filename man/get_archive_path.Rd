@@ -4,12 +4,14 @@
 \alias{get_archive_path}
 \title{Get archive file path}
 \usage{
-get_archive_path(collection_id, dir = "archives/split")
+get_archive_path(collection_id, dir = "archives/split", quiet = FALSE)
 }
 \arguments{
 \item{collection_id}{Character. Collection id.}
 
 \item{dir}{Character. Path to the archive directory.}
+
+\item{quiet}{Logical. Suppress messages.}
 }
 \value{
 Character. The file path of the archive.

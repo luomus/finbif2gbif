@@ -10,7 +10,8 @@ get_subsets(
   nmax = config::get("nmax"),
   facts = config::get("facts"),
   combine = config::get("combine"),
-  update_freq = config::get("update_freq")
+  update_freq = config::get("update_freq"),
+  archive = get_archive_path(collection_id, quiet = TRUE)
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ get_subsets(
 \item{combine}{List.}
 
 \item{update_freq}{Character. Either "month" or "day".}
+
+\item{archive}{Character. Path to the archive.}
 }
 \value{
 A list.
