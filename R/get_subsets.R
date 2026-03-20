@@ -40,7 +40,7 @@ get_subsets <- function(
   combined_archive <- sub("split", "combined", archive)
 
   if (file.exists(combined_archive)) {
-    import_date <- min(file.mtime(combined_archive), import_date)
+    import_date <- min(as.Date(file.mtime(combined_archive)), import_date)
   }
 
   import_date <- as.character(import_date)
