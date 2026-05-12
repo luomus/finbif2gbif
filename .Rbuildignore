@@ -25,3 +25,5 @@
 ^data$
 ^logs$
 ^tmp$
+^\.positai$
+^\.claude$
