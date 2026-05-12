@@ -6,7 +6,8 @@ options(
   finbif_rate_limit = Inf,
   finbif_retry_times = 10,
   finbif_retry_pause_base = 2,
-  finbif_retry_pause_cap = 5e3
+  finbif_retry_pause_cap = 5e3,
+  finbif_use_dwc = FALSE
 )
 
 update_collection <- function(
