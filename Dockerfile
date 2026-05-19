@@ -1,5 +1,5 @@
 # docker manifest inspect ghcr.io/luomus/base-r-image:main -v | jq '.Descriptor.digest'
-FROM ghcr.io/luomus/base-r-image@sha256:141b764b5260655f4ae32f4a21e58554307dbc9e5af7a38ac300b81a6d6a8960
+FROM ghcr.io/luomus/base-r-image@sha256:3466e6bbb1e90b4e853933da607185306e0a67db34f275d1fe51033260d0f1b6
 
 COPY renv.lock /home/user/renv.lock
 
