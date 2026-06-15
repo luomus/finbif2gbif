@@ -83,6 +83,9 @@ get_collection_ids <- function(
       publisher = publisher,
       gbif_org_id = attr(
         get_registration(datasets, ans[[i]], TRUE), "publisher_key"
+      ),
+      updated = file.mtime(
+        get_archive_path(ans[[i]], "archives/combined", quiet = TRUE)
       )
     )
 
@@ -96,7 +99,10 @@ get_collection_ids <- function(
     )
   )
 
-  ans
+  ord <- vapply(ans, attr, as.POSIXct(0), "updated", TRUE)
+  ord <- order(ord, na.last = TRUE)
+
+  ans[ord]
 
 }
 

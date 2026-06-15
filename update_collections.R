@@ -10,7 +10,7 @@ publishers <- read.delim("publishers.txt", row.names = "publisher_shortname")
 
 start_timer <- tictoc::tic()
 
-for (collection in sample(finbif_collections)) {
+for (collection in finbif_collections) {
 
   Sys.setenv(R_CONFIG_ACTIVE = collection)
 
