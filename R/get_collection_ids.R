@@ -100,7 +100,7 @@ get_collection_ids <- function(
   )
 
   ord <- vapply(ans, attr, as.POSIXct(0), "updated", TRUE)
-  ord <- order(ord, na.last = TRUE)
+  ord <- order(ord, na.last = FALSE)
 
   ans[ord]
 
