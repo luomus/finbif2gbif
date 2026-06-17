@@ -750,7 +750,7 @@
       "RemoteUsername": "luomus",
       "RemoteRepo": "finbif",
       "RemoteRef": "dev",
-      "RemoteSha": "824541d6781a456c98c9a3079babd3aeeba113c5"
+      "RemoteSha": "47fb22e5830be90f856060be915c009fe8c72043"
     },
     "fontawesome": {
       "Package": "fontawesome",
@@ -2618,7 +2618,7 @@
     },
     "tinytex": {
       "Package": "tinytex",
-      "Version": "0.59",
+      "Version": "0.60",
       "Source": "Repository",
       "Type": "Package",
       "Title": "Helper Functions to Install and Maintain TeX Live, and Compile LaTeX Documents",
