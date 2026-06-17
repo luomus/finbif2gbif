@@ -8,5 +8,6 @@ options(
   finbif_allow_query = FALSE,
   finbif_use_cache = TRUE,
   finbif_cache_path = getwd(),
-  finbif_max_page_size = 250L
+  finbif_max_page_size = 250L,
+  finbif_use_dwc = FALSE
 )
