@@ -228,48 +228,13 @@ get_persons <- function(persons, emails) {
 }
 
 get_license <- function(x) {
+  y <- "Creative Commons (CC0) 1.0 License"
 
-  cc <- "Creative Commons"
+  if (identical(x, "https://creativecommons.org/licenses/by/4.0/")) {
+    y <- "Creative Commons Attribution (CC-BY) 4.0 License"
+  }
 
-  a <- "Attribution"
-
-  switch(
-    x,
-    "https://creativecommons.org/licenses/by/4.0/legalcode" = license(
-      x,
-      paste(cc, a, "(CC-BY) 4.0 License")
-    ),
-    "https://creativecommons.org/publicdomain/zero/1.0/legalcode" = license(
-      x,
-      paste(cc, "(CC0) 1.0 License")
-    ),
-    "https://creativecommons.org/licenses/by-nc/4.0/legalcode" = license(
-      x,
-      paste(cc, a, "Non Commercial (CC-BY-NC) 4.0 License")
-    ),
-    "https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode" = license(
-      x,
-      paste(cc, a, "Non Commercial Share Alike (CC-BY-NC-SA) 4.0 License")
-    ),
-    "https://creativecommons.org/licenses/by-sa/4.0/legalcode" = license(
-      x,
-      paste(cc, a, "Share Alike (CC-SA) 4.0 License")
-    ),
-    "https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode" = license(
-      x,
-      paste(cc, a, "Non Commercial No Derivatives(CC-BY-NC) 4.0 License")
-    ),
-    "https://creativecommons.org/licenses/by-nd/4.0/legalcode" = license(
-      x,
-      paste(cc, a, "No Derivatives(CC-BY-NC) 4.0 License")
-    ),
-    list(
-      para = list(
-        "This work is licensed under ", list(citetitle = list(x)), "."
-      )
-    )
-  )
-
+  license(x, y)
 }
 
 license <- function(x, y) {
