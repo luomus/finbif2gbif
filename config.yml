@@ -21,6 +21,7 @@ default:
   - institutionCode
   - collectionCode
   - basisOfRecord
+  - materialEntityType
   - scientificName
   - taxonRank
   - kingdom
