@@ -11,6 +11,8 @@ default:
     description: description
     dataLanguage: language
     license: intellectual_rights
+  eml:
+    url: online_url
   fields:
   - occurrenceID
   - basisOfRecord

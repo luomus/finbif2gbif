@@ -101,9 +101,13 @@ write_eml <- function(
 
   attr(eml[["eml"]][["dataset"]][["distribution"]], "scope") <- "document"
 
-  attr(
-    eml[["eml"]][["dataset"]][["distribution"]][["online"]], "function"
-  ) <- "information"
+  online <- eml[["eml"]][["dataset"]][["distribution"]][["online"]]
+
+  if (!is.null(online)) {
+    attr(online, "function") <- "information"
+  }
+
+  eml[["eml"]][["dataset"]][["distribution"]][["online"]] <- online
 
   eml <- xml2::as_xml_document(eml)
 
