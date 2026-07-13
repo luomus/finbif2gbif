@@ -745,11 +745,11 @@
       "Author": "Finnish Museum of Natural History - Luomus [cph] (ROR: <https://ror.org/03tcx6c30>), Finnish Biodiversity Information Facility [cph] (ROR: <https://ror.org/01c0yey93>), William K. Morris [aut, cre] (ORCID: <https://orcid.org/0000-0002-8686-4154>)",
       "Maintainer": "William K. Morris <willi@mmorris.email>",
       "RemoteType": "github",
+      "RemoteHost": "api.github.com",
       "RemoteUsername": "luomus",
       "RemoteRepo": "finbif",
       "RemoteRef": "dev",
-      "RemoteSha": "e5696b4e183d094938ba9ad176ea08b1c4291c41",
-      "RemoteHost": "api.github.com"
+      "RemoteSha": "a7dec4da0809672bab2d296f94117419aeae1550"
     },
     "fontawesome": {
       "Package": "fontawesome",
