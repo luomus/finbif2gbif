@@ -44,6 +44,14 @@ write_eml <- function(
     packageId = uuid,
     dataset = list(
       title = metadata[["title"]],
+      distribution = structure(
+        list(
+          online = structure(
+            list(url = metadata[["url"]]), "function" = "information"
+          )
+        ),
+        scope = "document"
+      ),
       abstract = list(para = metadata[["description"]]),
       contact = contact,
       intellectualRights = metadata[["license"]],
