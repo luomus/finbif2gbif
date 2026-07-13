@@ -44,14 +44,7 @@ write_eml <- function(
     packageId = uuid,
     dataset = list(
       title = metadata[["title"]],
-      distribution = structure(
-        list(
-          online = structure(
-            list(url = eml[["url"]]), "function" = "information"
-          )
-        ),
-        scope = "document"
-      ),
+      distribution = list(online = list(url = eml[["url"]])),
       abstract = list(para = metadata[["description"]]),
       contact = contact,
       intellectualRights = metadata[["license"]],
@@ -105,6 +98,12 @@ write_eml <- function(
   )
 
   attr(eml[[1L]], "packageId") <- uuid
+
+  attr(eml[["eml"]][["dataset"]][["distribution"]], "scope") <- "document"
+
+  attr(
+    eml[["eml"]][["dataset"]][["distribution"]][["online"]], "function"
+  ) <- "information"
 
   eml <- xml2::as_xml_document(eml)
 
