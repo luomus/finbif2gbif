@@ -258,6 +258,40 @@ function() {
 
 }
 
+#* @get /publishers.txt
+#* @serializer contentType list(type="text/plain")
+function() {
+
+  readBin("var/publishers.txt", "raw", n = file.info("var/publishers.txt")$size)
+
+}
+
+#* @get /config.yml
+#* @serializer contentType list(type="text/plain")
+function() {
+
+  readBin("var/config.yml", "raw", n = file.info("var/config.yml")$size)
+
+}
+
+#* @get /whitelist.txt
+#* @serializer contentType list(type="text/plain")
+function() {
+
+  readBin("var/whitelist.txt", "raw", n = file.info("var/whitelist.txt")$size)
+
+}
+
+#* @get /collections.json
+#* @serializer contentType list(type="application/json")
+function() {
+
+  readBin(
+    "var/collections.json", "raw", n = file.info("var/collections.json")$size
+  )
+
+}
+
 #* @get /
 function(res) {
 
@@ -281,6 +315,10 @@ function(pr) {
       spec$paths$`/healthz` <- NULL
       spec$paths$`/favicon.ico` <- NULL
       spec$paths$`/robots.txt` <- NULL
+      spec$paths$`/publishers.txt` <- NULL
+      spec$paths$`/config.yml` <- NULL
+      spec$paths$`/whitelist.txt` <- NULL
+      spec$paths$`/collections.json` <- NULL
       spec$paths$`/` <- NULL
       spec$paths$`/eml/{archive}`$head <- NULL
       spec$paths$`/eml/{archive}`$get <- NULL
