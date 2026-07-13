@@ -47,7 +47,7 @@ write_eml <- function(
       distribution = structure(
         list(
           online = structure(
-            list(url = metadata[["url"]]), "function" = "information"
+            list(url = eml[["url"]]), "function" = "information"
           )
         ),
         scope = "document"
