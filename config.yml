@@ -15,6 +15,7 @@ default:
     geographicDescription: geographic_coverage
     contact: person_responsible
     email: contact_email
+    url: online_url
   fields:
   - occurrenceID
   - catalogNumber
