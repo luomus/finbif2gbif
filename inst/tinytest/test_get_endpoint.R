@@ -5,11 +5,11 @@ expect_identical(
   list(
     list(
       type = "DWC_ARCHIVE",
-      url = "https://finbif-archives.fi/archives/HR.139.zip"
+      url = "https://finbif-archives.fi/archive/HR.139"
     ),
     list(
       type = "EML",
-      url = "https://finbif-archives.fi/eml/HR.139.zip"
+      url = "https://finbif-archives.fi/metadata/HR.139"
     )
   )
 )

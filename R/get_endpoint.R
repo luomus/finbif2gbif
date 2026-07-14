@@ -22,11 +22,11 @@ get_endpoint <- function(
   ans <- list(
     list(
       type = "DWC_ARCHIVE",
-      url = sprintf("%s/archives/%s.zip", url_base, collection_id)
+      url = sprintf("%s/archive/%s", url_base, collection_id)
     ),
     list(
       type = "EML",
-      url = sprintf("%s/eml/%s.zip", url_base, collection_id)
+      url = sprintf("%s/metadata/%s", url_base, collection_id)
     )
   )
 
