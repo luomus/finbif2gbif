@@ -81,6 +81,7 @@ get_collection_ids <- function(
       class = "col_id",
       last_mod = sort(last_mod, TRUE, TRUE)[[1L]],
       publisher = publisher,
+      gbif_id = attr(get_registration(datasets, ans[[i]], TRUE), "key"),
       gbif_org_id = attr(
         get_registration(datasets, ans[[i]], TRUE), "publisher_key"
       ),
