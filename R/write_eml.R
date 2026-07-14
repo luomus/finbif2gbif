@@ -40,6 +40,10 @@ write_eml <- function(
     list(emld::as_emld(utils::person("FinBIF", email = "helpdesk@laji.fi")))
   )
 
+  if (is.na(eml[["url"]])) {
+    eml[["url"]] <- paste0("https://tun.fi/", collection_id)
+  }
+
   eml <- list(
     packageId = uuid,
     dataset = list(
