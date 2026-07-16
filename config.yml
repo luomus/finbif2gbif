@@ -16,6 +16,7 @@ default:
     contact: person_responsible
     email: contact_email
     url: online_url
+    datasetSubtype: collection_type
   fields:
   - occurrenceID
   - catalogNumber
