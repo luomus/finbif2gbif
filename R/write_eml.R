@@ -49,6 +49,24 @@ write_eml <- function(
     dataset = list(
       title = metadata[["title"]],
       distribution = list(online = list(url = eml[["url"]])),
+      keywordSet = list(
+        keyword = "Occurrence",
+        keywordThesaurus = paste(
+          "GBIF Dataset Type Vocabulary:",
+          "http://rs.gbif.org/vocabulary/gbif/dataset_type_2015-07-10.xml"
+        )
+      ),
+      keywordSet = list(
+        keyword = switch(
+          eml[["datasetSubtype"]] %||% "",
+          MY.collectionTypeSpecimens = "Specimen",
+          "Observation"
+        ),
+        keywordThesaurus = paste(
+          "GBIF Dataset Subtype Vocabulary:",
+          "http://rs.gbif.org/vocabulary/gbif/dataset_subtype.xml"
+        )
+      ),
       abstract = list(para = metadata[["description"]]),
       contact = contact,
       intellectualRights = metadata[["license"]],
