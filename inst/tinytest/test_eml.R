@@ -41,6 +41,19 @@ md <- get_metadata(
   )
 )
 
+gbif <- webfakes::new_app()
+
+gbif$get(
+  "/v1/organization/1234",
+  function(req, res) {
+    res$set_status(200L)$send('{"logo":"test"}')
+  }
+)
+
+api <- webfakes::local_app_process(gbif)
+
+Sys.setenv(GBIF_API = api$url(), GBIF_ORG = "1234")
+
 res <- write_eml(
   archive,
   col,
@@ -55,6 +68,8 @@ res <- write_eml(
     url = "online_url"
   )
 )
+
+api$stop()
 
 expect_equal(res, 0L)
 

@@ -44,6 +44,9 @@ write_eml <- function(
     eml[["url"]] <- paste0("https://tun.fi/", collection_id)
   }
 
+  org <- list(logo = "https://cdn.laji.fi/images/logos/LAJI_FI_sin.png")
+  if (!identical("", Sys.getenv("GBIF_ORG"))) org <- get_org()
+
   eml <- list(
     packageId = uuid,
     dataset = list(
@@ -94,6 +97,9 @@ write_eml <- function(
         southBoundingCoordinate = geographic_coverage(
           collection_id, "lat_min_wgs84"
         )
+      ),
+      additionalMetadata = list(
+        metadata = list(gbif = list(resourceLogoUrl = org[["logoUrl"]]))
       )
     )
   )
@@ -337,4 +343,32 @@ clean_geo <- function(x) {
 
   ans
 
+}
+
+#' @importFrom httr authenticate content RETRY status_code
+#' @importFrom jsonlite fromJSON
+get_org <- function(
+    org = Sys.getenv("GBIF_ORG"),
+    url = Sys.getenv("GBIF_API"),
+    user = Sys.getenv("GBIF_USER"),
+    pass = Sys.getenv("GBIF_PASS")
+) {
+  auth <- httr::authenticate(user, pass)
+
+  res <- httr::RETRY(
+    "GET",
+    url = url,
+    config = auth,
+    path = sprintf("v1/organization/%s", org)
+  )
+
+  status <- httr::status_code(res)
+
+  ok <- identical(status, 200L)
+
+  stopifnot("Failed to fetch org" = ok)
+
+  res <- httr::content(res, "text", encoding = "UTF-8")
+
+  jsonlite::fromJSON(res, simplifyVector = FALSE)
 }
