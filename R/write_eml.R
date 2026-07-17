@@ -22,7 +22,6 @@
 #' @importFrom utils as.person person zip
 #' @importFrom xml2 as_list as_xml_document read_xml write_xml
 #' @export
-
 write_eml <- function(
   archive,
   collection_id,
@@ -48,19 +47,9 @@ write_eml <- function(
   if (!identical("", Sys.getenv("GBIF_ORG"))) org <- get_org()
 
   eml <- list(
-    packageId = uuid,
-    system = "http://gbif.org",
-    scope = "system",
     dataset = list(
       title = metadata[["title"]],
-      distribution = structure(
-        list(
-          online = list(
-            url = structure(eml[["url"]], "function" = "information")
-          )
-        ),
-        scope = "document"
-      ),
+      distribution = list(online = list(url = eml[["url"]])),
       keywordSet = list(
         keyword = "Occurrence",
         keywordThesaurus = paste(
@@ -81,7 +70,7 @@ write_eml <- function(
       ),
       abstract = list(para = metadata[["description"]]),
       contact = contact,
-      intellectualRights = get_license(metadata[["license"]]),
+      intellectualRights = metadata[["license"]],
       pubDate = Sys.Date(),
       language = eml[["dataLanguage"]],
       methods = list(
@@ -121,6 +110,41 @@ write_eml <- function(
   file_name <- paste0(tmpdir, "/", "eml.xml")
 
   EML::write_eml(eml, file_name)
+
+  eml <- xml2::read_xml(file_name)
+
+  eml <- xml2::as_list(eml)
+
+  eml[["eml"]][["dataset"]][["intellectualRights"]] <- get_license(
+    eml[["eml"]][["dataset"]][["intellectualRights"]][[1L]]
+  )
+  eml[["eml"]][["dataset"]][["coverage"]][["geographicCoverage"]] <- clean_geo(
+    eml[["eml"]][["dataset"]][["coverage"]][["geographicCoverage"]]
+  )
+
+  attr(eml[["eml"]][["dataset"]][["distribution"]], "scope") <- "document"
+
+  url <- eml[["eml"]][["dataset"]][["distribution"]][["online"]][["url"]]
+
+  attr(url, "function") <- "information"
+
+  eml[["eml"]][["dataset"]][["distribution"]][["online"]][["url"]] <- url
+
+  attr(eml[["eml"]][["dataset"]], "xml:lang") <- "eng"
+  attr(eml[["eml"]], "packageId") <- uuid
+  attr(eml[["eml"]], "system") <- "http://gbif.org"
+  attr(eml[["eml"]], "scope") <- "system"
+  attr(eml[["eml"]], "xml:lang") <- "eng"
+  attr(eml[["eml"]], "xsi:schemaLocation") <- attr(
+    eml[["eml"]], "schemaLocation"
+  )
+  attr(eml[["eml"]], "schemaLocation") <- NULL
+
+  names(eml) <- "eml:eml"
+
+  eml <- xml2::as_xml_document(eml)
+
+  xml2::write_xml(eml, file_name)
 
   message(
     sprintf("INFO [%s] Writing eml.xml file to %s", format(Sys.time()), archive)
@@ -243,7 +267,6 @@ get_persons <- function(persons, emails) {
 
 }
 
-
 #' @noRd
 get_license <- function(x) {
 
@@ -300,6 +323,29 @@ license <- function(x, y) {
       "."
     )
   )
+
+}
+
+#' @noRd
+clean_geo <- function(x) {
+
+  ans <- NULL
+
+  bc <- x[["boundingCoordinates"]]
+
+  if (is.null(bc) || length(unlist(bc)) < 4L) {
+
+    x[["boundingCoordinates"]] <- NULL
+
+  }
+
+  if (length(x) > 0L) {
+
+    ans <- x
+
+  }
+
+  ans
 
 }
 

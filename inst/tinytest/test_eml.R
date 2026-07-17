@@ -72,3 +72,5 @@ res <- write_eml(
 api$stop()
 
 expect_equal(res, 0L)
+
+expect_null(f2g:::clean_geo(list()))
