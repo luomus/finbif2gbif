@@ -97,7 +97,7 @@ write_eml <- function(
   eml[["eml"]][["dataset"]] <- list(
     additionalIdentifier = uuid,
     additionalIdentifier = paste0(
-      "https://", Sys.getenv("HOST"), "archive", collection_id
+      "https://", Sys.getenv("ENDPOINTS"), "/archive/", collection_id
     ),
     title = eml[["eml"]][["dataset"]][["title"]],
     creator = eml[["eml"]][["dataset"]][["creator"]],
@@ -105,27 +105,33 @@ write_eml <- function(
     lauguage = eml[["eml"]][["dataset"]][["language"]],
     abstract = eml[["eml"]][["dataset"]][["abstract"]],
     keywordSet = list(
-      keyword = "Occurrence",
-      keywordThesaurus = paste(
-        "GBIF Dataset Type Vocabulary:",
-        "http://rs.gbif.org/vocabulary/gbif/dataset_type_2015-07-10.xml"
+      keyword = list("Occurrence"),
+      keywordThesaurus = list(
+        paste(
+          "GBIF Dataset Type Vocabulary:",
+          "http://rs.gbif.org/vocabulary/gbif/dataset_type_2015-07-10.xml"
+        )
       )
     ),
     keywordSet = list(
-      keyword = switch(
-        datasetSubtype %||% "",
-        MY.collectionTypeSpecimens = "Specimen",
-        "Observation"
+      keyword = list(
+        switch(
+          datasetSubtype %||% "",
+          MY.collectionTypeSpecimens = "Specimen",
+          "Observation"
+        )
       ),
-      keywordThesaurus = paste(
-        "GBIF Dataset Subtype Vocabulary:",
-        "http://rs.gbif.org/vocabulary/gbif/dataset_subtype.xml"
+      keywordThesaurus = list(
+        paste(
+          "GBIF Dataset Subtype Vocabulary:",
+          "http://rs.gbif.org/vocabulary/gbif/dataset_subtype.xml"
+        )
       )
     ),
     intellectualRights = get_license(
       eml[["eml"]][["dataset"]][["intellectualRights"]][[1L]]
     ),
-    distribution = list(online = list(url = url)),
+    distribution = list(online = list(url = list(url))),
     coverage = eml[["eml"]][["dataset"]][["coverage"]],
     contact = list(get_persons(contact, email)),
     contact = list(
@@ -149,7 +155,7 @@ write_eml <- function(
   attr(eml[["eml"]][["dataset"]][["title"]], "xml:lang") <- "eng"
 
   eml[["eml"]][["additionalMetadata"]] <- list(
-    metadata = list(gbif = list(resourceLogoUrl = org[["logoUrl"]]))
+    metadata = list(gbif = list(resourceLogoUrl = list(org[["logoUrl"]])))
   )
 
   attr(eml[["eml"]], "packageId") <- uuid
