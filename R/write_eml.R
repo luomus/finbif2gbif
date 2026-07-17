@@ -53,7 +53,14 @@ write_eml <- function(
     scope = "system",
     dataset = list(
       title = metadata[["title"]],
-      distribution = list(online = list(url = eml[["url"]])),
+      distribution = structure(
+        list(
+          online = list(
+            url = structure(eml[["url"]], "function" = "information")
+          )
+        ),
+        scope = "document"
+      ),
       keywordSet = list(
         keyword = "Occurrence",
         keywordThesaurus = paste(
@@ -74,7 +81,7 @@ write_eml <- function(
       ),
       abstract = list(para = metadata[["description"]]),
       contact = contact,
-      intellectualRights = metadata[["license"]],
+      intellectualRights = get_license(metadata[["license"]]),
       pubDate = Sys.Date(),
       language = eml[["dataLanguage"]],
       methods = list(
@@ -115,34 +122,6 @@ write_eml <- function(
 
   EML::write_eml(eml, file_name)
 
-  eml <- xml2::read_xml(file_name)
-
-  eml <- xml2::as_list(eml)
-
-  eml[["eml"]][["dataset"]][["intellectualRights"]] <- get_license(
-    eml[["eml"]][["dataset"]][["intellectualRights"]][[1L]]
-  )
-
-  eml[["eml"]][["dataset"]][["coverage"]][["geographicCoverage"]] <- clean_geo(
-    eml[["eml"]][["dataset"]][["coverage"]][["geographicCoverage"]]
-  )
-
-  attr(eml[[1L]], "packageId") <- uuid
-
-  attr(eml[["eml"]][["dataset"]][["distribution"]], "scope") <- "document"
-
-  url <- eml[["eml"]][["dataset"]][["distribution"]][["online"]][["url"]]
-
-  if (!is.null(url)) {
-    attr(url, "function") <- "information"
-  }
-
-  eml[["eml"]][["dataset"]][["distribution"]][["online"]][["url"]] <- url
-
-  eml <- xml2::as_xml_document(eml)
-
-  xml2::write_xml(eml, file_name)
-
   message(
     sprintf("INFO [%s] Writing eml.xml file to %s", format(Sys.time()), archive)
   )
@@ -152,7 +131,6 @@ write_eml <- function(
 }
 
 #' @noRd
-
 taxonomic_coverage <- function(
   id, filters = config::get("filters")
 ) {
@@ -171,7 +149,6 @@ taxonomic_coverage <- function(
 }
 
 #' @noRd
-
 temporal_coverage <- function(
   id, filters = config::get("filters")
 ) {
@@ -199,7 +176,6 @@ temporal_coverage <- function(
 }
 
 #' @noRd
-
 geographic_coverage <- function(
   id, var, filters = config::get("filters")
 ) {
@@ -222,7 +198,6 @@ geographic_coverage <- function(
 }
 
 #' @noRd
-
 get_persons <- function(persons, emails) {
 
   emails <- strsplit(emails, ",|;")
@@ -268,6 +243,8 @@ get_persons <- function(persons, emails) {
 
 }
 
+
+#' @noRd
 get_license <- function(x) {
 
   cc <- "Creative Commons"
@@ -313,6 +290,7 @@ get_license <- function(x) {
 
 }
 
+#' @noRd
 license <- function(x, y) {
 
   list(
@@ -325,28 +303,7 @@ license <- function(x, y) {
 
 }
 
-clean_geo <- function(x) {
-
-  ans <- NULL
-
-  bc <- x[["boundingCoordinates"]]
-
-  if (is.null(bc) || length(unlist(bc)) < 4L) {
-
-    x[["boundingCoordinates"]] <- NULL
-
-  }
-
-  if (length(x) > 0L) {
-
-    ans <- x
-
-  }
-
-  ans
-
-}
-
+#' @noRd
 #' @importFrom httr authenticate content RETRY status_code
 #' @importFrom jsonlite fromJSON
 get_org <- function(
