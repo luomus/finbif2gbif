@@ -41,7 +41,7 @@ default:
     - habitat
 
 HR.101:
- publisher: Luomus (Zoology)
+  publisher: Luomus (Zoology)
 
 HR.189:
   publisher: Luomus (Botany)
