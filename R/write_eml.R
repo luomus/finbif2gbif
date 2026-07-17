@@ -49,6 +49,8 @@ write_eml <- function(
 
   eml <- list(
     packageId = uuid,
+    system = "http://gbif.org",
+    scope = "system",
     dataset = list(
       title = metadata[["title"]],
       distribution = list(online = list(url = eml[["url"]])),
