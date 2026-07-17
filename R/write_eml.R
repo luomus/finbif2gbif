@@ -95,9 +95,11 @@ write_eml <- function(
   eml <- xml2::as_list(eml)
 
   eml[["eml"]][["dataset"]] <- list(
-    additionalIdentifier = uuid,
-    additionalIdentifier = paste0(
-      "https://", Sys.getenv("ENDPOINTS"), "/archive/", collection_id
+    additionalIdentifier = list(uuid),
+    additionalIdentifier = list(
+      paste0(
+        "https://", Sys.getenv("ENDPOINTS"), "/archive/", collection_id
+      )
     ),
     title = eml[["eml"]][["dataset"]][["title"]],
     creator = eml[["eml"]][["dataset"]][["creator"]],
