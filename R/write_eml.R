@@ -34,11 +34,6 @@ write_eml <- function(
 
   temp_cov <- temporal_coverage(collection_id)
 
-  contact <- c(
-    list(get_persons(eml[["contact"]], eml[["email"]])),
-    list(emld::as_emld(utils::person("FinBIF", email = "helpdesk@laji.fi")))
-  )
-
   if (is.na(eml[["url"]])) {
     eml[["url"]] <- paste0("https://tun.fi/", collection_id)
   }
@@ -46,38 +41,20 @@ write_eml <- function(
   org <- list(logo = "https://cdn.laji.fi/images/logos/LAJI_FI_sin.png")
   if (!identical("", Sys.getenv("GBIF_ORG"))) org <- get_org()
 
+  contact <- eml[["contact"]]
+  email <- eml[["email"]]
+  datasetSubtype <- eml[["datasetSubtype"]]
+  url <- eml[["url"]]
+
   eml <- list(
+    packageId = uuid,
     dataset = list(
       title = metadata[["title"]],
-      distribution = list(online = list(url = eml[["url"]])),
-      keywordSet = list(
-        keyword = "Occurrence",
-        keywordThesaurus = paste(
-          "GBIF Dataset Type Vocabulary:",
-          "http://rs.gbif.org/vocabulary/gbif/dataset_type_2015-07-10.xml"
-        )
-      ),
-      keywordSet = list(
-        keyword = switch(
-          eml[["datasetSubtype"]] %||% "",
-          MY.collectionTypeSpecimens = "Specimen",
-          "Observation"
-        ),
-        keywordThesaurus = paste(
-          "GBIF Dataset Subtype Vocabulary:",
-          "http://rs.gbif.org/vocabulary/gbif/dataset_subtype.xml"
-        )
-      ),
-      abstract = list(para = metadata[["description"]]),
-      contact = contact,
-      intellectualRights = metadata[["license"]],
+      creator = list(get_persons(contact, email)),
       pubDate = Sys.Date(),
       language = eml[["dataLanguage"]],
-      methods = list(
-        sampling = list(
-          samplingDescription = list(para = list(eml[["methods"]]))
-        )
-      ),
+      abstract = list(para = metadata[["description"]]),
+      intellectualRights = metadata[["license"]],
       coverage = EML::set_coverage(
         beginDate = temp_cov[[1L]],
         endDate  = temp_cov[[2L]],
@@ -96,8 +73,10 @@ write_eml <- function(
           collection_id, "lat_min_wgs84"
         )
       ),
-      additionalMetadata = list(
-        metadata = list(gbif = list(resourceLogoUrl = org[["logoUrl"]]))
+      methods = list(
+        sampling = list(
+          samplingDescription = list(para = list(eml[["methods"]]))
+        )
       )
     )
   )
@@ -115,9 +94,46 @@ write_eml <- function(
 
   eml <- xml2::as_list(eml)
 
-  eml[["eml"]][["dataset"]][["intellectualRights"]] <- get_license(
-    eml[["eml"]][["dataset"]][["intellectualRights"]][[1L]]
+  eml[["eml"]][["dataset"]] <- list(
+    additionalIdentifier = uuid,
+    additionalIdentifier = paste0(
+      "https://", Sys.getenv("HOST"), "archive", collection_id
+    ),
+    title = eml[["eml"]][["dataset"]][["title"]],
+    creator = eml[["eml"]][["dataset"]][["creator"]],
+    pubDate = eml[["eml"]][["dataset"]][["pubDate"]],
+    lauguage = eml[["eml"]][["dataset"]][["language"]],
+    abstract = eml[["eml"]][["dataset"]][["abstract"]],
+    keywordSet = list(
+      keyword = "Occurrence",
+      keywordThesaurus = paste(
+        "GBIF Dataset Type Vocabulary:",
+        "http://rs.gbif.org/vocabulary/gbif/dataset_type_2015-07-10.xml"
+      )
+    ),
+    keywordSet = list(
+      keyword = switch(
+        datasetSubtype %||% "",
+        MY.collectionTypeSpecimens = "Specimen",
+        "Observation"
+      ),
+      keywordThesaurus = paste(
+        "GBIF Dataset Subtype Vocabulary:",
+        "http://rs.gbif.org/vocabulary/gbif/dataset_subtype.xml"
+      )
+    ),
+    intellectualRights = get_license(
+      eml[["eml"]][["dataset"]][["intellectualRights"]][[1L]]
+    ),
+    distribution = list(online = list(url = url)),
+    coverage = eml[["eml"]][["dataset"]][["coverage"]],
+    contact = list(get_persons(contact, email)),
+    contact = list(
+      emld::as_emld(utils::person("FinBIF", email = "helpdesk@laji.fi"))
+    ),
+    methods = eml[["eml"]][["dataset"]][["methods"]]
   )
+
   eml[["eml"]][["dataset"]][["coverage"]][["geographicCoverage"]] <- clean_geo(
     eml[["eml"]][["dataset"]][["coverage"]][["geographicCoverage"]]
   )
@@ -130,7 +146,12 @@ write_eml <- function(
 
   eml[["eml"]][["dataset"]][["distribution"]][["online"]][["url"]] <- url
 
-  attr(eml[["eml"]][["dataset"]], "xml:lang") <- "eng"
+  attr(eml[["eml"]][["dataset"]][["title"]], "xml:lang") <- "eng"
+
+  eml[["eml"]][["additionalMetadata"]] <- list(
+    metadata = list(gbif = list(resourceLogoUrl = org[["logoUrl"]]))
+  )
+
   attr(eml[["eml"]], "packageId") <- uuid
   attr(eml[["eml"]], "system") <- "http://gbif.org"
   attr(eml[["eml"]], "scope") <- "system"
