@@ -135,9 +135,12 @@ write_eml <- function(
     ),
     distribution = list(online = list(url = list(url))),
     coverage = eml[["eml"]][["dataset"]][["coverage"]],
-    contact = list(get_persons(contact, email)),
+    contact = eml[["eml"]][["dataset"]][["creator"]],
     contact = list(
-      emld::as_emld(utils::person("FinBIF", email = "helpdesk@laji.fi"))
+      individualName = list(
+        givenName = list("FinBIF")
+      ),
+      electronicMailAddress = list("helpdesk@laji.fi")
     ),
     methods = eml[["eml"]][["dataset"]][["methods"]]
   )
