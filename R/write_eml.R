@@ -104,7 +104,7 @@ write_eml <- function(
     title = eml[["eml"]][["dataset"]][["title"]],
     creator = eml[["eml"]][["dataset"]][["creator"]],
     pubDate = eml[["eml"]][["dataset"]][["pubDate"]],
-    lauguage = eml[["eml"]][["dataset"]][["language"]],
+    language = eml[["eml"]][["dataset"]][["language"]],
     abstract = eml[["eml"]][["dataset"]][["abstract"]],
     keywordSet = list(
       keyword = list("Occurrence"),
