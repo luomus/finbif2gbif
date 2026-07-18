@@ -46,6 +46,8 @@ write_eml <- function(
   datasetSubtype <- eml[["datasetSubtype"]]
   url <- eml[["url"]]
 
+  if (is.na(eml[["methods"]])) eml[["methods"]] <- ""
+
   eml <- list(
     packageId = uuid,
     dataset = list(
@@ -74,7 +76,9 @@ write_eml <- function(
         )
       ),
       methods = list(
+        methodStep = list(description = list(para = list(""))),
         sampling = list(
+          studyExtent = list(description = list(para = list(""))),
           samplingDescription = list(para = list(eml[["methods"]]))
         )
       )
@@ -133,13 +137,14 @@ write_eml <- function(
     intellectualRights = get_license(
       eml[["eml"]][["dataset"]][["intellectualRights"]][[1L]]
     ),
+    licensed = get_license_id(
+      eml[["eml"]][["dataset"]][["intellectualRights"]][[1L]]
+    ),
     distribution = list(online = list(url = list(url))),
     coverage = eml[["eml"]][["dataset"]][["coverage"]],
     contact = eml[["eml"]][["dataset"]][["creator"]],
     contact = list(
-      individualName = list(
-        givenName = list("FinBIF")
-      ),
+      organizationName = list("FinBIF"),
       electronicMailAddress = list("helpdesk@laji.fi")
     ),
     methods = eml[["eml"]][["dataset"]][["methods"]]
@@ -334,7 +339,7 @@ get_license <- function(x) {
     ),
     "https://creativecommons.org/licenses/by-nd/4.0/legalcode" = license(
       x,
-      paste(cc, a, "No Derivatives(CC-BY-NC) 4.0 License")
+      paste(cc, a, "No Derivatives (CC-BY-NC) 4.0 License")
     ),
     list(
       para = list(
@@ -342,7 +347,6 @@ get_license <- function(x) {
       )
     )
   )
-
 }
 
 #' @noRd
