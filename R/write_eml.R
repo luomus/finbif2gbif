@@ -359,6 +359,65 @@ license <- function(x, y) {
 }
 
 #' @noRd
+get_license_id <- function(x) {
+
+  cc <- "Creative Commons"
+
+  switch(
+    x,
+    "https://creativecommons.org/licenses/by/4.0/legalcode" = list(
+      licenseName = list(
+        paste(cc, "Attribution 4.0 International")
+      ),
+      url = list("https://spdx.org/licenses/CC-BY-4.0.html"),
+      identifier = list("CC-BY-4.0")
+    ),
+    "https://creativecommons.org/publicdomain/zero/1.0/legalcode" = list(
+      licenseName = list(
+        paste(cc, "Zero v1.0 Universal")
+      ),
+      url = list("https://spdx.org/licenses/CC0-1.0.html"),
+      identifier = list("CC0-1.0")
+    ),
+    "https://creativecommons.org/licenses/by-nc/4.0/legalcode" = list(
+      licenseName = list(
+        paste(cc, "Attribution Non Commercial 4.0 International")
+      ),
+      url = list("https://spdx.org/licenses/CC-BY-NC-4.0.html"),
+      identifier = list("CC-BY-NC-4.0")
+    ),
+    "https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode" = list(
+      licenseName = list(
+        paste(cc, "Attribution Non Commercial Share Alike 4.0 International")
+      ),
+      url = list("https://spdx.org/licenses/CC-BY-NC-SA-4.0.html"),
+      identifier = list("CC-BY-NC-SA-4.0")
+    ),
+    "https://creativecommons.org/licenses/by-sa/4.0/legalcode" = list(
+      licenseName = list(
+        paste(cc, "Attribution Share Alike 4.0 International")
+      ),
+      url = list("https://spdx.org/licenses/CC-BY-SA-4.0.html"),
+      identifier = list("CC-BY-SA-4.0")
+    ),
+    "https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode" = list(
+      licenseName = list(
+        paste(cc, "Attribution Non Commercial No Derivatives 4.0 International")
+      ),
+      url = list("https://spdx.org/licenses/CC-BY-NC-ND-4.0.html"),
+      identifier = list("CC-BY-NC-ND-4.0")
+    ),
+    "https://creativecommons.org/licenses/by-nd/4.0/legalcode" = list(
+      licenseName = list(
+        paste(cc, "Attribution No Derivatives 4.0 International")
+      ),
+      url = list("https://spdx.org/licenses/CC-BY-ND-4.0.html"),
+      identifier = list("CC-BY-ND-4.0")
+    )
+  )
+}
+
+#' @noRd
 clean_geo <- function(x) {
 
   ans <- NULL
