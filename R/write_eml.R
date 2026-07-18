@@ -95,8 +95,8 @@ write_eml <- function(
   eml <- xml2::as_list(eml)
 
   eml[["eml"]][["dataset"]] <- list(
-    additionalIdentifier = list(uuid),
-    additionalIdentifier = list(
+    alternateIdentifier = list(uuid),
+    alternateIdentifier = list(
       paste0(
         "https://", Sys.getenv("ENDPOINTS"), "/archive/", collection_id
       )
