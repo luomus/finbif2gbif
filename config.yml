@@ -6,6 +6,7 @@ default:
   metadata:
     type: type
     title: long_name
+    abbreviation: abbreviation
     description: description
     language: metadata_language
     license: intellectual_rights

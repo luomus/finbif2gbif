@@ -59,6 +59,8 @@ get_metadata <- function(
     is.na(m[["language"]]), "mul", languages[[m[["language"]]]]
   )
 
+  if (is.na(m[["abbreviation"]])) m[["abbreviation"]] <- NULL
+
   message(
     sprintf(
       "INFO [%s] Metadata for collection %s retrieved from FinBIF",
