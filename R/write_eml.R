@@ -173,8 +173,11 @@ write_eml <- function(
   attr(eml[["eml"]], "system") <- "http://gbif.org"
   attr(eml[["eml"]], "scope") <- "system"
   attr(eml[["eml"]], "xml:lang") <- "eng"
-  attr(eml[["eml"]], "xsi:schemaLocation") <- attr(
-    eml[["eml"]], "schemaLocation"
+  attr(eml[["eml"]], "xsi:schemaLocation") <- sub(
+    "https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd",
+    "https://rs.gbif.org/schema/eml-gbif-profile/1.3/eml.xsd",
+    attr(eml[["eml"]], "schemaLocation"),
+    fixed = TRUE
   )
   attr(eml[["eml"]], "schemaLocation") <- NULL
 
