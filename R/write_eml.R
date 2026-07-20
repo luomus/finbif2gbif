@@ -52,7 +52,8 @@ write_eml <- function(
     packageId = uuid,
     dataset = list(
       title = metadata[["title"]],
-      creator = list(get_persons(contact, email)),
+      creator = list(organizationName = list(eml[["creator"]])),
+      contact = list(get_persons(contact, email)),
       pubDate = Sys.Date(),
       language = eml[["dataLanguage"]],
       abstract = list(para = metadata[["description"]]),
@@ -142,7 +143,7 @@ write_eml <- function(
     ),
     distribution = list(online = list(url = list(url))),
     coverage = eml[["eml"]][["dataset"]][["coverage"]],
-    contact = eml[["eml"]][["dataset"]][["creator"]],
+    contact = eml[["eml"]][["dataset"]][["contact"]],
     contact = list(
       organizationName = list("FinBIF"),
       electronicMailAddress = list("helpdesk@laji.fi")

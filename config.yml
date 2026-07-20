@@ -17,6 +17,7 @@ default:
     email: contact_email
     url: online_url
     datasetSubtype: collection_type
+    creator: intellectual_owner
   fields:
   - occurrenceID
   - catalogNumber
