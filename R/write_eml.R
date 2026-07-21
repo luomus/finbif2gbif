@@ -102,9 +102,7 @@ write_eml <- function(
   eml[["eml"]][["dataset"]] <- list(
     alternateIdentifier = list(uuid),
     alternateIdentifier = list(
-      paste0(
-        "https://", Sys.getenv("ENDPOINTS"), "/archive/", collection_id
-      )
+      paste0(Sys.getenv("ENDPOINTS"), "/archive/", collection_id)
     ),
     title = eml[["eml"]][["dataset"]][["title"]],
     creator = eml[["eml"]][["dataset"]][["creator"]],
