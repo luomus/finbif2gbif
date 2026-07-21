@@ -47,6 +47,12 @@ get_metadata <- function(
 
   m[["type"]] <- "OCCURRENCE"
 
+  m[["collection_type"]] <- ifelse(
+    m[["collection_type"]] == "MY.collectionTypeSpecimens",
+    "SPECIMEN",
+    "OBSERVATION"
+  )
+
   m[["metadata_language"]] <- "eng"
 
   m[["intellectual_rights"]] <- ifelse(

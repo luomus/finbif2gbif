@@ -5,6 +5,7 @@ default:
   max_age_weeks: 1
   metadata:
     type: type
+    subtype: collection_type
     title: long_name
     abbreviation: abbreviation
     description: description
