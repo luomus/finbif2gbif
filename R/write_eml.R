@@ -146,7 +146,17 @@ write_eml <- function(
       organizationName = list("FinBIF"),
       electronicMailAddress = list("helpdesk@laji.fi")
     ),
-    methods = eml[["eml"]][["dataset"]][["methods"]]
+    methods = eml[["eml"]][["dataset"]][["methods"]],
+    additionalMetadata = list(
+      metadata = list(
+        gbif = list(
+          dateStamp = list(attr(collection_id, "created")),
+          hierarchyLevel = list("dataset"),
+          resourceLogoUrl = list(org[["logoUrl"]]),
+          "dc:replaces" = list(uuid)
+        )
+      )
+    )
   )
 
   eml[["eml"]][["dataset"]][["coverage"]][["geographicCoverage"]] <- clean_geo(
@@ -163,11 +173,8 @@ write_eml <- function(
 
   attr(eml[["eml"]][["dataset"]][["title"]], "xml:lang") <- "eng"
 
-  eml[["eml"]][["additionalMetadata"]] <- list(
-    metadata = list(gbif = list(resourceLogoUrl = list(org[["logoUrl"]])))
-  )
-
   attr(eml[["eml"]], "packageId") <- uuid
+  attr(eml[["eml"]], "xmlns:dc")  <- "http://purl.org/dc/terms/"
   attr(eml[["eml"]], "system") <- "http://gbif.org"
   attr(eml[["eml"]], "scope") <- "system"
   attr(eml[["eml"]], "xml:lang") <- "eng"

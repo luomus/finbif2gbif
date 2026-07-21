@@ -76,18 +76,19 @@ get_collection_ids <- function(
       config::get("publisher", ans[[i]]) %||%
       to_gbif_cols[["publisher_shortname"]][[i]]
 
+    reg <- get_registration(datasets, ans[[i]], TRUE)
+
     ans[[i]] <- structure(
       ans[[i]],
       class = "col_id",
       last_mod = sort(last_mod, TRUE, TRUE)[[1L]],
       publisher = publisher,
-      gbif_id = attr(get_registration(datasets, ans[[i]], TRUE), "key"),
-      gbif_org_id = attr(
-        get_registration(datasets, ans[[i]], TRUE), "publisher_key"
-      ),
+      gbif_id = attr(reg, "key"),
+      gbif_org_id = attr(reg, "publisher_key"),
       updated = file.mtime(
         get_archive_path(ans[[i]], "archives/combined", quiet = TRUE)
-      )
+      ),
+      created = attr(reg, "created")
     )
 
   }
