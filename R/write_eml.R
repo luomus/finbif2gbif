@@ -52,10 +52,7 @@ write_eml <- function(
     packageId = uuid,
     dataset = list(
       title = metadata[["title"]],
-      creator = list(
-        organizationName = list(eml[["creator"]]),
-        electronicMailAddress = list(org[["email"]][[1L]])
-      ),
+      creator = list(get_persons(contact, email)),
       contact = list(get_persons(contact, email)),
       pubDate = Sys.Date(),
       language = eml[["dataLanguage"]],
