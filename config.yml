@@ -9,6 +9,8 @@ default:
     title: long_name
     abbreviation: abbreviation
     description: description
+    homepage: online_url
+    logoUrl: logo
     language: metadata_language
     license: intellectual_rights
   eml:

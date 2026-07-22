@@ -67,6 +67,12 @@ get_metadata <- function(
 
   if (is.na(m[["abbreviation"]])) m[["abbreviation"]] <- NULL
 
+  if (is.na(m[["online_url"]])) {
+    m[["online_url"]] <- paste0("https://tun.fi/", collection_id)
+  }
+
+  m[["logo"]] <- get_org()[["logo"]]
+
   message(
     sprintf(
       "INFO [%s] Metadata for collection %s retrieved from FinBIF",
