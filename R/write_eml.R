@@ -34,10 +34,6 @@ write_eml <- function(
 
   temp_cov <- temporal_coverage(collection_id)
 
-  if (is.na(eml[["url"]])) {
-    eml[["url"]] <- paste0("https://tun.fi/", collection_id)
-  }
-
   org <- list(logo = "https://cdn.laji.fi/images/logos/LAJI_FI_sin.png")
   if (!identical("", Sys.getenv("GBIF_ORG"))) org <- get_org()
 
