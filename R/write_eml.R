@@ -116,11 +116,7 @@ write_eml <- function(
     ),
     keywordSet = list(
       keyword = list(
-        switch(
-          datasetSubtype %||% "",
-          MY.collectionTypeSpecimens = "Specimen",
-          "Observation"
-        )
+        switch(datasetSubtype, SPECIMEN = "Specimen", "Observation")
       ),
       keywordThesaurus = list(
         paste(
