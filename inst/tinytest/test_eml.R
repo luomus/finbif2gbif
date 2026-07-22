@@ -4,6 +4,19 @@ archive <- structure("archive.zip", class = "archive_file")
 
 col <- "HR.122"
 
+gbif <- webfakes::new_app()
+
+gbif$get(
+  "/v1/organization/1234",
+  function(req, res) {
+    res$set_status(200L)$send('{"logo":"test"}')
+  }
+)
+
+api <- webfakes::local_app_process(gbif)
+
+Sys.setenv(GBIF_API = api$url(), GBIF_ORG = "1234")
+
 md <- get_metadata(
   col,
   list(
@@ -40,19 +53,6 @@ md <- get_metadata(
     license = "intellectual_rights"
   )
 )
-
-gbif <- webfakes::new_app()
-
-gbif$get(
-  "/v1/organization/1234",
-  function(req, res) {
-    res$set_status(200L)$send('{"logo":"test"}')
-  }
-)
-
-api <- webfakes::local_app_process(gbif)
-
-Sys.setenv(GBIF_API = api$url(), GBIF_ORG = "1234")
 
 res <- write_eml(
   archive,

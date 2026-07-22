@@ -2,6 +2,19 @@ source("setup.R")
 
 archive <- structure("archive.zip", class = "archive_file")
 
+gbif <- webfakes::new_app()
+
+gbif$get(
+  "/v1/organization/1234",
+  function(req, res) {
+    res$set_status(200L)$send('{"logo":"test"}')
+  }
+)
+
+api <- webfakes::local_app_process(gbif)
+
+Sys.setenv(GBIF_API = api$url(), GBIF_ORG = "1234")
+
 expect_equal(
   write_meta(
     archive,
@@ -82,3 +95,5 @@ expect_equal(
 )
 
 expect_equal(write_meta(archive, filter), 0L)
+
+api$stop()
