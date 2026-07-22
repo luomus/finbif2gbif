@@ -71,7 +71,7 @@ get_metadata <- function(
     m[["online_url"]] <- paste0("https://tun.fi/", collection_id)
   }
 
-  m[["logo"]] <- get_org()[["logo"]]
+  m[["logo"]] <- get_org()[["logoUrl"]]
 
   message(
     sprintf(
