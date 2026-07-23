@@ -274,14 +274,6 @@ function() {
 
 }
 
-#* @get /whitelist.txt
-#* @serializer contentType list(type="text/plain")
-function() {
-
-  readBin("var/whitelist.txt", "raw", n = file.info("var/whitelist.txt")$size)
-
-}
-
 #* @get /collections.json
 #* @serializer contentType list(type="application/json")
 function() {
@@ -317,7 +309,6 @@ function(pr) {
       spec$paths$`/robots.txt` <- NULL
       spec$paths$`/publishers.txt` <- NULL
       spec$paths$`/config.yml` <- NULL
-      spec$paths$`/whitelist.txt` <- NULL
       spec$paths$`/collections.json` <- NULL
       spec$paths$`/` <- NULL
       spec$paths$`/eml/{archive}`$head <- NULL
