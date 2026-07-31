@@ -70,7 +70,7 @@ get_occurrences <- function(
       format = "associatedMedia",
       identifier = "associatedMedia",
       creator = "associatedMediaBy",
-      license = "associatedMediaLicense"
+      license_media = "associatedMediaLicense"
     )
 
   }
@@ -346,6 +346,10 @@ process_media <- function(data, media_vars) {
       media_data[["format"]],
       function(x) ifelse(x == "jpeg", "image/jpeg", NA_character_)
     )
+
+    media_data[["license"]] <- media_data[["license_media"]]
+
+    media_data[["license_media"]] <- NULL
 
     media_data[["license"]] <- lapply(
       media_data[["license"]], function(x) licenses[x]
