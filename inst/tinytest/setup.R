@@ -11,4 +11,3 @@ options(
   finbif_max_page_size = 250L,
   finbif_use_dwc = FALSE
 )
-options(finbif_allow_query = TRUE)
