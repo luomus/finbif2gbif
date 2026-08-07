@@ -77,7 +77,9 @@ get_occurrences <- function(
 
   select_vars <- c(select, oq, dk, rk, type_vars)
   select_vars <- unique(select_vars)
-  select_vars <- setdiff(select_vars, "associatedMedia")
+  select_vars <- setdiff(
+    select_vars, c("associatedMedia", "continent", names(facts))
+  )
   select_vars <- c(select_vars, media_vars)
 
   data <- finbif::finbif_occurrence(
@@ -91,6 +93,8 @@ get_occurrences <- function(
   )
 
   data <- process_points(data)
+
+  data <- process_continent(data, select)
 
   data <- process_record_bases(data)
 
@@ -119,6 +123,8 @@ get_occurrences <- function(
     }
 
   }
+
+  data <- data[setdiff(select, "associatedMedia")]
 
   data <- list(occurrence = data, media = NULL)
 
@@ -157,7 +163,7 @@ process_points <- function(data) {
 
   has_lat <- "decimalLatitude" %in% nms
 
-  has_coords <- has_lon || has_lat
+  has_coords <- has_lon && has_lat
 
   process <- has_fp && has_coords
 
@@ -190,6 +196,46 @@ process_points <- function(data) {
       data[is_point, "decimalLatitude"] <- y
 
     }
+
+  }
+
+  data
+
+}
+
+#' @noRd
+#' @importFrom sf st_as_sf st_intersects
+process_continent <- function(data, select) {
+
+  has_continent <- "continent" %in% select
+
+  if (has_continent) {
+    data[["continent"]] <- NA_character_
+  }
+
+  nms <- names(data)
+
+  has_lon <- "decimalLongitude" %in% nms
+  has_lat <- "decimalLatitude" %in% nms
+
+  has_coords <- has_lon && has_lat
+
+  if (has_coords) {
+
+    points <- st_as_sf(
+      data,
+      coords = c("decimalLongitude", "decimalLatitude"),
+      crs = 4326,
+      na.fail = FALSE
+    )
+
+    intersection <- st_intersects(points, continents, sparse = FALSE)
+
+    data[["continent"]] <- apply(
+      intersection,
+      1L,
+      \(x) if (any(x)) continents[["continent"]][x] else NA_character_
+    )
 
   }
 

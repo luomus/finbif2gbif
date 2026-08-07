@@ -48,12 +48,6 @@ archive_occurrences <- function(
 
   select <- unique(c("occurrenceID", select))
 
-  if (!is.null(facts)) {
-
-    names(facts) <- sub("^.*:", "", names(facts))
-
-  }
-
   occ <- get_occurrences(filter, select, facts, combine, n_in, quiet = quiet)
 
   ans <- write_occurrences(occ, archive, file_name, media_file_name)

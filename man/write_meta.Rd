@@ -8,8 +8,6 @@ write_meta(
   archive,
   filters,
   fields = config::get("fields"),
-  facts = config::get("facts"),
-  combine = config::get("combine"),
   collections = "collections.json",
   id = 1
 )
@@ -23,11 +21,6 @@ write_meta(
 names can optionally be prepended with a namespace (one of "dwc", "dwciri",
 "dc" or "dcterms") separated from the field by a ":". If no namespace is
 specified, "dwc" will be assumed.}
-
-\item{facts}{List of extra variables to be extracted from record,
-event and document "facts".}
-
-\item{combine}{Named list of variables to combine.}
 
 \item{collections}{Character. Path to collections.json file.}
 
