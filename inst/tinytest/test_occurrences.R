@@ -19,8 +19,7 @@ expect_equal(
   write_meta(
     archive,
     structure(list(collection = "HR.22"), collection_id = "HR.22"),
-    "occurrenceID",
-    list(recordNumber = "MY.legID")
+    "occurrenceID"
   ),
   0L
 )
@@ -89,7 +88,7 @@ write_meta(archive, filter)
 
 expect_equal(
   archive_occurrences(
-    archive, "occurrence_553732d5.txt", "media_553732d5.txt", filter, n = 21L
+    archive, "occurrence_74f9d40c.txt", "media_74f9d40c.txt", filter, n = 21L
   ),
   0L
 )

@@ -15,12 +15,16 @@ default:
     url: online_url
   fields:
   - occurrenceID
+  - recordNumber
   - basisOfRecord
   - institutionCode
   - eventDate
   - country
+  - continent
   - decimalLatitude
   - decimalLongitude
+  - verbatimElevation
+  - habitat
   - footprintWKT
   - geodeticDatum
   - coordinateUncertaintyInMeters
