@@ -219,9 +219,10 @@ process_continent <- function(data, select) {
   has_lat <- "decimalLatitude" %in% nms
 
   has_coords <- has_lon && has_lat
+  has_code <- "countryCode" %in% nms
+  has_hg <- "higherGeography" %in% nms
 
   if (has_coords) {
-
     points <- st_as_sf(
       data,
       coords = c("decimalLongitude", "decimalLatitude"),
@@ -236,11 +237,29 @@ process_continent <- function(data, select) {
       1L,
       \(x) if (any(x)) continents[["continent"]][x] else NA_character_
     )
+  }
 
+  if (has_code) {
+    data[["continent"]] <- ifelse(
+      is.na(data[["continent"]]),
+      continent_table[data[["countryCode"]]],
+      data[["continent"]]
+    )
+  }
+
+  if (has_hg) {
+    data[["continent"]] <- ifelse(
+      is.na(data[["continent"]]),
+      ifelse(
+        data[["higherGeography"]] %in% continent_table,
+        data[["higherGeography"]],
+        NA_character_
+      ),
+      data[["continent"]]
+    )
   }
 
   data
-
 }
 
 #' @noRd
