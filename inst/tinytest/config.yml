@@ -20,6 +20,8 @@ default:
   - institutionCode
   - eventDate
   - country
+  - countryCode
+  - higherGeography
   - continent
   - decimalLatitude
   - decimalLongitude

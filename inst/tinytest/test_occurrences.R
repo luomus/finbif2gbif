@@ -86,11 +86,12 @@ attr(filter, "collection_id") <- "HR.203"
 
 write_meta(archive, filter)
 
+file <- f2g::get_file_name(filter[[1L]])
+
+media_file <- f2g::get_file_name(filter[[1L]], prefix = "media")
+
 expect_equal(
-  archive_occurrences(
-    archive, "occurrence_74f9d40c.txt", "media_74f9d40c.txt", filter, n = 21L
-  ),
-  0L
+  archive_occurrences(archive, file, media_file, filter[[1L]], n = 21L), 0L
 )
 
 expect_equal(write_meta(archive, filter), 0L)
