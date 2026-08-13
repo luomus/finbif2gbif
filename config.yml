@@ -30,6 +30,7 @@ default:
   - collectionCode
   - basisOfRecord
   - materialEntityType
+  - taxonConceptID
   - scientificName
   - taxonRank
   - kingdom
