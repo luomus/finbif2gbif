@@ -47,6 +47,10 @@ expect_equal(
   0L
 )
 
+restrictionReason <- get_occurrences(NULL, "restrictionReason", NULL, NULL, 1L)
+
+expect_equal(restrictionReason$occurrence$restrictionReason, NA_character_)
+
 expect_equal(count_occurrences(archive, "occurrence_test.txt"), 10L)
 
 Sys.setenv(R_CONFIG_ACTIVE = "test")
