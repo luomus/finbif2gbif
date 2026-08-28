@@ -42,7 +42,7 @@ expect_equal(
     ),
     list(recordNumber = "MY.legID"),
     list(recordNumber = "recordNumber"),
-    10L,
+    10L
   ),
   0L
 )
