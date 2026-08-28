@@ -44,6 +44,8 @@ default:
   - typeStatus
   - eventID
   - eventDate
+  - year
+  - startDayOfYear
   - decimalLatitude
   - decimalLongitude
   - geodeticDatum
