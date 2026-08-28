@@ -52,8 +52,6 @@ get_subsets <- function(
     filters
   )
 
-  filters <- c(collection = collection_id, filters)
-
   n <- finbif::finbif_occurrence(
     filter = filters, select = "record_id", order_by = "record_id", n = 1L
   )
