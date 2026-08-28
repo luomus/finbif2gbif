@@ -34,8 +34,6 @@ write_meta <- function(
   id = 1
 ) {
 
-  fields <- setdiff(fields, "associatedMedia")
-
   collection_id <- attr(filters, "collection_id")
 
   collections <- jsonlite::read_json(collections, simplifyVector = FALSE)
@@ -44,13 +42,18 @@ write_meta <- function(
 
   collection <- collections[[which(collection_ids == collection_id)]]
 
-  n_fields <- length(fields) + length(collection)
+  fields <- setdiff(
+    unique(c("occurrenceID", fields)),
+    c(collection[["field_blacklist"]], "associatedMedia")
+  )
+
+  n_fields <- length(fields)
 
   core <- replicate(n_fields, structure(list()), FALSE)
 
   names(core) <- rep_len("field", n_fields)
 
-  s <- seq_len(n_fields - length(collection))
+  s <- seq_len(n_fields)
 
   for (i in s) {
 
@@ -84,11 +87,19 @@ write_meta <- function(
 
   m <- get_metadata(collection_id, list(title = "long_name"))
 
+  core[[i + 1L]] <- list()
+
+  names(core) <- c(names(core)[-i - 1L], "field")
+
   attr(core[[i + 1L]], "default") <- m[["title"]]
 
   attr(core[[i + 1L]], "term") <- sprintf("%s/terms/%s", iri, "datasetName")
 
   if (!is.null(collection[["institutionID"]])) {
+
+    core[[i + 2L]] <- list()
+
+    names(core) <- c(names(core)[-i - 2L], "field")
 
     attr(core[[i + 2L]], "default") <- paste0(
       "https://scientific-collections.gbif.org/institution/",
@@ -100,6 +111,10 @@ write_meta <- function(
   }
 
   if (!is.null(collection[["collectionID"]])) {
+
+    core[[i + 3L]] <- list()
+
+    names(core) <- c(names(core)[-i - 3L], "field")
 
     attr(core[[i + 3L]], "default") <- paste0(
       "https://scientific-collections.gbif.org/collection/",

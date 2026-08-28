@@ -16,6 +16,7 @@
 #'   event and document "facts".
 #' @param combine List of fields to combine.
 #' @param n Integer. How many records to download/import.
+#' @param collections Character. Path to collections.json file.
 #' @param quiet Logical. Suppress the progress indicator for multipage
 #'   downloads.
 #'
@@ -24,7 +25,7 @@
 #'
 #' archive_occurrences(
 #'   "dwca.zip", "occurrence.txt", list(collection = "HR.139"),
-#'    c("occurrenceID", "basisOfRecord")
+#'   c("occurrenceID", "basisOfRecord")
 #' )
 #'
 #' }
@@ -41,12 +42,23 @@ archive_occurrences <- function(
   facts = config::get("facts"),
   combine =  config::get("combine"),
   n = config::get("nmax"),
+  collections = "collections.json",
   quiet = TRUE
 ) {
 
   n_in <- as.integer(n)
 
-  select <- unique(c("occurrenceID", select))
+  collection_id <- filter[["collection"]]
+
+  collections <- jsonlite::read_json(collections, simplifyVector = FALSE)
+
+  collection_ids <- vapply(collections, getElement, "", "id")
+
+  collection <- collections[[which(collection_ids == collection_id)]]
+
+  select <- setdiff(
+    unique(c("occurrenceID", select)), collection[["field_blacklist"]]
+  )
 
   occ <- get_occurrences(filter, select, facts, combine, n_in, quiet = quiet)
 

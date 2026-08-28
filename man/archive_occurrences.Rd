@@ -13,6 +13,7 @@ archive_occurrences(
   facts = config::get("facts"),
   combine = config::get("combine"),
   n = config::get("nmax"),
+  collections = "collections.json",
   quiet = TRUE
 )
 }
@@ -39,6 +40,8 @@ event and document "facts".}
 
 \item{n}{Integer. How many records to download/import.}
 
+\item{collections}{Character. Path to collections.json file.}
+
 \item{quiet}{Logical. Suppress the progress indicator for multipage
 downloads.}
 }
@@ -53,7 +56,7 @@ Archive occurrence records in a Darwin Core archive.
 
 archive_occurrences(
   "dwca.zip", "occurrence.txt", list(collection = "HR.139"),
-   c("occurrenceID", "basisOfRecord")
+  c("occurrenceID", "basisOfRecord")
 )
 
 }
