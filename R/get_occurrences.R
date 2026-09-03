@@ -320,13 +320,13 @@ process_occurrence_remarks <- function(data, oq, dk, rk) {
 
     or <- "occurrenceRemarks"
 
-    data[[or]] <- ifelse(is.na(data[[or]]), "", paste0("\n", data[[or]]))
+    data[[or]] <- ifelse(is.na(data[[or]]), "", paste0(" | ", data[[or]]))
 
     kw <- mapply(c, data[[dk]], data[[rk]], SIMPLIFY = FALSE)
 
     kw <- vapply(kw, pipe_collapse, "")
 
-    kw <- ifelse(kw == "", kw, paste0("\nKeywords: { ", kw, " }"))
+    kw <- ifelse(kw == "", kw, paste0(" | Keywords: { ", kw, " }"))
 
     data[[or]] <- paste0(kw, data[[or]])
 
