@@ -106,6 +106,8 @@ get_occurrences <- function(
 
   data <- process_type_status(data, type_vars, select)
 
+  data <- process_day(data)
+
   data <- combine_fields(data, combine)
 
   media <- process_media(data, media_vars)
@@ -357,6 +359,27 @@ process_type_status <- function(data, type_vars, select) {
     )
 
     data[setdiff(type_vars, select)] <- NULL
+
+  }
+
+  data
+
+}
+
+#' @noRd
+
+process_day <- function(data) {
+
+  has_day <- !is.null(data[["day"]])
+  has_event_date <- !is.null(data[["eventDate"]])
+
+  if (has_day && has_event_date) {
+
+    data[["day"]] <- ifelse(
+      grepl("/", data[["eventDate"]], fixed = TRUE),
+      NA_integer_,
+      data[["day"]]
+    )
 
   }
 
