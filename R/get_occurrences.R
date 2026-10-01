@@ -374,13 +374,22 @@ process_day <- function(data) {
   has_event_date <- !is.null(data[["eventDate"]])
 
   if (has_day && has_event_date) {
-
     data[["day"]] <- ifelse(
       grepl("/", data[["eventDate"]], fixed = TRUE),
       NA_integer_,
       data[["day"]]
     )
+  }
 
+  has_start <- !is.null(data[["startDayOfYear"]])
+  has_end <- !is.null(data[["endDayOfYear"]])
+
+  if (has_start && has_end) {
+    data[["endDayOfYear"]] <- ifelse(
+      data[["endDayOfYear"]] == data[["startDayOfYear"]],
+      NA_integer_,
+      data[["endDayOfYear"]]
+    )
   }
 
   data
