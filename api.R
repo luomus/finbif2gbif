@@ -174,10 +174,11 @@ function(archive, res) {
 #* @get /metadata/<collectionID:str>
 #* @head /metadata/<collectionID:str>
 #* @param collectionID:str Archive file.
+#* @param file:str File in archive.
 #* @response 200 An xml file
 #* @response 404 File not found
 #* @serializer contentType list(type="application/xml")
-function(collectionID, res) {
+function(collectionID, res, file = "eml.xml") {
 
   archive <- paste0("var/archives/combined/", collectionID, ".zip")
 
@@ -189,15 +190,13 @@ function(collectionID, res) {
 
   }
 
-  files <- utils::unzip(archive, list = TRUE)
+  files <- c("eml.xml", "meta.xml")
 
-  file <- "eml.xml"
-
-  if (!any(grepl(file, files[["Name"]]))) {
+  if (!any(grepl(file, files))) {
 
     res$serializer <- plumber::serializer_unboxed_json()
     res$status <- 404L
-    return("EML file not found")
+    return("File not found")
 
   }
 
