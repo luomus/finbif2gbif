@@ -191,9 +191,11 @@ function(collectionID, res, file = "eml.xml") {
 
   }
 
-  files <- c("eml.xml", "meta.xml")
+  files <- utils::unzip(archive, list = TRUE)
 
-  if (!any(grepl(file, files))) {
+  metadata_files <- c("eml.xml", "meta.xml")
+
+  if (!any(grepl(file, metadata_files))) {
 
     res$serializer <- plumber::serializer_unboxed_json()
     res$status <- 404L
