@@ -103,7 +103,8 @@ function() {
 #* @serializer unboxedJSON
 function() {
 
- list.files("var/archives/combined", pattern = "\\.zip$")
+ ans <- list.files("var/archives/combined", pattern = "\\.zip$")
+ tools::file_path_sans_ext(ans)
 
 }
 
