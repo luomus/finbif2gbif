@@ -106,6 +106,8 @@ get_occurrences <- function(
 
   data <- process_type_status(data, type_vars, select)
 
+  data <- process_month(data)
+
   data <- process_day(data)
 
   data <- combine_fields(data, combine)
@@ -368,6 +370,25 @@ process_type_status <- function(data, type_vars, select) {
 
 #' @noRd
 
+process_month <- function(data) {
+
+  has_year <- !is.null(data[["year"]])
+  has_month <- !is.null(data[["month"]])
+  has_event_date <- !is.null(data[["eventDate"]])
+
+  if (has_year && has_month && has_event_date) {
+    data[["month"]] <- ifelse(
+      grepl("/", data[["eventDate"]], fixed = TRUE) & is.na(data[["year"]]),
+      NA_integer_,
+      data[["month"]]
+    )
+  }
+
+  data
+}
+
+#' @noRd
+
 process_day <- function(data) {
 
   has_day <- !is.null(data[["day"]])
@@ -393,7 +414,6 @@ process_day <- function(data) {
   }
 
   data
-
 }
 
 #' @noRd
