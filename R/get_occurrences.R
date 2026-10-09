@@ -36,12 +36,14 @@ get_occurrences <- function(
 ) {
 
   oq <- NULL
-  dk <- NULL
+  dr <- NULL
   rk <- NULL
+  dk <- NULL
 
   if ("occurrenceRemarks" %in% select) {
 
     oq <- "identificationVerificationStatus"
+    dr <- "documentRemarks"
     dk <- "documentKeywords"
     rk <- "occurrenceKeywords"
 
@@ -75,7 +77,7 @@ get_occurrences <- function(
 
   }
 
-  select_vars <- c(select, oq, dk, rk, type_vars)
+  select_vars <- c(select, oq, dr, dk, rk, type_vars)
   select_vars <- unique(select_vars)
   select_vars <- setdiff(
     select_vars, c("associatedMedia", "continent", names(facts))
@@ -102,7 +104,7 @@ get_occurrences <- function(
 
   data <- process_facts(data, facts)
 
-  data <- process_occurrence_remarks(data, oq, dk, rk)
+  data <- process_occurrence_remarks(data, oq, dr, dk, rk)
 
   data <- process_type_status(data, type_vars, select)
 
@@ -318,22 +320,20 @@ process_facts <- function(data, facts) {
 
 #' @noRd
 
-process_occurrence_remarks <- function(data, oq, dk, rk) {
-
+process_occurrence_remarks <- function(data, oq, dr, dk, rk) {
   if (!is.null(oq)) {
+
+    kw <- mapply(c, data[[dk]], data[[rk]], SIMPLIFY = FALSE)
+    kw <- vapply(kw, pipe_collapse, "")
+    kw <- ifelse(kw == "", kw, paste0(" | Keywords: { ", kw, " }"))
 
     or <- "occurrenceRemarks"
 
     data[[or]] <- ifelse(is.na(data[[or]]), "", paste0(" | ", data[[or]]))
-
-    kw <- mapply(c, data[[dk]], data[[rk]], SIMPLIFY = FALSE)
-
-    kw <- vapply(kw, pipe_collapse, "")
-
-    kw <- ifelse(kw == "", kw, paste0(" | Keywords: { ", kw, " }"))
-
+    data[[or]] <- ifelse(
+      is.na(dr), data[[or]], paste(data[[or]], dr, sep = " | ")
+    )
     data[[or]] <- paste0(kw, data[[or]])
-
     data[[or]] <- paste0(
       "Quality assessment: ",
       ifelse(is.na(data[[oq]]), "Unassessed", data[[oq]]),
@@ -341,13 +341,13 @@ process_occurrence_remarks <- function(data, oq, dk, rk) {
     )
 
     data[[oq]] <- NULL
+    data[[dr]] <- NULL
     data[[dk]] <- NULL
     data[[rk]] <- NULL
 
   }
 
   data
-
 }
 
 #' @noRd
