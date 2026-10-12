@@ -36,5 +36,5 @@ Suggests:
     callr
 License: MIT + file LICENSE
 Encoding: UTF-8
-Config/roxygen2/version: 8.1.0
+Config/roxygen2/version: 8.1.1
 Config/roxygen2/markdown: TRUE
