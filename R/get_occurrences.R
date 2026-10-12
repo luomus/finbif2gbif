@@ -112,6 +112,8 @@ get_occurrences <- function(
 
   data <- process_day(data)
 
+  data <- process_organism_quantity(data)
+
   data <- combine_fields(data, combine)
 
   media <- process_media(data, media_vars)
@@ -408,6 +410,25 @@ process_day <- function(data) {
   if (has_start && has_end) {
     data[["endDayOfYear"]] <- ifelse(
       same_day, NA_integer_, data[["endDayOfYear"]]
+    )
+  }
+  data
+}
+
+#' @noRd
+
+process_organism_quantity <- function(data) {
+  has_quantity_type <- !is.null(data[["organismQuantityType"]])
+  has_quantity <- !is.null(data[["organismQuantity"]])
+
+  if (has_quantity_type && has_quantity) {
+    missing_quantity_type <- is.na(data[["organismQuantityType"]])
+    not_missing_quantity <- !is.na(data[["organismQuantity"]])
+
+    data[["organismQuantityType"]] <- ifelse(
+      missing_quantity_type & not_missing_quantity,
+      "individuals",
+      data[["organismQuantityType"]]
     )
   }
   data
