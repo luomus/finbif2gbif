@@ -333,7 +333,7 @@ process_occurrence_remarks <- function(data, oq, dr, dk, rk) {
 
     data[[or]] <- ifelse(is.na(data[[or]]), "", paste0(" | ", data[[or]]))
     data[[or]] <- ifelse(
-      is.na(dr), data[[or]], paste(data[[or]], dr, sep = " | ")
+      is.na(data[[dr]]), data[[or]], paste(data[[or]], data[[dr]], sep = " | ")
     )
     data[[or]] <- paste0(kw, data[[or]])
     data[[or]] <- paste0(
