@@ -11,6 +11,6 @@ expect_equal(
     day = c(1L, NA_integer_),
     eventDate = c("1980-01-01", "1980-01-01/02"),
     startDayOfYear = c(1L, 1L),
-    endDayOfYear = c(NA_integer_, 2L)
+    endDayOfYear = c(1L, 2L)
   )
 )

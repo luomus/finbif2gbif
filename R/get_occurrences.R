@@ -373,7 +373,6 @@ process_type_status <- function(data, type_vars, select) {
 #' @noRd
 
 process_month <- function(data) {
-
   has_year <- !is.null(data[["year"]])
   has_month <- !is.null(data[["month"]])
   has_event_date <- !is.null(data[["eventDate"]])
@@ -385,7 +384,6 @@ process_month <- function(data) {
       data[["month"]]
     )
   }
-
   data
 }
 
@@ -405,11 +403,6 @@ process_day <- function(data) {
       grepl("/", data[["eventDate"]], fixed = TRUE) & !same_day,
       NA_integer_,
       data[["day"]]
-    )
-  }
-  if (has_start && has_end) {
-    data[["endDayOfYear"]] <- ifelse(
-      same_day, NA_integer_, data[["endDayOfYear"]]
     )
   }
   data
