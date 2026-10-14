@@ -375,9 +375,9 @@ process_type_status <- function(data, type_vars, select) {
 process_month <- function(data) {
   has_year <- !is.null(data[["year"]])
   has_month <- !is.null(data[["month"]])
-  has_event_date <- !is.null(data[["eventDate"]])
+  has_date <- !is.null(data[["eventDate"]])
 
-  if (has_year && has_month && has_event_date) {
+  if (has_year && has_month && has_date) {
     data[["month"]] <- ifelse(
       grepl("/", data[["eventDate"]], fixed = TRUE) & is.na(data[["year"]]),
       NA_integer_,
@@ -390,15 +390,18 @@ process_month <- function(data) {
 #' @noRd
 
 process_day <- function(data) {
+  has_year <- !is.null(data[["year"]])
+  has_month <- !is.null(data[["month"]])
   has_day <- !is.null(data[["day"]])
   has_start <- !is.null(data[["startDayOfYear"]])
   has_end <- !is.null(data[["endDayOfYear"]])
-  has_event_date <- !is.null(data[["eventDate"]])
+  has_date <- !is.null(data[["eventDate"]])
 
   same_day <- data[["startDayOfYear"]] == data[["endDayOfYear"]]
   same_day[is.na(same_day)] <- FALSE
+  same_day <- same_day & !is.na(data[["year"]]) & !is.na(data[["month"]])
 
-  if (has_day && has_start && has_end && has_event_date) {
+  if (has_year && has_month && has_day && has_start && has_end && has_date) {
     data[["day"]] <- ifelse(
       grepl("/", data[["eventDate"]], fixed = TRUE) & !same_day,
       NA_integer_,
