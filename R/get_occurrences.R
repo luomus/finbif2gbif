@@ -114,7 +114,7 @@ get_occurrences <- function(
 
   data <- process_organism_quantity(data)
 
-  data <- combine_fields(data, combine)
+  data <- combine_fields(data, combine, select)
 
   media <- process_media(data, media_vars)
 
@@ -432,20 +432,19 @@ process_organism_quantity <- function(data) {
 
 #' @noRd
 
-combine_fields <- function(data, combine) {
-
+combine_fields <- function(data, combine, select) {
   for (i in names(combine)) {
+    if (i %in% select) {
+      cols <- data[, combine[[i]], drop = FALSE]
 
-    cols <- data[, combine[[i]], drop = FALSE]
+      data[combine[[i]]] <- NULL
 
-    data[combine[[i]]] <- NULL
-
-    data[[i]] <- apply(cols, 1L, pipe_collapse)
-
+      data[[i]] <- apply(cols, 1L, pipe_collapse)
+    } else {
+      data[combine[[i]]] <- NULL
+    }
   }
-
   data
-
 }
 
 #' @noRd
