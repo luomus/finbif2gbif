@@ -914,16 +914,16 @@
       "X-schema.org-applicationCategory": "Biodiversity",
       "X-schema.org-keywords": "api, biodiversity, biodiversity-informatics, biodiversity-information, finbif, finbif-access, occurrences, r-package, r-programming, rstats, species, specimens, taxon, taxonomy, web-services",
       "X-schema.org-isPartOf": "https://species.fi",
-      "Config/roxygen2/version": "8.1.0",
+      "Config/roxygen2/version": "8.1.1",
       "Config/roxygen2/markdown": "TRUE",
       "Author": "Finnish Museum of Natural History - Luomus [cph] (ROR: <https://ror.org/03tcx6c30>), Finnish Biodiversity Information Facility [cph] (ROR: <https://ror.org/01c0yey93>), William K. Morris [aut, cre] (ORCID: <https://orcid.org/0000-0002-8686-4154>)",
       "Maintainer": "William K. Morris <willi@mmorris.email>",
       "RemoteType": "github",
+      "RemoteHost": "api.github.com",
       "RemoteUsername": "luomus",
       "RemoteRepo": "finbif",
       "RemoteRef": "dev",
-      "RemoteSha": "51f6f180239654d0076b0689a7ba1239936fa548",
-      "RemoteHost": "api.github.com"
+      "RemoteSha": "7dec72ad8bb5281208689140aa5608bfab33df1f"
     },
     "fontawesome": {
       "Package": "fontawesome",
