@@ -157,18 +157,20 @@ write_eml <- function(
 
   attr(eml[["eml"]][["dataset"]][["title"]], "xml:lang") <- "eng"
 
+  packageID <- file.path(uuid, format(Sys.Date(), "v%Y%M%d"))
+
   eml[["eml"]][["additionalMetadata"]] <- list(
     metadata = list(
       gbif = list(
         dateStamp = list(attr(collection_id, "created")),
         hierarchyLevel = list("dataset"),
         resourceLogoUrl = list(org[["logoUrl"]]),
-        "dc:replaces" = list(uuid)
+        "dc:replaces" = list(paste0(packageID, ".xml"))
       )
     )
   )
 
-  attr(eml[["eml"]], "packageId") <- uuid
+  attr(eml[["eml"]], "packageId") <- packageID
   attr(eml[["eml"]], "xmlns:dc")  <- "http://purl.org/dc/terms/"
   attr(eml[["eml"]], "system") <- "http://gbif.org"
   attr(eml[["eml"]], "scope") <- "system"
