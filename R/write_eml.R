@@ -157,7 +157,7 @@ write_eml <- function(
 
   attr(eml[["eml"]][["dataset"]][["title"]], "xml:lang") <- "eng"
 
-  packageID <- file.path(uuid, format(Sys.Date(), "v%Y%M%d"))
+  packageID <- file.path(uuid, format(Sys.Date(), "v%Y%m%d"))
 
   eml[["eml"]][["additionalMetadata"]] <- list(
     metadata = list(
