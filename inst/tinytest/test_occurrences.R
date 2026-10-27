@@ -69,7 +69,7 @@ expect_equal(n_archived_subsets("stage/archive.zip"), 1L)
 
 expect_true(unstage_archive("stage/archive.zip", "."))
 
-expect_true(publish_archive("split/archive.zip", "."))
+expect_true(publish_archive("split/archive.zip", ".", "occurrence_test.txt"))
 
 expect_equal(
   clean_occurrences(

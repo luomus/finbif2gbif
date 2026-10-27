@@ -149,11 +149,11 @@ update_collection <- function(
 
     f2g::unstage_archive(staged_archive)
 
-    f2g::publish_archive(staged_archive)
+    published <- f2g::publish_archive(staged_archive)
 
     ingest <- need_metadata_upd || any_need_archive || is.null(registration)
 
-    if (!f2g::skip_gbif(collection) && ingest && !arr) {
+    if (!f2g::skip_gbif(collection) && ingest && published && !arr) {
 
       f2g::initiate_gbif_ingestion(uuid)
 

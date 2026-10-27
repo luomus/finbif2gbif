@@ -4,12 +4,18 @@
 \alias{publish_archive}
 \title{Publish archive}
 \usage{
-publish_archive(staged_archive, dir = "archives")
+publish_archive(
+  staged_archive,
+  dir = "archives",
+  occurrence_file = "occurrence.txt"
+)
 }
 \arguments{
 \item{staged_archive}{Character. Path to the staged archive.}
 
 \item{dir}{Character. Path to the archive directory.}
+
+\item{occurrence_file.}{Character. Name of occurrence core file.}
 }
 \value{
 Character. The file path of the staged archive.
