@@ -4,7 +4,6 @@
 #'
 #' @param staged_archive Character. Path to the staged archive.
 #' @param dir Character. Path to the archive directory.
-#' @param occurrence_file. Character. Name of occurrence core file.
 #'
 #' @return Character. The file path of the staged archive.
 #' @examples \dontrun{
@@ -13,11 +12,11 @@
 #'
 #' }
 #' @importFrom xml2 read_xml as_list
+#' @importFrom utils unzip
 #' @export
 publish_archive <- function(
   staged_archive,
-  dir = "archives",
-  occurrence_file =  "occurrence.txt"
+  dir = "archives"
 ) {
   system2("combine-dwca.sh", staged_archive)
 
@@ -29,15 +28,17 @@ publish_archive <- function(
 
   message(
     sprintf(
-      "INFO [%s] Found %s records in archive, %s; file: %s",
+      "INFO [%s] Found %s records in archive, %s; file: occurrence.txt",
       format(Sys.time()),
       n_out,
-      staged_archive,
-      occurrence_file
+      staged_archive
     )
   )
 
-  occ_file <- unz(staged_archive, occurrence_file)
+  occ_file <- utils::unzip(staged_archive, list = TRUE)
+  occ_file <- occ_file[["Name"]]
+  occ_file <- grep("occurrence", occ_file, value = TRUE)
+  occ_file <- unz(staged_archive, occ_file)
   meta_file <- unz(staged_archive, "meta.xml")
 
   occ_file_columns <- read.delim(
