@@ -30,6 +30,7 @@
 #'
 #' }
 #' @importFrom finbif finbif_occurrence
+#' @importFrom jsonlite read_json
 #' @importFrom utils capture.output
 #' @export
 
