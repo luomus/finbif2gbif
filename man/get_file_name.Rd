@@ -4,7 +4,12 @@
 \alias{get_file_name}
 \title{Get occurrence file name.}
 \usage{
-get_file_name(filter, select = config::get("fields"), prefix = "occurrence")
+get_file_name(
+  filter,
+  select = config::get("fields"),
+  prefix = "occurrence",
+  collections = "collections.json"
+)
 }
 \arguments{
 \item{filter}{List.}
@@ -12,6 +17,8 @@ get_file_name(filter, select = config::get("fields"), prefix = "occurrence")
 \item{select}{Character.}
 
 \item{prefix}{Character.}
+
+\item{collections}{Character. Path to collections.json file.}
 }
 \value{
 Character. The file name holding occurrence records.

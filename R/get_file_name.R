@@ -5,6 +5,7 @@
 #' @param filter List.
 #' @param select Character.
 #' @param prefix Character.
+#' @param collections Character. Path to collections.json file.
 #'
 #' @return Character. The file name holding occurrence records.
 #' @examples \dontrun{
@@ -13,13 +14,25 @@
 #'
 #' }
 #' @importFrom digest digest
+#' @importFrom jsonlite read_json
 #' @export
 
 get_file_name <- function(
   filter,
   select = config::get("fields"),
-  prefix = "occurrence"
+  prefix = "occurrence",
+  collections = "collections.json"
 ) {
+
+  collection_id <- filter[["collection"]]
+
+  collections <- jsonlite::read_json(collections, simplifyVector = FALSE)
+
+  collection_ids <- vapply(collections, getElement, "", "id")
+
+  collection <- collections[[which(collection_ids == collection_id)]]
+
+  select <- setdiff(select, collection[["field_blacklist"]])
 
   filter$first_import_date_max <- NULL
 

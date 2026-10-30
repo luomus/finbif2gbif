@@ -18,7 +18,7 @@ Sys.setenv(GBIF_API = api$url(), GBIF_ORG = "1234")
 expect_equal(
   write_meta(
     archive,
-    structure(list(collection = "HR.22"), collection_id = "HR.22"),
+    structure(list(c(collection = "HR.22")), collection_id = "HR.22"),
     c(
       "occurrenceID", "basisOfRecord", "associatedMedia",
       "recordedBy", "occurrenceRemarks", "typeStatus", "country"
