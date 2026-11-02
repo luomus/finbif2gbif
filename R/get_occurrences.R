@@ -11,6 +11,7 @@
 #' @param facts List of extra variables to be extracted from record,
 #'   event and document "facts".
 #' @param combine List of fields to combine.
+#' @param prefix List of field prefixes.
 #' @param n Integer. How many records to download/import.
 #' @param quiet Logical. Suppress the progress indicator for multipage
 #'   downloads.
@@ -31,6 +32,7 @@ get_occurrences <- function(
   select,
   facts,
   combine,
+  prefix,
   n,
   quiet = TRUE
 ) {
@@ -115,6 +117,8 @@ get_occurrences <- function(
   data <- process_organism_quantity(data)
 
   data <- combine_fields(data, combine, select)
+
+  data <- add_prefix(data, prefix, select)
 
   media <- process_media(data, media_vars)
 
@@ -442,6 +446,18 @@ combine_fields <- function(data, combine, select) {
       data[[i]] <- apply(cols, 1L, pipe_collapse)
     } else {
       data[combine[[i]]] <- NULL
+    }
+  }
+  data
+}
+
+#' @noRd
+add_prefix <- function(data, prefix, select) {
+  for (i in names(prefix)) {
+    if (i %in% select) {
+      data[[i]] <- ifelse(
+        is.na(data[[i]]), NA_character_, paste0(prefix[[i]], data[[i]])
+      )
     }
   }
   data

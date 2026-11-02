@@ -32,6 +32,7 @@ default:
   - coordinateUncertaintyInMeters
   - kingdom
   - scientificName
+  - scientificNameID
   - taxonRank
   - associatedMedia
   - informationWithheld
@@ -42,9 +43,12 @@ default:
     recordNumber: MY.legID
     verbatimElevation: MY.alt
     habitat: MY.habitatDescription
+    scientificNameID: AphiaID
   combine:
     habitat:
     - habitat
+  prefix:
+    scientificNameID: "urn:lsid:marinespecies.org:taxname:"
 
 HR.101:
   publisher: Luomus (Zoology)

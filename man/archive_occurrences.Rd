@@ -12,6 +12,7 @@ archive_occurrences(
   select = sub("^.*:", "", config::get("fields")),
   facts = config::get("facts"),
   combine = config::get("combine"),
+  prefix = config::get("prefix"),
   n = config::get("nmax"),
   collections = "collections.json",
   quiet = TRUE
@@ -37,6 +38,8 @@ variables without the deselection will be returned.}
 event and document "facts".}
 
 \item{combine}{List of fields to combine.}
+
+\item{prefix}{List of field prefixes.}
 
 \item{n}{Integer. How many records to download/import.}
 

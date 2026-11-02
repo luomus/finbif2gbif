@@ -45,12 +45,13 @@ expect_equal(
     ),
     list(recordNumber = "MY.legID"),
     list(recordNumber = "recordNumber"),
+    NULL,
     10L
   ),
   0L
 )
 
-restrictionReason <- get_occurrences(NULL, "restrictionReason", NULL, NULL, 1L)
+restrictionReason <- get_occurrences(NULL, "restrictionReason", NULL, NULL, NULL, 1L)
 
 expect_equal(restrictionReason$occurrence$restrictionReason, NA_character_)
 

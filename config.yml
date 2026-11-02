@@ -32,6 +32,7 @@ default:
   - materialEntityType
   - taxonConceptID
   - scientificName
+  - scientificNameID
   - taxonRank
   - kingdom
   - verbatimIdentification
@@ -86,6 +87,7 @@ default:
     habitat: MY.habitatDescription
     substrate: MY.substrate
     localityDescription: MY.localityDescription
+    scientificNameID: AphiaID
   combine:
     habitat:
     - habitat
@@ -93,3 +95,5 @@ default:
     locality:
     - locality
     - localityDescription
+  prefix:
+    scientificNameID: "urn:lsid:marinespecies.org:taxname:"

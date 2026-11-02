@@ -4,7 +4,7 @@
 \alias{get_occurrences}
 \title{Get occurrences}
 \usage{
-get_occurrences(filter, select, facts, combine, n, quiet = TRUE)
+get_occurrences(filter, select, facts, combine, prefix, n, quiet = TRUE)
 }
 \arguments{
 \item{filter}{List of named character vectors. Filters to apply to records.}
@@ -19,6 +19,8 @@ variables without the deselection will be returned.}
 event and document "facts".}
 
 \item{combine}{List of fields to combine.}
+
+\item{prefix}{List of field prefixes.}
 
 \item{n}{Integer. How many records to download/import.}
 

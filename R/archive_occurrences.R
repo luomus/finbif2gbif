@@ -15,6 +15,7 @@
 #' @param facts List of extra variables to be extracted from record,
 #'   event and document "facts".
 #' @param combine List of fields to combine.
+#' @param prefix List of field prefixes.
 #' @param n Integer. How many records to download/import.
 #' @param collections Character. Path to collections.json file.
 #' @param quiet Logical. Suppress the progress indicator for multipage
@@ -41,7 +42,8 @@ archive_occurrences <- function(
   filter,
   select = sub("^.*:", "", config::get("fields")),
   facts = config::get("facts"),
-  combine =  config::get("combine"),
+  combine = config::get("combine"),
+  prefix = config::get("prefix"),
   n = config::get("nmax"),
   collections = "collections.json",
   quiet = TRUE
@@ -61,7 +63,9 @@ archive_occurrences <- function(
     unique(c("occurrenceID", select)), collection[["field_blacklist"]]
   )
 
-  occ <- get_occurrences(filter, select, facts, combine, n_in, quiet = quiet)
+  occ <- get_occurrences(
+    filter, select, facts, combine, prefix, n_in, quiet = quiet
+  )
 
   ans <- write_occurrences(occ, archive, file_name, media_file_name)
 
