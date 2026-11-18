@@ -47,6 +47,7 @@ default:
   - eventDate
   - year
   - startDayOfYear
+  - endDayOfYear
   - decimalLatitude
   - decimalLongitude
   - geodeticDatum
