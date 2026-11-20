@@ -219,56 +219,54 @@ process_points <- function(data) {
 #' @importFrom sf st_as_sf st_intersects
 process_continent <- function(data, select) {
 
-  has_continent <- "continent" %in% select
-
-  if (has_continent) {
+  if ("continent" %in% select) {
     data[["continent"]] <- NA_character_
-  }
 
-  nms <- names(data)
+    nms <- names(data)
 
-  has_lon <- "decimalLongitude" %in% nms
-  has_lat <- "decimalLatitude" %in% nms
+    has_lon <- "decimalLongitude" %in% nms
+    has_lat <- "decimalLatitude" %in% nms
 
-  has_coords <- has_lon && has_lat
-  has_code <- "countryCode" %in% nms
-  has_hg <- "higherGeography" %in% nms
+    has_coords <- has_lon && has_lat
+    has_code <- "countryCode" %in% nms
+    has_hg <- "higherGeography" %in% nms
 
-  if (has_coords) {
-    points <- st_as_sf(
-      data,
-      coords = c("decimalLongitude", "decimalLatitude"),
-      crs = 4326,
-      na.fail = FALSE
-    )
+    if (has_coords) {
+      points <- st_as_sf(
+        data,
+        coords = c("decimalLongitude", "decimalLatitude"),
+        crs = 4326,
+        na.fail = FALSE
+      )
 
-    intersection <- st_intersects(points, continents, sparse = FALSE)
+      intersection <- st_intersects(points, continents, sparse = FALSE)
 
-    data[["continent"]] <- apply(
-      intersection,
-      1L,
-      \(x) if (any(x)) continents[["continent"]][x] else NA_character_
-    )
-  }
+      data[["continent"]] <- apply(
+        intersection,
+        1L,
+        \(x) if (any(x)) continents[["continent"]][x] else NA_character_
+      )
+    }
 
-  if (has_code) {
-    data[["continent"]] <- ifelse(
-      is.na(data[["continent"]]),
-      continent_table[data[["countryCode"]]],
-      data[["continent"]]
-    )
-  }
+    if (has_code) {
+      data[["continent"]] <- ifelse(
+        is.na(data[["continent"]]),
+        continent_table[data[["countryCode"]]],
+        data[["continent"]]
+      )
+    }
 
-  if (has_hg) {
-    data[["continent"]] <- ifelse(
-      is.na(data[["continent"]]),
-      ifelse(
-        data[["higherGeography"]] %in% continent_table,
-        data[["higherGeography"]],
-        NA_character_
-      ),
-      data[["continent"]]
-    )
+    if (has_hg) {
+      data[["continent"]] <- ifelse(
+        is.na(data[["continent"]]),
+        ifelse(
+          data[["higherGeography"]] %in% continent_table,
+          data[["higherGeography"]],
+          NA_character_
+        ),
+        data[["continent"]]
+      )
+    }
   }
 
   data
